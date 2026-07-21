@@ -22,13 +22,20 @@
   --shadow:0 1px 3px rgba(11,46,82,.08),0 6px 20px rgba(11,46,82,.07);
 }
 @media (prefers-color-scheme: dark){
-  :root{
+  :root:not([data-theme="light"]){
     --bg:#0c1624; --surface:#12233a; --ink:#e8eef6; --ink-2:#b4c2d6; --ink-3:#8496ad;
     --line:#24374f; --pro:#5cc98a; --pro-bg:#12301f; --con:#eb9b72; --con-bg:#38200f;
     --chip:#1a3050; --mark-1:#4D8FD1; --mark-2:#BC8A00; --gold-ink:#e8c34a;
     --hero-grad:linear-gradient(160deg,#0a1f38 0%,#123c66 100%);
     --shadow:0 1px 3px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.3);
   }
+}
+:root[data-theme="dark"]{
+  --bg:#0c1624; --surface:#12233a; --ink:#e8eef6; --ink-2:#b4c2d6; --ink-3:#8496ad;
+  --line:#24374f; --pro:#5cc98a; --pro-bg:#12301f; --con:#eb9b72; --con-bg:#38200f;
+  --chip:#1a3050; --mark-1:#4D8FD1; --mark-2:#BC8A00; --gold-ink:#e8c34a;
+  --hero-grad:linear-gradient(160deg,#0a1f38 0%,#123c66 100%);
+  --shadow:0 1px 3px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.3);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:110px}
@@ -38,7 +45,8 @@ a{color:var(--mark-1)}
 
 /* header / nav */
 header.site{position:sticky;top:0;z-index:50;background:var(--blue);background:color-mix(in srgb,var(--blue) 96%,black 4%);box-shadow:0 2px 10px rgba(0,0,0,.25)}
-@media (prefers-color-scheme: dark){header.site{background:#0a1f38}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) header.site{background:#0a1f38}}
+:root[data-theme="dark"] header.site{background:#0a1f38}
 .bar{display:flex;align-items:center;gap:12px;padding:10px 20px;max-width:1060px;margin:0 auto}
 .bar img{width:36px;height:36px;border-radius:9px;flex:none}
 .bar .t{color:#fff;font-weight:700;font-size:15px;line-height:1.2}
@@ -105,7 +113,24 @@ td:first-child{color:var(--ink);font-weight:600}
 .legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--ink-2);margin-top:4px}
 .legend b{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
 .tip{position:fixed;z-index:99;background:var(--ink);color:var(--bg);padding:6px 10px;border-radius:8px;font-size:12.5px;pointer-events:none;opacity:0;transition:opacity .1s;white-space:nowrap;box-shadow:var(--shadow)}
-@media (prefers-color-scheme: dark){.tip{background:#e8eef6;color:#0c1624}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tip{background:#e8eef6;color:#0c1624}}
+:root[data-theme="dark"] .tip{background:#e8eef6;color:#0c1624}
+
+/* hamburger + drawer */
+.menuBtn{margin-left:auto;flex:none;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:10px;width:40px;height:40px;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;cursor:pointer}
+.menuBtn span{display:block;width:18px;height:2px;background:#fff;border-radius:2px}
+.backdrop{position:fixed;inset:0;background:rgba(8,16,28,.55);z-index:60;opacity:0;transition:opacity .2s}
+.backdrop.open{opacity:1}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(330px,88vw);background:var(--surface);z-index:61;transform:translateX(102%);transition:transform .22s ease;box-shadow:-8px 0 30px rgba(0,0,0,.3);display:flex;flex-direction:column;padding:14px;overflow-y:auto;overscroll-behavior:contain}
+.drawer.open{transform:none}
+.dhead{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:16px;padding:4px 8px 12px;color:var(--ink)}
+.dclose{background:var(--chip);border:0;border-radius:8px;width:34px;height:34px;font-size:14px;color:var(--ink-2);cursor:pointer;font-family:inherit}
+.ditem{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:none;border:0;padding:11px 8px;border-radius:10px;font-size:14.5px;font-weight:600;color:var(--ink);text-decoration:none;cursor:pointer;font-family:inherit;line-height:1.35}
+.ditem:hover{background:var(--chip)}
+.ditem small{display:block;font-weight:500;color:var(--ink-3);font-size:12px;margin-top:2px}
+.ditem .em{flex:none;font-size:17px;line-height:1.2}
+.drawer hr{border:0;border-top:1px solid var(--line);margin:8px 0}
+.dver{margin-top:auto;padding:16px 8px 6px;font-size:12px;color:var(--ink-3)}
 
 /* reddit quotes + thin demographic bars */
 .rq{border-left:3px solid var(--gold-ink);background:var(--chip);padding:10px 14px;border-radius:0 10px 10px 0;font-size:13.5px;color:var(--ink-2);font-style:italic;margin:12px 0 0;line-height:1.45}
@@ -133,7 +158,8 @@ td:first-child{color:var(--ink);font-weight:600}
 .tl li::before{content:"";position:absolute;left:9px;top:6px;bottom:-4px;width:2px;background:var(--line)}
 .tl li:last-child::before{display:none}
 .tl li::after{content:"";position:absolute;left:3px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--gold);border:3px solid var(--blue)}
-@media (prefers-color-scheme: dark){.tl li::after{border-color:var(--mark-1)}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tl li::after{border-color:var(--mark-1)}}
+:root[data-theme="dark"] .tl li::after{border-color:var(--mark-1)}
 .tl b{display:block;font-size:14.5px}
 .tl span{font-size:13.5px;color:var(--ink-2)}
 .tl .when{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-ink)}
@@ -157,6 +183,7 @@ footer a{color:var(--ink-3)}
   <div class="bar">
     <img src="icons/icon-192.png" alt="UD Guide icon">
     <div class="t">University of Delaware<small>Campus Visit Guide · Newark, DE</small></div>
+    <button class="menuBtn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
   </div>
   <nav class="pills" aria-label="Sections">
     <ul>
@@ -665,6 +692,25 @@ footer a{color:var(--ink-3)}
   </div>
 </footer>
 
+<div class="backdrop" id="backdrop" hidden></div>
+<aside class="drawer" id="drawer" aria-label="Menu" hidden>
+  <div class="dhead"><span>Menu</span><button class="dclose" id="dclose" aria-label="Close menu">✕</button></div>
+  <button class="ditem" id="btnUpdate"><span class="em">🔄</span><span>Update app<small id="updHint">Fetches the latest version of this guide</small></span></button>
+  <button class="ditem" id="btnTheme"><span class="em">🎨</span><span>Theme: <b id="themeLabel">Auto</b><small>Tap to cycle auto → dark → light</small></span></button>
+  <button class="ditem" id="btnInstall"><span class="em">📲</span><span>Add to home screen<small>Install this guide as an app</small></span></button>
+  <button class="ditem" id="btnShare"><span class="em">🔗</span><span id="shareLabel">Share this guide</span></button>
+  <hr>
+  <a class="ditem" href="https://maps.google.com/?q=210+South+College+Ave,+Newark,+DE+19716" rel="noopener"><span class="em">🗺️</span><span>Directions to Visitors Center<small>210 S College Ave · Visitor Lot 41</small></span></a>
+  <a class="ditem" href="tel:+13028318123"><span class="em">📞</span><span>Call Admissions<small>302-831-8123 · Mon–Fri 8:30–4:30</small></span></a>
+  <a class="ditem" href="mailto:admissions@udel.edu"><span class="em">✉️</span><span>Email Admissions<small>admissions@udel.edu</small></span></a>
+  <hr>
+  <a class="ditem" href="https://www.udel.edu/apply/undergraduate-admissions/plan-your-visit/" rel="noopener"><span class="em">🎟️</span><span>Book an official campus tour</span></a>
+  <a class="ditem" href="https://lerner.udel.edu" rel="noopener"><span class="em">💼</span><span>Lerner College of Business</span></a>
+  <a class="ditem" href="https://www.udel.edu" rel="noopener"><span class="em">🌐</span><span>udel.edu</span></a>
+  <a class="ditem" href="https://github.com/pfeilbr/university-of-delaware-app" rel="noopener"><span class="em">⚙️</span><span>Source on GitHub</span></a>
+  <div class="dver">Version <span id="verLabel"></span> · data compiled July 2026</div>
+</aside>
+
 <div class="tip" id="tip" role="tooltip"></div>
 
 <script>
@@ -704,6 +750,80 @@ document.querySelectorAll('.seg[data-tip]').forEach(el=>{
 
 // service worker for offline use
 if('serviceWorker'in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
+
+// ===== hamburger drawer =====
+const APP_VERSION='v5 · 2026-07-21';
+document.getElementById('verLabel').textContent=APP_VERSION;
+const menuBtn=document.getElementById('menuBtn'),drawer=document.getElementById('drawer'),backdrop=document.getElementById('backdrop');
+function openMenu(){
+  drawer.hidden=false;backdrop.hidden=false;
+  requestAnimationFrame(()=>{drawer.classList.add('open');backdrop.classList.add('open')});
+  menuBtn.setAttribute('aria-expanded','true');
+}
+function closeMenu(){
+  drawer.classList.remove('open');backdrop.classList.remove('open');
+  menuBtn.setAttribute('aria-expanded','false');
+  setTimeout(()=>{drawer.hidden=true;backdrop.hidden=true},220);
+}
+menuBtn.addEventListener('click',openMenu);
+document.getElementById('dclose').addEventListener('click',closeMenu);
+backdrop.addEventListener('click',closeMenu);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!drawer.hidden)closeMenu()});
+
+// update: unregister SW, clear caches, reload fresh
+document.getElementById('btnUpdate').addEventListener('click',async()=>{
+  document.getElementById('updHint').textContent='Updating…';
+  try{
+    if('serviceWorker'in navigator){
+      const regs=await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map(r=>r.unregister()));
+    }
+    if(window.caches){
+      const keys=await caches.keys();
+      await Promise.all(keys.map(k=>caches.delete(k)));
+    }
+  }catch(e){}
+  location.replace(location.pathname+'?u='+Date.now());
+});
+
+// theme cycle: auto -> dark -> light
+const themeLabel=document.getElementById('themeLabel');
+function applyTheme(t){
+  if(t==='dark'||t==='light'){document.documentElement.dataset.theme=t;}
+  else{delete document.documentElement.dataset.theme;t='auto';}
+  themeLabel.textContent=t[0].toUpperCase()+t.slice(1);
+}
+applyTheme(localStorage.getItem('udTheme'));
+document.getElementById('btnTheme').addEventListener('click',()=>{
+  const order=['auto','dark','light'];
+  const now=localStorage.getItem('udTheme')||'auto';
+  const next=order[(order.indexOf(now)+1)%3];
+  if(next==='auto')localStorage.removeItem('udTheme');else localStorage.setItem('udTheme',next);
+  applyTheme(next);
+});
+
+// install / add to home screen
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;});
+document.getElementById('btnInstall').addEventListener('click',async()=>{
+  if(deferredPrompt){deferredPrompt.prompt();deferredPrompt=null;return;}
+  const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  alert(ios
+    ?'In Safari: tap the Share button (square with arrow), then "Add to Home Screen".'
+    :'In your browser menu (⋮), choose "Add to Home Screen" or "Install app".');
+});
+
+// share
+document.getElementById('btnShare').addEventListener('click',async()=>{
+  const data={title:'University of Delaware — Campus Visit Guide',url:location.origin+location.pathname};
+  if(navigator.share){try{await navigator.share(data)}catch(e){}}
+  else{
+    try{await navigator.clipboard.writeText(data.url);
+      document.getElementById('shareLabel').textContent='Link copied!';
+      setTimeout(()=>document.getElementById('shareLabel').textContent='Share this guide',2000);
+    }catch(e){}
+  }
+});
 </script>
 </body>
 </html>
