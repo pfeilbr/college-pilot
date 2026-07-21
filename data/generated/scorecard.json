@@ -1,0 +1,349 @@
+{
+  "_meta": {
+    "source": "U.S. Dept. of Education College Scorecard API",
+    "fetched": "2026-07-21",
+    "note": "Refresh with scripts/fetch_school_data.py \u2014 deterministic, no LLM."
+  },
+  "delaware": {
+    "unitid": 130943,
+    "name": "University of Delaware",
+    "city": "Newark, DE",
+    "admission_rate": 0.706,
+    "sat_mid50": [
+      1190,
+      1370
+    ],
+    "undergrad_size": 19071,
+    "pct_women": 0.6023,
+    "pct_men": 0.3977,
+    "race_ethnicity": {
+      "white": 0.6687,
+      "hispanic": 0.1066,
+      "black": 0.0652,
+      "asian": 0.0558,
+      "two_or_more": 0.0525,
+      "international": 0.0315
+    },
+    "tuition_in_state": 16810,
+    "tuition_out_of_state": 41400,
+    "roomboard": 15386,
+    "total_cost_academic_year": 30952,
+    "avg_net_price": 17799,
+    "net_price_by_income": {
+      "0-30000": 10901,
+      "30001-48000": 10099,
+      "48001-75000": 13225,
+      "75001-110000": 17401,
+      "110001-plus": 25580
+    },
+    "median_debt_completers": 24572,
+    "pell_rate": 0.1612,
+    "grad_rate_150pct": 0.8055,
+    "retention_full_time": 0.9196,
+    "median_earnings_10yr": 72950
+  },
+  "villanova": {
+    "unitid": 216597,
+    "name": "Villanova University",
+    "city": "Villanova, PA",
+    "admission_rate": 0.2698,
+    "sat_mid50": [
+      1395,
+      1510
+    ],
+    "undergrad_size": 6938,
+    "pct_women": 0.5382,
+    "pct_men": 0.4618,
+    "race_ethnicity": {
+      "white": 0.6766,
+      "hispanic": 0.1134,
+      "black": 0.0647,
+      "asian": 0.0669,
+      "two_or_more": 0.0405,
+      "international": 0.018
+    },
+    "tuition_in_state": 67776,
+    "tuition_out_of_state": 67776,
+    "roomboard": 17694,
+    "total_cost_academic_year": 84793,
+    "avg_net_price": 43756,
+    "net_price_by_income": {
+      "0-30000": 17823,
+      "30001-48000": 16496,
+      "48001-75000": 20923,
+      "75001-110000": 33389,
+      "110001-plus": 58741
+    },
+    "median_debt_completers": 25874,
+    "pell_rate": 0.1202,
+    "grad_rate_150pct": 0.9186,
+    "retention_full_time": 0.9506,
+    "median_earnings_10yr": 100423
+  },
+  "pennstate": {
+    "unitid": 214777,
+    "name": "Pennsylvania State University-Main Campus",
+    "city": "University Park, PA",
+    "admission_rate": 0.6056,
+    "sat_mid50": [
+      1240,
+      1420
+    ],
+    "undergrad_size": 42284,
+    "pct_women": 0.4735,
+    "pct_men": 0.5265,
+    "race_ethnicity": {
+      "white": 0.6268,
+      "hispanic": 0.0933,
+      "black": 0.0455,
+      "asian": 0.0762,
+      "two_or_more": 0.0406,
+      "international": 0.0933
+    },
+    "tuition_in_state": 20644,
+    "tuition_out_of_state": 41790,
+    "roomboard": 14474,
+    "total_cost_academic_year": 39694,
+    "avg_net_price": 32875,
+    "net_price_by_income": {
+      "0-30000": 19845,
+      "30001-48000": 20049,
+      "48001-75000": 25667,
+      "75001-110000": 31834,
+      "110001-plus": 37831
+    },
+    "median_debt_completers": 25000,
+    "pell_rate": 0.1388,
+    "grad_rate_150pct": 0.8609,
+    "retention_full_time": 0.9264,
+    "median_earnings_10yr": 63435
+  },
+  "pitt": {
+    "unitid": 215293,
+    "name": "University of Pittsburgh-Pittsburgh Campus",
+    "city": "Pittsburgh, PA",
+    "admission_rate": 0.5808,
+    "sat_mid50": [
+      1280,
+      1460
+    ],
+    "undergrad_size": 20370,
+    "pct_women": 0.5794,
+    "pct_men": 0.4206,
+    "race_ethnicity": {
+      "white": 0.6112,
+      "hispanic": 0.0684,
+      "black": 0.0526,
+      "asian": 0.1505,
+      "two_or_more": 0.0473,
+      "international": 0.0449
+    },
+    "tuition_in_state": 21926,
+    "tuition_out_of_state": 41430,
+    "roomboard": 13620,
+    "total_cost_academic_year": 38105,
+    "avg_net_price": 30434,
+    "net_price_by_income": {
+      "0-30000": 14709,
+      "30001-48000": 18371,
+      "48001-75000": 23192,
+      "75001-110000": 31567,
+      "110001-plus": 36008
+    },
+    "median_debt_completers": 24250,
+    "pell_rate": 0.1398,
+    "grad_rate_150pct": 0.855,
+    "retention_full_time": 0.9199,
+    "median_earnings_10yr": 66125
+  },
+  "umass": {
+    "unitid": 166629,
+    "name": "University of Massachusetts-Amherst",
+    "city": "Amherst, MA",
+    "admission_rate": 0.5973,
+    "sat_mid50": [
+      1310,
+      1500
+    ],
+    "undergrad_size": 23671,
+    "pct_women": 0.5227,
+    "pct_men": 0.4773,
+    "race_ethnicity": {
+      "white": 0.5715,
+      "hispanic": 0.0913,
+      "black": 0.0455,
+      "asian": 0.1374,
+      "two_or_more": 0.0474,
+      "international": 0.0762
+    },
+    "tuition_in_state": 17772,
+    "tuition_out_of_state": 40449,
+    "roomboard": 16710,
+    "total_cost_academic_year": 34549,
+    "avg_net_price": 22383,
+    "net_price_by_income": {
+      "0-30000": 10164,
+      "30001-48000": 10456,
+      "48001-75000": 12932,
+      "75001-110000": 18964,
+      "110001-plus": 30793
+    },
+    "median_debt_completers": 22763,
+    "pell_rate": 0.1994,
+    "grad_rate_150pct": 0.8326,
+    "retention_full_time": 0.9191,
+    "median_earnings_10yr": 71631
+  },
+  "fordham": {
+    "unitid": 191241,
+    "name": "Fordham University",
+    "city": "Bronx, NY",
+    "admission_rate": 0.5931,
+    "sat_mid50": [
+      1320,
+      1480
+    ],
+    "undergrad_size": 10512,
+    "pct_women": 0.61,
+    "pct_men": 0.39,
+    "race_ethnicity": {
+      "white": 0.4393,
+      "hispanic": 0.2123,
+      "black": 0.0671,
+      "asian": 0.1346,
+      "two_or_more": 0.0501,
+      "international": 0.076
+    },
+    "tuition_in_state": 64915,
+    "tuition_out_of_state": 64915,
+    "roomboard": 24090,
+    "total_cost_academic_year": 82762,
+    "avg_net_price": 44338,
+    "net_price_by_income": {
+      "0-30000": 32474,
+      "30001-48000": 31657,
+      "48001-75000": 37313,
+      "75001-110000": 42030,
+      "110001-plus": 52228
+    },
+    "median_debt_completers": 24300,
+    "pell_rate": 0.2142,
+    "grad_rate_150pct": 0.8191,
+    "retention_full_time": 0.8852,
+    "median_earnings_10yr": 85569
+  },
+  "northeastern": {
+    "unitid": 167358,
+    "name": "Northeastern University",
+    "city": "Boston, MA",
+    "admission_rate": 0.0522,
+    "sat_mid50": [
+      1440,
+      1540
+    ],
+    "undergrad_size": 17326,
+    "pct_women": 0.5657,
+    "pct_men": 0.4343,
+    "race_ethnicity": {
+      "white": 0.3986,
+      "hispanic": 0.1042,
+      "black": 0.0497,
+      "asian": 0.2232,
+      "two_or_more": 0.0677,
+      "international": 0.1355
+    },
+    "tuition_in_state": 66162,
+    "tuition_out_of_state": 66162,
+    "roomboard": 19580,
+    "total_cost_academic_year": 84641,
+    "avg_net_price": 30915,
+    "net_price_by_income": {
+      "0-30000": 2264,
+      "30001-48000": 2436,
+      "48001-75000": 5301,
+      "75001-110000": 16241,
+      "110001-plus": 47696
+    },
+    "median_debt_completers": 24250,
+    "pell_rate": 0.1234,
+    "grad_rate_150pct": 0.9054,
+    "retention_full_time": 0.969,
+    "median_earnings_10yr": 92538
+  },
+  "tufts": {
+    "unitid": 168148,
+    "name": "Tufts University",
+    "city": "Medford, MA",
+    "admission_rate": 0.1149,
+    "sat_mid50": [
+      1470,
+      1560
+    ],
+    "undergrad_size": 7061,
+    "pct_women": 0.5654,
+    "pct_men": 0.4346,
+    "race_ethnicity": {
+      "white": 0.4063,
+      "hispanic": 0.1011,
+      "black": 0.0606,
+      "asian": 0.1684,
+      "two_or_more": 0.0779,
+      "international": 0.1256
+    },
+    "tuition_in_state": 70704,
+    "tuition_out_of_state": 70704,
+    "roomboard": 18588,
+    "total_cost_academic_year": 88300,
+    "avg_net_price": 39998,
+    "net_price_by_income": {
+      "0-30000": 11284,
+      "30001-48000": 9811,
+      "48001-75000": 14923,
+      "75001-110000": 23311,
+      "110001-plus": 58570
+    },
+    "median_debt_completers": 16250,
+    "pell_rate": 0.1204,
+    "grad_rate_150pct": 0.9351,
+    "retention_full_time": 0.955,
+    "median_earnings_10yr": 83214
+  },
+  "bu": {
+    "unitid": 164988,
+    "name": "Boston University",
+    "city": "Boston, MA",
+    "admission_rate": 0.1111,
+    "sat_mid50": [
+      1420,
+      1530
+    ],
+    "undergrad_size": 18248,
+    "pct_women": 0.5813,
+    "pct_men": 0.4187,
+    "race_ethnicity": {
+      "white": 0.3222,
+      "hispanic": 0.1145,
+      "black": 0.0592,
+      "asian": 0.2055,
+      "two_or_more": 0.0472,
+      "international": 0.212
+    },
+    "tuition_in_state": 68102,
+    "tuition_out_of_state": 68102,
+    "roomboard": 19020,
+    "total_cost_academic_year": 86285,
+    "avg_net_price": 24402,
+    "net_price_by_income": {
+      "0-30000": 9500,
+      "30001-48000": 9342,
+      "48001-75000": 11778,
+      "75001-110000": 22517,
+      "110001-plus": 47504
+    },
+    "median_debt_completers": 23250,
+    "pell_rate": 0.1915,
+    "grad_rate_150pct": 0.8866,
+    "retention_full_time": 0.9472,
+    "median_earnings_10yr": 83238
+  }
+}

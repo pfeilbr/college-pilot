@@ -1,4 +1,4 @@
-const CACHE = 'college-tours-v8';
+const CACHE = 'shortlist-v9';
 const ASSETS = [
   './',
   './index.html',
@@ -8,6 +8,9 @@ const ASSETS = [
   './data/delaware.js',
   './data/northeastern.js',
   './data/fordham.js',
+  './data/villanova.js',
+  './data/pennstate.js',
+  './data/pitt.js',
   './data/umass.js',
   './data/tufts.js',
   './data/bu.js',

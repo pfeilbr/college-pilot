@@ -1,5 +1,5 @@
 window.SCHOOLS = window.SCHOOLS || {};
-window.SCHOOL_ORDER = ['delaware', 'northeastern', 'fordham', 'umass', 'tufts', 'bu'];
+window.SCHOOL_ORDER = ['delaware', 'villanova', 'pennstate', 'pitt', 'umass', 'fordham', 'northeastern', 'tufts', 'bu'];
 
 window.SCHOOLS['delaware'] = {
   id: 'delaware',
