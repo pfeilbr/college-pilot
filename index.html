@@ -494,13 +494,19 @@ footer a{color:var(--ink-3)}
 
 <script>
 // scroll-spy for nav pills
-const links=[...document.querySelectorAll('nav.pills a')];
+const nav=document.querySelector('nav.pills');
+const links=[...nav.querySelectorAll('a')];
 const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+let cur=-1;
 const spy=()=>{
   let i=secs.length-1;
   while(i>0&&window.scrollY+130<secs[i].offsetTop)i--;
+  if(i===cur)return;
+  cur=i;
   links.forEach((a,j)=>a.classList.toggle('on',j===i));
-  links[i].scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+  // center the active pill by scrolling ONLY the nav strip, never the page
+  const a=links[i];
+  nav.scrollTo({left:Math.max(0,a.offsetLeft-(nav.clientWidth-a.offsetWidth)/2),behavior:'smooth'});
 };
 document.addEventListener('scroll',spy,{passive:true});spy();
 
