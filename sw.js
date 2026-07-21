@@ -1,7 +1,16 @@
-const CACHE = 'ud-guide-v6';
+const CACHE = 'college-tours-v7';
 const ASSETS = [
   './',
   './index.html',
+  './school.html',
+  './styles.css',
+  './app.js',
+  './data/delaware.js',
+  './data/northeastern.js',
+  './data/fordham.js',
+  './data/umass.js',
+  './data/tufts.js',
+  './data/bu.js',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png',
@@ -10,7 +19,11 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)));
+  e.waitUntil(
+    caches.open(CACHE).then((c) =>
+      Promise.allSettled(ASSETS.map((a) => c.add(a)))
+    )
+  );
   self.skipWaiting();
 });
 
@@ -31,6 +44,6 @@ self.addEventListener('fetch', (e) => {
         caches.open(CACHE).then((c) => c.put(e.request, copy));
         return res;
       })
-      .catch(() => caches.match(e.request).then((m) => m || caches.match('./index.html')))
+      .catch(() => caches.match(e.request, { ignoreSearch: true }).then((m) => m || caches.match('./index.html')))
   );
 });

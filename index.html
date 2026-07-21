@@ -3,829 +3,93 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>University of Delaware — Campus Visit Guide</title>
-<meta name="description" content="Stats, costs, business program info, pros &amp; cons, and visit tips for the University of Delaware in Newark, DE.">
-<meta name="theme-color" content="#00539F">
+<title>College Tours — Campus Visit Guides</title>
+<meta name="description" content="One guide for the whole college list: stats, costs, business programs, honest pros &amp; cons, and visit-day tips for every school on the tour.">
+<meta name="theme-color" content="#1B2A4A">
 <link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="UD Guide">
-<style>
-:root{
-  --sat:env(safe-area-inset-top, 0px);
-  --blue:#00539F; --blue-dark:#003d75; --blue-deep:#0b2e52; --gold:#FFD200; --gold-ink:#E1A500;
-  --bg:#f6f8fb; --surface:#ffffff; --ink:#17222e; --ink-2:#43536a; --ink-3:#6b7a8f;
-  --line:#dde4ee; --pro:#1e7a46; --pro-bg:#e9f6ee; --con:#b3471d; --con-bg:#fdf0e9;
-  --chip:#eaf1fa; --mark-1:#00539F; --mark-2:#E1A500; --hero-grad:linear-gradient(160deg,#003d75 0%,#00539F 55%,#0a67b8 100%);
-  --shadow:0 1px 3px rgba(11,46,82,.08),0 6px 20px rgba(11,46,82,.07);
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#0c1624; --surface:#12233a; --ink:#e8eef6; --ink-2:#b4c2d6; --ink-3:#8496ad;
-    --line:#24374f; --pro:#5cc98a; --pro-bg:#12301f; --con:#eb9b72; --con-bg:#38200f;
-    --chip:#1a3050; --mark-1:#4D8FD1; --mark-2:#BC8A00; --gold-ink:#e8c34a;
-    --hero-grad:linear-gradient(160deg,#0a1f38 0%,#123c66 100%);
-    --shadow:0 1px 3px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.3);
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#0c1624; --surface:#12233a; --ink:#e8eef6; --ink-2:#b4c2d6; --ink-3:#8496ad;
-  --line:#24374f; --pro:#5cc98a; --pro-bg:#12301f; --con:#eb9b72; --con-bg:#38200f;
-  --chip:#1a3050; --mark-1:#4D8FD1; --mark-2:#BC8A00; --gold-ink:#e8c34a;
-  --hero-grad:linear-gradient(160deg,#0a1f38 0%,#123c66 100%);
-  --shadow:0 1px 3px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.3);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:calc(110px + var(--sat))}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
-a{color:var(--mark-1)}
-.wrap{max-width:1060px;margin:0 auto;padding:0 20px}
-
-/* header / nav */
-header.site{position:sticky;top:0;z-index:50;background:var(--blue);background:color-mix(in srgb,var(--blue) 96%,black 4%);box-shadow:0 2px 10px rgba(0,0,0,.25);padding-top:var(--sat)}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) header.site{background:#0a1f38}}
-:root[data-theme="dark"] header.site{background:#0a1f38}
-.bar{display:flex;align-items:center;gap:12px;padding:10px 20px;max-width:1060px;margin:0 auto}
-.bar img{width:36px;height:36px;border-radius:9px;flex:none}
-.bar .t{color:#fff;font-weight:700;font-size:15px;line-height:1.2}
-.bar .t small{display:block;color:var(--gold);font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
-nav.pills{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;background:inherit}
-nav.pills::-webkit-scrollbar{display:none}
-nav.pills ul{display:flex;gap:6px;list-style:none;padding:0 20px 10px;max-width:1060px;margin:0 auto}
-nav.pills a{display:block;white-space:nowrap;padding:6px 13px;border-radius:999px;color:#dbe7f5;text-decoration:none;font-size:13.5px;font-weight:600;border:1px solid rgba(255,255,255,.25)}
-nav.pills a.on{background:var(--gold);border-color:var(--gold);color:#1a2433}
-
-/* hero */
-.hero{background:var(--hero-grad);color:#fff;padding:44px 0 26px}
-.hero h1{font-size:clamp(26px,4.5vw,40px);line-height:1.15;letter-spacing:-.01em}
-.hero .sub{color:#cfe0f2;margin-top:10px;max-width:640px;font-size:15.5px}
-.hero .loc{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);border-radius:999px;padding:5px 12px;font-size:13px;margin-bottom:14px;color:#eaf3fc}
-.hero .gold{color:var(--gold);font-weight:700}
-.heroStats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:24px}
-.hs{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:12px 14px}
-.hs b{display:block;font-size:clamp(20px,3vw,26px);color:var(--gold);letter-spacing:-.01em}
-.hs span{font-size:12px;color:#d5e3f2;line-height:1.3;display:block;margin-top:2px}
-.visitCard{margin-top:22px;background:rgba(255,210,0,.14);border:1px solid rgba(255,210,0,.45);border-radius:14px;padding:12px 16px;font-size:14px;color:#fdf6da}
-.visitCard b{color:var(--gold)}
-
-/* sections */
-section{padding:38px 0 6px}
-h2{font-size:clamp(21px,3vw,27px);letter-spacing:-.01em;margin-bottom:6px}
-.kicker{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-ink);margin-bottom:4px}
-.lead{color:var(--ink-2);max-width:760px;margin-bottom:20px;font-size:15px}
-.cards{display:grid;gap:14px;margin:18px 0}
-.g2{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
-.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
-.g4{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
-.card h3{font-size:16px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
-.card p{font-size:14px;color:var(--ink-2)}
-.card ul{padding-left:19px;font-size:14px;color:var(--ink-2);display:grid;gap:6px}
-.tile{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
-.tile b{display:block;font-size:clamp(22px,3vw,28px);color:var(--mark-1);letter-spacing:-.02em}
-.tile span{font-size:12.5px;color:var(--ink-3);display:block;margin-top:3px;line-height:1.35}
-.note{background:var(--chip);border-radius:12px;padding:12px 15px;font-size:13.5px;color:var(--ink-2);margin:14px 0}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
-.chip{background:var(--chip);color:var(--ink-2);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600}
-table{width:100%;border-collapse:collapse;font-size:14px}
-th{text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);padding:8px 10px;border-bottom:2px solid var(--line)}
-td{padding:9px 10px;border-bottom:1px solid var(--line);color:var(--ink-2);vertical-align:top}
-td:first-child{color:var(--ink);font-weight:600}
-.tscroll{overflow-x:auto}
-.src{font-size:12px;color:var(--ink-3);margin-top:10px}
-
-/* chart */
-.chart{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
-.chart h3{font-size:16px}
-.chart .sub{font-size:13px;color:var(--ink-3);margin-bottom:16px}
-.crow{margin:14px 0 20px}
-.crow .lbl{display:flex;justify-content:space-between;font-size:13.5px;font-weight:600;margin-bottom:6px}
-.crow .lbl .tot{color:var(--mark-1)}
-.bar-h{display:flex;height:34px;border-radius:6px;overflow:hidden;background:var(--bg);gap:2px}
-.seg{position:relative;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;min-width:0;cursor:default;transition:filter .15s}
-.seg:hover{filter:brightness(1.12)}
-.seg.s1{background:var(--mark-1)}
-.seg.s2{background:var(--mark-2);color:#241b00}
-.seg.s3{background:var(--ink-3)}
-.seg i{font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 6px}
-.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--ink-2);margin-top:4px}
-.legend b{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
-.tip{position:fixed;z-index:99;background:var(--ink);color:var(--bg);padding:6px 10px;border-radius:8px;font-size:12.5px;pointer-events:none;opacity:0;transition:opacity .1s;white-space:nowrap;box-shadow:var(--shadow)}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tip{background:#e8eef6;color:#0c1624}}
-:root[data-theme="dark"] .tip{background:#e8eef6;color:#0c1624}
-
-/* hamburger + drawer */
-.menuBtn{margin-left:auto;flex:none;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:10px;width:40px;height:40px;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;cursor:pointer}
-.menuBtn span{display:block;width:18px;height:2px;background:#fff;border-radius:2px}
-.backdrop{position:fixed;inset:0;background:rgba(8,16,28,.55);z-index:60;opacity:0;transition:opacity .2s}
-.backdrop.open{opacity:1}
-.drawer{position:fixed;top:0;right:0;bottom:0;width:min(330px,88vw);background:var(--surface);z-index:61;transform:translateX(102%);transition:transform .22s ease;box-shadow:-8px 0 30px rgba(0,0,0,.3);display:flex;flex-direction:column;padding:calc(14px + var(--sat)) 14px calc(14px + env(safe-area-inset-bottom,0px));overflow-y:auto;overscroll-behavior:contain}
-.drawer.open{transform:none}
-.dhead{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:16px;padding:4px 8px 12px;color:var(--ink)}
-.dclose{background:var(--chip);border:0;border-radius:8px;width:34px;height:34px;font-size:14px;color:var(--ink-2);cursor:pointer;font-family:inherit}
-.ditem{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:none;border:0;padding:11px 8px;border-radius:10px;font-size:14.5px;font-weight:600;color:var(--ink);text-decoration:none;cursor:pointer;font-family:inherit;line-height:1.35}
-.ditem:hover{background:var(--chip)}
-.ditem small{display:block;font-weight:500;color:var(--ink-3);font-size:12px;margin-top:2px}
-.ditem .em{flex:none;font-size:17px;line-height:1.2}
-.drawer hr{border:0;border-top:1px solid var(--line);margin:8px 0}
-.dver{margin-top:auto;padding:16px 8px 6px;font-size:12px;color:var(--ink-3)}
-
-/* reddit quotes + thin demographic bars */
-.rq{border-left:3px solid var(--gold-ink);background:var(--chip);padding:10px 14px;border-radius:0 10px 10px 0;font-size:13.5px;color:var(--ink-2);font-style:italic;margin:12px 0 0;line-height:1.45}
-.rq b{font-style:normal;font-weight:700;color:var(--ink-3);font-size:11.5px;display:block;margin-top:5px;letter-spacing:.04em}
-.bar-h.thin{height:24px}
-.bar-h.thin .seg{font-size:11.5px}
-.crow.tight{margin:9px 0 13px}
-
-/* pros cons */
-.pc{border-radius:16px;padding:18px;border:1px solid var(--line);box-shadow:var(--shadow)}
-.pc.pros{background:var(--pro-bg);border-color:color-mix(in srgb,var(--pro) 30%,transparent)}
-.pc.cons{background:var(--con-bg);border-color:color-mix(in srgb,var(--con) 30%,transparent)}
-.pc h3{font-size:17px;margin-bottom:12px}
-.pc.pros h3{color:var(--pro)}.pc.cons h3{color:var(--con)}
-.pc ul{list-style:none;display:grid;gap:10px;font-size:14px;color:var(--ink)}
-.pc li{padding-left:24px;position:relative}
-.pc li::before{position:absolute;left:0;top:0;font-weight:800}
-.pc.pros li::before{content:"✓";color:var(--pro)}
-.pc.cons li::before{content:"✕";color:var(--con)}
-.pc li small{display:block;color:var(--ink-2);font-size:12.5px;margin-top:1px}
-
-/* timeline */
-.tl{list-style:none;display:grid;gap:0;margin:16px 0}
-.tl li{position:relative;padding:0 0 22px 34px}
-.tl li::before{content:"";position:absolute;left:9px;top:6px;bottom:-4px;width:2px;background:var(--line)}
-.tl li:last-child::before{display:none}
-.tl li::after{content:"";position:absolute;left:3px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--gold);border:3px solid var(--blue)}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tl li::after{border-color:var(--mark-1)}}
-:root[data-theme="dark"] .tl li::after{border-color:var(--mark-1)}
-.tl b{display:block;font-size:14.5px}
-.tl span{font-size:13.5px;color:var(--ink-2)}
-.tl .when{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-ink)}
-
-/* map / footer */
-.mapbtns{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
-.btn{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:10px 18px;border-radius:10px}
-.btn.alt{background:var(--chip);color:var(--mark-1)}
-footer{margin-top:44px;padding:28px 0 60px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-3)}
-footer a{color:var(--ink-3)}
-.grade{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:26px;border-radius:8px;background:var(--chip);color:var(--mark-1);font-weight:800;font-size:13px;padding:0 6px}
-.dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px}
-.dl dt{font-weight:700;color:var(--ink)}
-.dl dd{color:var(--ink-2)}
-@media (max-width:520px){.dl{grid-template-columns:1fr}.dl dt{margin-top:6px}}
-</style>
+<meta name="apple-mobile-web-app-title" content="College Tours">
+<style>:root{--sc:#1B2A4A;--sc-dark:#111c33}</style>
 </head>
 <body>
 
 <header class="site">
   <div class="bar">
-    <img src="icons/icon-192.png" alt="UD Guide icon">
-    <div class="t">University of Delaware<small>Campus Visit Guide · Newark, DE</small></div>
+    <img src="icons/icon-192.png" alt="College Tours icon">
+    <div class="t">College Tours<small>Campus Visit Guides</small></div>
     <button class="menuBtn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
   </div>
   <nav class="pills" aria-label="Sections">
     <ul>
-      <li><a href="#overview">Overview</a></li>
-      <li><a href="#admissions">Admissions</a></li>
-      <li><a href="#costs">Costs &amp; Aid</a></li>
-      <li><a href="#business">Business</a></li>
-      <li><a href="#outcomes">Outcomes</a></li>
-      <li><a href="#studentlife">Student Life</a></li>
-      <li><a href="#proscons">Pros &amp; Cons</a></li>
-      <li><a href="#criticisms">Criticisms</a></li>
-      <li><a href="#visit">Visit</a></li>
-      <li><a href="#nearby">Nearby</a></li>
-      <li><a href="#timeline">Timeline</a></li>
-      <li><a href="#sources">Sources</a></li>
+      <li><a href="#schools">Schools</a></li>
+      <li><a href="#compare">Compare</a></li>
+      <li><a href="#howto">How to use</a></li>
     </ul>
   </nav>
 </header>
 
 <div class="hero">
   <div class="wrap">
-    <span class="loc">📍 Newark, Delaware · ~1¼ hr from the northern Philadelphia suburbs</span>
-    <h1>University of Delaware<br><span class="gold">Blue Hens</span> at a glance</h1>
-    <p class="sub">A flagship-scale public research university on a classic brick-and-green campus that borders a walkable college-town Main Street — with a nationally accredited business school and one of the strongest school-spirit cultures in the region.</p>
+    <span class="loc">🎓 Six schools · one honest guide per campus</span>
+    <h1>College Tours<br><span class="gold">The whole list</span>, one app</h1>
+    <p class="sub">Admissions stats, real costs, business programs, hiring outcomes, student demographics, Reddit-sourced reputation checks, and visit-day logistics — researched from official Common Data Sets and primary sources for every school on the tour.</p>
     <div class="heroStats">
-      <div class="hs"><b>74.1%</b><span>acceptance rate (Fall 2025)</span></div>
-      <div class="hs"><b>#88</b><span>U.S. News National Universities (2026) · #43 Top Public</span></div>
-      <div class="hs"><b>24,564</b><span>total students · 19,385 undergrad (Fall 2025)</span></div>
-      <div class="hs"><b>$65,884</b><span>out-of-state total cost/yr (2026–27, before aid)</span></div>
+      <div class="hs"><b>6</b><span>schools covered, Delaware to Boston</span></div>
+      <div class="hs"><b>5.6%–74%</b><span>acceptance-rate range across the list</span></div>
+      <div class="hs"><b>$40K–95K</b><span>sticker cost range per year, before aid</span></div>
+      <div class="hs"><b>Fall 2028</b><span>target entry — apply fall 2027</span></div>
     </div>
-    <div class="visitCard"><b>Visiting today?</b> Tours start at the <b>Visitors Center, 210 South College Ave, Newark, DE 19716</b> · Visitor Lot 41 is next door (pay via Passport app) · From I-95 take Exit 1 (DE-896 N) · 302-831-8123</div>
   </div>
 </div>
 
 <main class="wrap">
 
-<section id="overview">
-  <div class="kicker">Overview</div>
-  <h2>Quick facts</h2>
-  <p class="lead">UD is Delaware's largest university — technically a privately chartered, state-assisted institution — with R1 (top-tier) research status and a student body that is nearly two-thirds out-of-state, drawing heavily from PA, NJ, NY, and MD. The campus sits about 5 miles from the Pennsylvania border.</p>
-  <div class="cards g4">
-    <div class="tile"><b>1743</b><span>founding roots; among the oldest in the U.S.</span></div>
-    <div class="tile"><b>13:1</b><span>student–faculty ratio · 58% of classes under 30 students</span></div>
-    <div class="tile"><b>65%</b><span>of students come from out of state</span></div>
-    <div class="tile"><b>$2.3B</b><span>endowment (June 2025)</span></div>
-    <div class="tile"><b>150+</b><span>majors · 400+ student organizations</span></div>
-    <div class="tile"><b>R1</b><span>highest research activity classification</span></div>
-    <div class="tile"><b>1923</b><span>invented U.S. study abroad — 100+ programs today, ~1 in 3 students go</span></div>
-    <div class="tile"><b>FBS</b><span>football moved up to FBS / Conference USA in 2025</span></div>
-  </div>
-  <div class="cards g2">
-    <div class="card">
-      <h3>🐔 Blue Hen lore</h3>
-      <ul>
-        <li><b>Why "Blue Hens"?</b> Revolutionary War soldiers of the Delaware Regiment carried fighting gamecocks bred from a famous blue hen — their grit earned them the nickname "Blue Hens' Chickens." The Blue Hen is now Delaware's state bird.</li>
-        <li><b>YoUDee</b>, the mascot (debuted 1993), is in the Mascot Hall of Fame and has a sibling mascot, Baby Blue.</li>
-        <li>Memorial Hall's carillon plays the fight song and alma mater across The Green.</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>⭐ Notable alumni</h3>
-      <ul>
-        <li><b>Joe Biden</b> — 46th U.S. President (BA 1965); campus hosts the Biden Institute</li>
-        <li><b>Joe Flacco</b> — Super Bowl XLVII MVP quarterback</li>
-        <li><b>Elena Delle Donne</b> — WNBA MVP; chose Delaware over UConn</li>
-        <li><b>Chris Christie</b> — New Jersey Governor (BA 1984)</li>
-        <li><b>Rich Gannon</b> — NFL MVP quarterback</li>
-      </ul>
-    </div>
-  </div>
+<section id="schools">
+  <div class="kicker">The list</div>
+  <h2>Pick a school</h2>
+  <p class="lead">Each guide has the same sections — overview, admissions, costs &amp; aid, the business program, hiring outcomes, student life &amp; demographics, pros &amp; cons, honest criticisms, visit logistics, nearby food &amp; sights, and an application timeline — so schools are easy to compare apples-to-apples.</p>
+  <div class="schoolGrid" id="schoolGrid"></div>
 </section>
 
-<section id="admissions">
-  <div class="kicker">Admissions</div>
-  <h2>Getting in</h2>
-  <p class="lead">UD is moderately selective and friendly to strong B+/A students. Grades and course rigor matter most; test scores are optional (only ~1 in 5 admitted students submitted the SAT). It uses the Common App, has non-binding Early Action, and no Early Decision.</p>
-  <div class="cards g4">
-    <div class="tile"><b>74.1%</b><span>acceptance rate, Fall 2025 (69.2% in Fall 2024)</span></div>
-    <div class="tile"><b>1220–1370</b><span>SAT middle 50% of enrolled students (median 1300)</span></div>
-    <div class="tile"><b>28–32</b><span>ACT middle 50% (median 30)</span></div>
-    <div class="tile"><b>3.98</b><span>average high-school GPA (weighted scale as reported)</span></div>
-    <div class="tile"><b>92%</b><span>freshman retention rate</span></div>
-    <div class="tile"><b>74%</b><span>graduate in 4 years · 82.6% in 6</span></div>
-    <div class="tile"><b>Nov 1</b><span>Early Action deadline (non-binding) · decision by Jan 31</span></div>
-    <div class="tile"><b>Jan 15</b><span>Regular Decision deadline · rolling decisions</span></div>
-  </div>
-  <div class="cards g2">
-    <div class="card">
-      <h3>📋 What UD weighs most</h3>
-      <p>From UD's official Common Data Set, the "very important" factors are:</p>
-      <div class="chips"><span class="chip">Course rigor</span><span class="chip">GPA</span><span class="chip">State residency</span></div>
-      <p>Essay, recommendation, extracurriculars, and talent are "considered." Out-of-state applicants were admitted at essentially the same rate as Delawareans in Fall 2024 (70.0% vs 70.7%), so PA residency is not a practical disadvantage. Test-optional: scores are considered only if submitted.</p>
-    </div>
-    <div class="card">
-      <h3>📚 Required high-school prep</h3>
-      <p>18 units: 4 English · 3 math · 3 science (2 lab) · 2 foreign language · 2 social studies · 2 history · 2 academic electives. Application fee $75 (Common App; fee waivers available). One recommendation + essay required.</p>
-      <p style="margin-top:8px"><b>Honors College:</b> considered with the regular application — smaller seminar-style courses, Honors housing, and priority registration. About 90% of Honors students finish in 4 years. Top invited students compete for the full-ride Distinguished Scholar awards.</p>
-    </div>
-  </div>
+<section id="compare">
+  <div class="kicker">Side by side</div>
+  <h2>Compare the schools</h2>
+  <p class="lead">Sticker costs are before aid — net cost after merit/need aid differs a lot by school (each guide's Costs section has the details). Scroll the table sideways on a phone.</p>
+  <div class="card tscroll" id="cmpWrap"></div>
+  <p class="src">Sources: each school's Common Data Set, admissions and financial-aid pages, U.S. News 2026, College Scorecard — compiled July 2026. Verify current figures with official sites.</p>
 </section>
 
-<section id="costs">
-  <div class="kicker">Costs &amp; Aid</div>
-  <h2>What it costs from Pennsylvania</h2>
-  <p class="lead">Pennsylvania has no tuition reciprocity with Delaware, so a PA family pays the out-of-state rate. The main discount lever is merit aid: every out-of-state applicant is automatically reviewed for scholarships of roughly $8,500–$15,000 per year — no separate application.</p>
-
-  <div class="chart">
-    <h3>Sticker cost of attendance, 2026–27</h3>
-    <div class="sub">Per year, on campus, before any aid — official UD cost-of-attendance figures. Hover a segment for exact amounts.</div>
-    <div class="crow">
-      <div class="lbl"><span>Out-of-state (PA resident)</span><span class="tot">$65,884</span></div>
-      <div class="bar-h" role="img" aria-label="Out-of-state: tuition and fees $45,020, housing and food $16,614, books and other $4,250, total $65,884">
-        <div class="seg s1" style="width:68.3%" data-tip="Tuition &amp; fees — $45,020"><i>$45,020</i></div>
-        <div class="seg s2" style="width:25.2%" data-tip="Housing &amp; food — $16,614"><i>$16,614</i></div>
-        <div class="seg s3" style="width:6.5%" data-tip="Books, travel &amp; personal — $4,250"><i></i></div>
-      </div>
-    </div>
-    <div class="crow">
-      <div class="lbl"><span>In-state (for comparison)</span><span class="tot">$39,154</span></div>
-      <div class="bar-h" role="img" aria-label="In-state: tuition and fees $18,290, housing and food $16,614, books and other $4,250, total $39,154">
-        <div class="seg s1" style="width:27.8%;flex:none" data-tip="Tuition &amp; fees — $18,290"><i>$18,290</i></div>
-        <div class="seg s2" style="width:25.2%;flex:none" data-tip="Housing &amp; food — $16,614"><i>$16,614</i></div>
-        <div class="seg s3" style="width:6.5%;flex:none" data-tip="Books, travel &amp; personal — $4,250"><i></i></div>
-      </div>
-    </div>
-    <div class="legend">
-      <span><b style="background:var(--mark-1)"></b>Tuition &amp; fees</span>
-      <span><b style="background:var(--mark-2)"></b>Housing &amp; food</span>
-      <span><b style="background:var(--ink-3)"></b>Books, travel &amp; personal ($4,250)</span>
-    </div>
-    <p class="src">Note: business (Lerner), engineering, nursing, and Honors students pay an additional differential tuition surcharge. In-state bars drawn to the same dollar scale.</p>
-  </div>
-
-  <div class="cards g2" style="margin-top:16px">
-    <div class="card">
-      <h3>🎓 Merit scholarships (out-of-state, automatic review)</h3>
-      <div class="tscroll"><table>
-        <tr><th>Award</th><th>Per year</th></tr>
-        <tr><td>UD Trustee Scholarship</td><td>$12,500–$15,000</td></tr>
-        <tr><td>UD Presidential Scholarship</td><td>$10,000–$12,000</td></tr>
-        <tr><td>UD Provost Scholarship</td><td>$8,500–$12,000</td></tr>
-        <tr><td>Delaware Scholar Award</td><td>$6,500–$7,500</td></tr>
-        <tr><td>Blue Hen Scholarship</td><td>$1,500–$2,500</td></tr>
-      </table></div>
-      <p style="margin-top:8px">Renewable up to 8 semesters. UD no longer publishes hard cutoffs, but historically the top tier tracked with roughly top-5%-of-class profiles. The invitation-only Eugene du Pont Distinguished Scholar award covers full tuition, room &amp; board, and fees.</p>
-    </div>
-    <div class="card">
-      <h3>💵 Aid, debt &amp; payoff</h3>
-      <ul>
-        <li>~73% of students receive grants or scholarships (avg ≈ $14,100); 60% of freshmen get need-based aid (avg grant ≈ $15,900)</li>
-        <li>Median federal student debt at graduation: <b>$24,572</b> (≈ $261/mo)</li>
-        <li>Median earnings 10 years after entry: <b>$72,950</b> (College Scorecard)</li>
-        <li>Housing: only the <b>first year</b> is required on campus (~$16,614 with dining); shared off-campus houses in Newark typically run $400–800/person/month</li>
-        <li>Realistic OOS net with a mid-tier merit award: roughly <b>$51K–57K/yr</b> — comparable to Penn State's out-of-state neighbors but above PA in-state options</li>
-      </ul>
-      <div class="rq">"Unless you receive a significant scholarship, you shouldn't be attending UD — tuition for out-of-staters is too high." … vs. "He got merit for University of Delaware which brought the cost down to the low $30s."<b>— r/udel &amp; r/ApplyingToCollege (archived threads) — the classic debate; merit aid is the swing factor</b></div>
-    </div>
-  </div>
-</section>
-
-<section id="business">
-  <div class="kicker">Business — his interest</div>
-  <h2>Alfred Lerner College of Business &amp; Economics</h2>
-  <p class="lead">Lerner is AACSB-accredited in both business <em>and</em> accounting (a distinction held by fewer than 6% of business schools worldwide) with about 3,900 undergrads across 18 majors. Freshmen are admitted <b>directly into their business major</b> — or can choose "Business Undeclared" (about 30% do) and sample fields before declaring by sophomore year.</p>
-  <div class="cards g4">
-    <div class="tile"><b>#88</b><span>U.S. News undergrad business (of 533) · WSJ #14 public school for high-paying finance jobs</span></div>
-    <div class="tile"><b>92–95%</b><span>employed or in grad school within 6 months</span></div>
-    <div class="tile"><b>$67.5–70K</b><span>median starting salary, recent classes</span></div>
-    <div class="tile"><b>18</b><span>undergrad majors + 21 minors + 4+1 master's options</span></div>
-  </div>
-  <div class="cards g2">
-    <div class="card">
-      <h3>🚀 Standout hands-on features</h3>
-      <ul>
-        <li><b>Geltzeiler Trading Center</b> — a real-time, Bloomberg-terminal trading floor used in finance, accounting, and MIS courses (ask to see it on the tour)</li>
-        <li><b>Blue Hen Investment Club</b> — students manage a real multi-million-dollar equity portfolio</li>
-        <li><b>Vita Nova</b> — student-run fine-dining restaurant (hospitality program)</li>
-        <li>Recruiting pipeline into JPMorgan Chase, Goldman Sachs, Deloitte, EY, PwC, KPMG, Vanguard, BlackRock — helped by proximity to Wilmington's banking hub and Philly/NYC</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>📈 The 18 majors</h3>
-      <div class="chips">
-        <span class="chip">Finance</span><span class="chip">Accounting</span><span class="chip">Marketing</span><span class="chip">Management</span><span class="chip">Entrepreneurship</span><span class="chip">Business Analytics</span><span class="chip">Fintech</span><span class="chip">Sport Management</span><span class="chip">Economics (BA/BS)</span><span class="chip">MIS</span><span class="chip">Operations</span><span class="chip">Global Business</span><span class="chip">Financial Planning &amp; Wealth Mgmt</span><span class="chip">CS &amp; Business</span><span class="chip">Hospitality (2 tracks)</span><span class="chip">Economics Education</span><span class="chip">Business Undeclared</span>
-      </div>
-      <p>About 30% of Lerner students start as <b>Business Undeclared</b> and explore before committing — the full course path is below.</p>
-    </div>
-  </div>
-  <div class="card" style="margin-top:14px">
-    <h3>🧭 Business Undeclared → declared: the actual course path</h3>
-    <ul class="tl" style="margin-top:14px">
-      <li><span class="when">Year 1</span><b>Shared start — no major decision needed</b><span><b>BUAD 110 Basics of Business</b> (the first-year experience course every Lerner freshman takes) + ECON 101 &amp; 103 (micro/macro) + MATH 221 Calculus + ENGL 110 + university breadth courses.</span></li>
-      <li><span class="when">Year 2</span><b>Business core ramps up · declaration deadline</b><span>ACCT 207/208 (financial &amp; managerial accounting), statistics (MATH 201/202), MISY 160 &amp; 261 (business computing/info systems), COMM 212 business communication, FINC 311 Principles of Finance. <b>Declare by Oct 1 of sophomore year</b> — before that deadline, switching into nearly any Lerner major (finance, accounting, marketing, analytics, MIS, sport management…) is <b>guaranteed, with no GPA gate</b>, via a form in UDSIS. After it, most majors require a 3.0 GPA. Entrepreneurship is the one exception: a separate, selective application.</span></li>
-      <li><span class="when">Years 3–4</span><b>Major courses + capstone → done in 4</b><span>BUAD 301 Marketing, BUAD 306 Operations, BUAD 309 Organizational Behavior, then major-specific courses, finishing with the <b>BUAD 441 Strategic Management capstone</b> senior year. ~120–121 credits total, C- or better required in core courses, plus one Discovery Learning Experience (internship, co-op, or study abroad). Four years is the normal finish; 4+1 master's options add a fifth year for an M.S./MBA (or the 150 hours accountants need for the CPA).</span></li>
-    </ul>
-    <div class="rq">"Career fairs each semester, ton of recruiting from Big 4 firms and IB roles. If you're looking to stay in the Delaware/Philly area postgrad you'll be competitive." … "Lerner is what you make it — if you want to push yourself there are a lot of ways to do that."<b>— r/udel students, "Is Lerner worth it?" (archived thread)</b></div>
-  </div>
-</section>
-
-<section id="outcomes">
-  <div class="kicker">After graduation</div>
-  <h2>Hiring rates &amp; outcomes</h2>
-  <p class="lead">UD tracks graduates six months out using the national NACE First-Destination survey model. "Placed" below means employed or enrolled in further education within six months of graduation.</p>
-  <div class="cards g4">
-    <div class="tile"><b>94%</b><span>of all UD grads placed within 6 months (university-wide)</span></div>
-    <div class="tile"><b>95%</b><span>of Lerner business grads placed (Class of 2024)</span></div>
-    <div class="tile"><b>$70,000</b><span>average starting salary, Lerner Class of 2024</span></div>
-    <div class="tile"><b>$72,950</b><span>median earnings 10 years after entry, all UD (College Scorecard)</span></div>
-  </div>
-
-  <div class="chart" style="margin-top:16px">
-    <h3>Business majors: hiring rate &amp; mean starting salary</h3>
-    <div class="sub">Class of 2025, six months after graduation — Lerner's official per-major figures. Bars show salary; "placed" = employed or in grad school.</div>
-    <div class="crow">
-      <div class="lbl"><span>Accounting · 97% placed</span><span class="tot">$79,306</span></div>
-      <div class="bar-h" role="img" aria-label="Accounting: 97 percent placed, mean starting salary $79,306">
-        <div class="seg s1" style="width:100%" data-tip="Accounting — $79,306 · 97% placed"><i>$79,306</i></div>
-      </div>
-    </div>
-    <div class="crow">
-      <div class="lbl"><span>Finance · 95% placed</span><span class="tot">$69,327</span></div>
-      <div class="bar-h" role="img" aria-label="Finance: 95 percent placed, mean starting salary $69,327">
-        <div class="seg s1" style="width:87.4%;flex:none" data-tip="Finance — $69,327 · 95% placed"><i>$69,327</i></div>
-      </div>
-    </div>
-    <div class="crow">
-      <div class="lbl"><span>Business Analytics · 94% placed</span><span class="tot">$66,800</span></div>
-      <div class="bar-h" role="img" aria-label="Business Analytics: 94 percent placed, mean starting salary $66,800">
-        <div class="seg s1" style="width:84.2%;flex:none" data-tip="Business Analytics — $66,800 · 94% placed"><i>$66,800</i></div>
-      </div>
-    </div>
-    <div class="crow">
-      <div class="lbl"><span>Marketing · 91% placed</span><span class="tot">$61,056</span></div>
-      <div class="bar-h" role="img" aria-label="Marketing: 91 percent placed, mean starting salary $61,056">
-        <div class="seg s1" style="width:77%;flex:none" data-tip="Marketing — $61,056 · 91% placed"><i>$61,056</i></div>
-      </div>
-    </div>
-    <div class="crow">
-      <div class="lbl"><span>Management · 88% placed</span><span class="tot">$60,210</span></div>
-      <div class="bar-h" role="img" aria-label="Management: 88 percent placed, mean starting salary $60,210">
-        <div class="seg s1" style="width:75.9%;flex:none" data-tip="Management — $60,210 · 88% placed"><i>$60,210</i></div>
-      </div>
-    </div>
-    <p class="src">Economics (Class of 2024): 100% of BA and BS grads placed; mean starting salary $68,304 (BS) / $57,110 (BA, 3-year averages). Salaries are means of survey respondents and vary with role and city.</p>
-  </div>
-
-  <div class="cards g2" style="margin-top:16px">
-    <div class="card">
-      <h3>💼 How business grads land jobs</h3>
-      <ul>
-        <li>83.6% of Lerner's Class of 2024 had a job within <b>three</b> months; 41% received signing bonuses averaging <b>$8,573</b></li>
-        <li>Top employers by major: <b>Accounting</b> — KPMG, EY, PwC, Deloitte, RSM · <b>Finance</b> — JPMorgan Chase, Goldman Sachs, Vanguard, Citi, TD, SEI · <b>Marketing</b> — PepsiCo, Amazon, PayPal, URBN · <b>Analytics</b> — BlackRock, Bank of America, Deloitte</li>
-        <li>Common first roles: financial analyst, audit associate, investment analyst, business analyst, marketing analyst, leadership-development-program associate</li>
-        <li>Wilmington's banking hub (20 min away) and the Philly–NYC corridor drive much of the recruiting pipeline</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>🎓 Grad school &amp; the long run</h3>
-      <ul>
-        <li>Whole-university placement (94%) and WSJ's #26 overall / #10 public ranking both weigh graduate outcomes heavily</li>
-        <li>Lerner 4+1 accelerated master's options let strong students add an M.S. or MBA in one extra year — accounting students often use it to reach the 150 credit hours needed for CPA licensure</li>
-        <li>Lerner master's grads: ~97% placement with average salaries around $91K–96K</li>
-        <li>Median federal debt at graduation ($24,572) vs. a ~$70K business starting salary is a favorable ratio — the payback math is one of UD's stronger selling points</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section id="studentlife">
-  <div class="kicker">Who's on campus</div>
-  <h2>Student body &amp; campus life</h2>
-  <p class="lead">Official demographics from UD's Fall 2024 Common Data Set, plus the social scene as students actually describe it — quoted lines come from archived r/udel threads.</p>
-
-  <div class="chart">
-    <h3>Undergraduate demographics</h3>
-    <div class="sub">18,332 degree-seeking undergrads, Fall 2024 (Common Data Set). 64% come from out of state.</div>
-    <div class="crow tight">
-      <div class="lbl"><span>Gender</span><span class="tot">60.6% women · 39.4% men</span></div>
-      <div class="bar-h" role="img" aria-label="Gender: 60.6 percent women, 39.4 percent men">
-        <div class="seg s1" style="width:60.6%" data-tip="Women — 11,103 students (60.6%)"><i>Women 60.6%</i></div>
-        <div class="seg s2" style="width:39.4%" data-tip="Men — 7,229 students (39.4%)"><i>Men 39.4%</i></div>
-      </div>
-    </div>
-    <div class="crow tight" style="margin-top:20px">
-      <div class="lbl"><span>White</span><span class="tot">67.6%</span></div>
-      <div class="bar-h thin"><div class="seg s1" style="width:100%;flex:none" data-tip="White, non-Hispanic — 12,398 (67.6%)"><i></i></div></div>
-    </div>
-    <div class="crow tight">
-      <div class="lbl"><span>Hispanic / Latino</span><span class="tot">10.2%</span></div>
-      <div class="bar-h thin"><div class="seg s1" style="width:15.1%;flex:none" data-tip="Hispanic/Latino — 1,878 (10.2%)"><i></i></div></div>
-    </div>
-    <div class="crow tight">
-      <div class="lbl"><span>Black / African American</span><span class="tot">6.1%</span></div>
-      <div class="bar-h thin"><div class="seg s1" style="width:9%;flex:none" data-tip="Black/African American — 1,125 (6.1%)"><i></i></div></div>
-    </div>
-    <div class="crow tight">
-      <div class="lbl"><span>Asian</span><span class="tot">5.6%</span></div>
-      <div class="bar-h thin"><div class="seg s1" style="width:8.3%;flex:none" data-tip="Asian — 1,021 (5.6%)"><i></i></div></div>
-    </div>
-    <div class="crow tight">
-      <div class="lbl"><span>Two or more races</span><span class="tot">5.2%</span></div>
-      <div class="bar-h thin"><div class="seg s1" style="width:7.7%;flex:none" data-tip="Two or more races — 956 (5.2%)"><i></i></div></div>
-    </div>
-    <div class="crow tight">
-      <div class="lbl"><span>International</span><span class="tot">3.3%</span></div>
-      <div class="bar-h thin"><div class="seg s1" style="width:4.9%;flex:none" data-tip="International — 596 (3.3%)"><i></i></div></div>
-    </div>
-    <div class="crow tight">
-      <div class="lbl"><span>Unknown / other</span><span class="tot">2.0%</span></div>
-      <div class="bar-h thin"><div class="seg s1" style="width:3%;flex:none" data-tip="Unknown or other — 358 (2.0%)"><i></i></div></div>
-    </div>
-    <p class="src">Bars scaled to the largest group. The first-year class skews even more female (61%).</p>
-  </div>
-
-  <div class="cards g2" style="margin-top:16px">
-    <div class="card">
-      <h3>🎉 Party scene: reputation vs. reality</h3>
-      <p>The reputation is earned — Princeton Review's #1 party school in 2018, still Niche's #40 of ~1,500 today, with a culture of frat parties, "darties," and Main Street bars. It's <b>not a dry campus</b>, but rules are tight: alcohol only for 21+ in their own residence-hall room, with pong tables and funnels banned in dorms.</p>
-      <div class="rq">"Tons of drinking and crazy parties." … but also: "I'm not a party person and I haven't been to one — you can honestly choose to be heavily involved or not involved at all."<b>— r/udel students (archived threads)</b></div>
-    </div>
-    <div class="card">
-      <h3>🏛️ Greek life</h3>
-      <p><b>20% of men and 25% of women</b> join one of <b>62 chapters</b> (29 fraternities, 13 sororities, 13 multicultural, 7 special-interest). Freshmen <b>can't rush in the fall</b> — eligibility requires 12 UD credits and a 2.50 GPA, so first rush is spring of freshman year, which gives new students a semester to settle in first.</p>
-      <div class="rq">"Greek life is easy to find but also very easy to avoid; you have to be looking for it." … "Was part of Greek life and it was just so annoying. It's like a job, honestly."<b>— r/udel, "Greek life" thread (archived)</b></div>
-    </div>
-    <div class="card">
-      <h3>🏈 Blue Hens sports</h3>
-      <p><b>21+ varsity programs</b>, now anchored in <b>Conference USA</b> — football made the jump to FBS in 2025 (14 programs moved to CUSA; others compete as affiliates, e.g. lacrosse in the A-10/ASUN). Football claims <b>6 national titles</b>; field hockey won the <b>2016 NCAA championship</b>; alumni include Joe Flacco and Elena Delle Donne. Game days at 18,500-seat Delaware Stadium come with a serious tailgating tradition — UD out-drew every other FCS program for a decade. Beyond varsity: <b>37 club teams</b> and intramural leagues with 5,400+ players a year.</p>
-    </div>
-    <div class="card">
-      <h3>💪 For a gym regular (PF member's guide)</h3>
-      <p>The <b>Carpenter Sports Building — "the Little Bob"</b> — is a 167,000 sq ft rec center (post-$25M renovation): a three-floor strength/cardio center, rooftop indoor track, pool, climbing wall, CrossFit box, and racquetball courts. <b>Access is included in the student fee</b> — just swipe your student ID. Satellite gyms in Independence Hall (North Campus) and Harrington round it out.</p>
-      <div class="rq">"Yes the gym at UD is phenomenal. I wouldn't waste time with another membership elsewhere. Best gym I've ever been to, frankly." … "Absolutely crowded [at peak]; only times it's not are weekends and Friday nights."<b>— r/udel gym threads (archived)</b></div>
-      <p style="margin-top:10px">And yes — there's a <b>Planet Fitness 2 miles from campus</b> (53 Marrows Rd, Brookside Plaza, ~5-min drive; 24 hrs on weekdays). A PF Black Card works at any location, so an existing membership doubles as an off-peak/late-night backup and works back home on breaks.</p>
-    </div>
-  </div>
-
-  <div class="card" style="margin-top:14px">
-    <h3>🧾 The Reddit consensus, distilled</h3>
-    <ul>
-      <li><b>"Worth it out-of-state?"</b> is the eternal r/udel debate — the consistent answer: a great choice <em>with merit money</em> ("merit brought the cost down to the low $30s"), think hard at full sticker ("tuition for out-of-staters is too high").</li>
-      <li><b>Party school:</b> real, but genuinely avoidable — the counterweight is the 400+ clubs, which is also how non-Greek students say they found their people.</li>
-      <li><b>Lerner:</b> respected regionally — strong Big 4/banking pipeline in the Delaware–Philly corridor; students place it in the same tier as Penn State or JMU business.</li>
-      <li><b>Dorms are bimodal:</b> Redding (Honors), Caesar Rodney, and Sharp get praise (AC, renovated); Russell and older East-campus halls mean fans in September and shared bathrooms.</li>
-      <li><b>Most-complained-about services:</b> academic advising and the shuttle buses — by a wide margin. <b>Most positive surprise:</b> safety ("I am a woman who attends UD and have never felt unsafe on campus").</li>
-    </ul>
-    <p class="src">Sentiment from archived r/udel and r/ApplyingToCollege threads (2018–2025) — real posts, but anecdotes, not statistics.</p>
-  </div>
-</section>
-
-<section id="proscons">
-  <div class="kicker">The balance sheet</div>
-  <h2>Pros &amp; cons</h2>
-  <p class="lead">Compiled from Niche student reviews (Overall grade A, 3.73/5 across ~3,900 reviews), Princeton Review, news coverage, and official data.</p>
-  <div class="cards g2">
-    <div class="pc pros">
-      <h3>Pros</h3>
-      <ul>
-        <li>Beautiful, classic campus<small>Georgian brick buildings around The Green — routinely called one of the prettiest campuses in the region</small></li>
-        <li>Main Street is right on campus<small>A genuinely walkable college town with dozens of restaurants and shops</small></li>
-        <li>Direct admit to business majors<small>No cutthroat secondary admission process into Lerner, plus AACSB dual accreditation</small></li>
-        <li>Strong career outcomes<small>92–95% placement; Big 4 and major-bank recruiting; Wilmington banking hub 20 min away</small></li>
-        <li>Study-abroad pioneer<small>Invented U.S. study abroad in 1923; 100+ programs, ~1 in 3 students participate</small></li>
-        <li>Big-school spirit, D1 athletics<small>Football just moved up to FBS (Conference USA); Niche Athletics grade A</small></li>
-        <li>Real research opportunities<small>R1 university with undergrad research access</small></li>
-        <li>Easy reach from southeastern PA<small>~1¼ hr drive; SEPTA regional rail connects Newark to Philadelphia</small></li>
-        <li>Merit money for out-of-state students<small>Automatic scholarship review, up to ~$15K/yr</small></li>
-      </ul>
-    </div>
-    <div class="pc cons">
-      <h3>Cons</h3>
-      <ul>
-        <li>Out-of-state sticker price<small>~$66K/yr all-in; no PA reciprocity — cost is the #1 recurring complaint in reviews</small></li>
-        <li>Party-school reputation<small>Princeton Review's #1 party school in 2018; social scene can revolve around drinking and Greek life</small></li>
-        <li>Greek life carries the social scene<small>Students who don't rush sometimes report feeling left out</small></li>
-        <li>Dorms are hit-or-miss<small>Niche grade B-; some halls lack air conditioning; housing only guaranteed freshman year</small></li>
-        <li>Big intro classes &amp; weed-outs<small>Some 100+ person lectures; uneven instructor quality in intro courses</small></li>
-        <li>University budget pressures<small>$250M COVID-era gap with layoffs; more recent projected shortfalls and hiring freezes</small></li>
-        <li>Everyday frictions<small>Parking is a chronic gripe; dining reviews are lukewarm; advising can feel impersonal at this scale</small></li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section id="criticisms">
-  <div class="kicker">Straight talk</div>
-  <h2>Criticisms &amp; feedback, in detail</h2>
-  <p class="lead">The things worth probing on a tour — sourced from student review sites, the campus paper, and regional news.</p>
-  <div class="cards g2">
-    <div class="card">
-      <h3>🍺 Party culture — how real is it?</h3>
-      <p>Princeton Review ranked UD the <b>#1 party school in America (2018)</b> and #3 the following year; later surveys still placed it top-10 for hard liquor and Greek life. Niche currently ranks the party scene #40 of ~1,600. Plenty of students opt out and find their own scene in 400+ clubs — but the reputation is earned, and it's fair to ask tour guides what non-party social life looks like.</p>
-    </div>
-    <div class="card">
-      <h3>🏛️ Budget troubles</h3>
-      <p>UD faced a <b>$250M pandemic-era budget gap</b> with over 120 layoffs, and as recently as FY2025 leadership projected $20–40M shortfalls with hiring freezes and paused capital projects. Worth asking how this affects class availability, advising staffing, and facilities in Lerner.</p>
-    </div>
-    <div class="card">
-      <h3>🛏️ Dorms &amp; dining</h3>
-      <p>Niche grades: Dorms <span class="grade">B-</span> Campus food <span class="grade">B+</span>. Recurring complaints: older halls without AC, distance from North Campus, and dining quality that "declines as the year goes on." Housing is guaranteed (and required) only for year one; most upperclassmen move to off-campus houses, which are usually cheaper.</p>
-      <div class="rq">"Redding is the nicest freshman dorm there is — air conditioned, super nice lounges." … "No AC in Russell so definitely bring a fan or two." On food: "You will get bored of it… you just kinda survive," though "Pencader has the best dining — you can never go wrong with the custom burger and pizza station."<b>— r/udel dorm &amp; dining threads (archived)</b></div>
-    </div>
-    <div class="card">
-      <h3>🚔 Safety picture</h3>
-      <p>Niche Safety grade <span class="grade">B</span>; 76% of surveyed students report feeling very safe. Reported on-campus Clery incidents rose from 23 (2021) to 37 (2023) — a trend typical of large residential campuses, but reviewable in UD's public Clery report. UD Police is a full-service department; free campus shuttles run at night. Reddit sentiment here is notably positive: "UD and Delaware in general are safe… we just have property and drug/alcohol crimes with the odd fight."</p>
-    </div>
-    <div class="card">
-      <h3>👩‍🏫 Academics — the fine print</h3>
-      <p>RateMyProfessors averages ~4.0/5 school-wide, but with a wide spread — some intro STEM and math instructors rate very poorly, and science/math weed-out courses draw complaints. Smaller upper-level courses (58% of all sections are under 30 students) get much better reviews.</p>
-    </div>
-    <div class="card">
-      <h3>🅿️ Logistics gripes</h3>
-      <p>Parking is the most persistent everyday complaint — permits are limited and enforcement is aggressive. Advising quality is mixed at this scale; students who use Lerner's dedicated career services report better experiences than those relying on general advising. The campus shuttle system draws similar fire.</p>
-      <div class="rq">"For a university this size, the shuttle system is truly terrible." … "My assigned advisor never responds to my emails." … "There is no free parking in Newark/UD — the city uses the scarcity of parking as one of its largest money makers."<b>— r/udel (archived threads)</b></div>
-    </div>
-  </div>
-</section>
-
-<section id="visit">
-  <div class="kicker">On the ground</div>
-  <h2>Campus &amp; visit logistics</h2>
-  <div class="cards g2">
-    <div class="card">
-      <h3>🧭 Getting there &amp; checking in</h3>
-      <dl class="dl">
-        <dt>Visitors Center</dt><dd>210 South College Ave, Newark, DE 19716 · 302-831-8123 · admissions@udel.edu</dd>
-        <dt>Parking</dt><dd>Visitor Lot 41, adjacent to the Visitors Center — pay with the Passport mobile app</dd>
-        <dt>Directions</dt><dd>I-95 to Exit 1 (DE-896 North) → becomes South College Ave; you'll pass Delaware Stadium on the way in</dd>
-        <dt>By train</dt><dd>Newark (Carper) Station is a few blocks from campus — SEPTA regional rail to Philadelphia on weekdays, limited Amtrak</dd>
-      </dl>
-      <div class="mapbtns">
-        <a class="btn" href="https://maps.google.com/?q=210+South+College+Ave,+Newark,+DE+19716" rel="noopener">Open in Google Maps</a>
-        <a class="btn alt" href="https://maps.apple.com/?q=210+South+College+Ave+Newark+DE+19716" rel="noopener">Apple Maps</a>
-      </div>
-    </div>
-    <div class="card">
-      <h3>🏛️ Don't-miss campus stops</h3>
-      <ul>
-        <li><b>The Green</b> — the historic heart; the classic UD photo op</li>
-        <li><b>Memorial Hall</b> — 1925 WWI memorial; listen for the carillon</li>
-        <li><b>Lerner Hall / Purnell</b> — ask to see the <b>Geltzeiler Trading Center</b></li>
-        <li><b>Trabant &amp; Perkins</b> — the two student centers (food courts, bookstore)</li>
-        <li><b>Morris Library</b> — main library on the Green</li>
-        <li><b>Delaware Stadium &amp; Bob Carpenter Center</b> — 18,500-seat FBS home field</li>
-        <li><b>UD Botanic Gardens</b> — free, self-guided, on South Campus</li>
-      </ul>
-    </div>
-  </div>
-  <div class="note">💡 <b>Good tour questions for a future business major:</b> How does Business Undeclared → major declaration work in practice? What percent of finance majors get internships through the Trading Center and Lerner Career Services? How hard is it to get into the Blue Hen Investment Club? What does the Lerner differential tuition add per year?</div>
-</section>
-
-<section id="nearby">
-  <div class="kicker">Around town</div>
-  <h2>Newark &amp; nearby</h2>
-  <p class="lead">Newark (pop. ~30,000 — pronounced "new-ARK," unlike the NJ one) is a true college town: about a third of residents are in their twenties, and Main Street runs right along campus.</p>
+<section id="howto">
+  <div class="kicker">Visit days</div>
+  <h2>How to use this app</h2>
   <div class="cards g3">
-    <div class="card"><h3>🍦 UDairy Creamery</h3><p>Ice cream made from the university's own dairy herd — the classic campus-visit stop. Main St café at 83 E Main St, plus the flagship creamery by the farm on South Campus.</p></div>
-    <div class="card"><h3>🍻 Deer Park Tavern</h3><p>Landmark 1851 tavern on the National Register, famed for nachos and its Edgar Allan Poe lore. A five-minute walk from campus.</p></div>
-    <div class="card"><h3>🍝 Caffe Gelato</h3><p>Upscale Northern Italian on Main Street with artisan gelato — the "parents' weekend dinner" spot.</p></div>
-    <div class="card"><h3>🌳 White Clay Creek State Park</h3><p>37 miles of hiking/biking trails bordering campus and town. $8 out-of-state vehicle fee in season; open 8 a.m. to sunset.</p></div>
-    <div class="card"><h3>🛍️ Main Street</h3><p>Dozens of restaurants, coffee shops (Brew HaHa!, The Greenhouse), and shops — the nightly social artery of the school. Also: Delaware has <b>no sales tax</b>.</p></div>
-    <div class="card"><h3>🚆 Day-trip radius</h3><p>Wilmington 12 mi (~20 min) · Philadelphia ~45 mi (~50 min) · Baltimore ~55 mi (~1 hr) · Washington DC ~100 mi · Rehoboth Beach ~88 mi (~1¾ hr).</p></div>
+    <div class="card"><h3>📱 Install it</h3><p>Add to your home screen (☰ menu → "Add to home screen") — it installs as an app, works offline once loaded, and each school guide has one-tap directions and admissions contacts for the visit day.</p></div>
+    <div class="card"><h3>🔄 Keep it fresh</h3><p>The ☰ menu's <b>Update app</b> button pulls the latest version instantly. The version stamp at the bottom of the menu tells you what you're running.</p></div>
+    <div class="card"><h3>⚖️ Trust but verify</h3><p>Every number is sourced (see each guide's Sources section) and Reddit quotes are real archived posts — but data changes annually and anecdotes are anecdotes. Confirm anything decision-critical with the school.</p></div>
   </div>
-</section>
-
-<section id="timeline">
-  <div class="kicker">Planning ahead</div>
-  <h2>Timeline for a rising high-school junior</h2>
-  <p class="lead">Applying in fall 2027 for fall 2028 entry — here's how the next 18 months line up.</p>
-  <ul class="tl">
-    <li><span class="when">Now — summer 2026</span><b>Campus visits (today ✓) &amp; course planning</b><span>Make sure junior-year schedule hits UD's required prep: 4 English, 3 math, 3 science with labs, 2 foreign language. Rigor is UD's #1 factor.</span></li>
-    <li><span class="when">Fall 2026 (junior year)</span><b>PSAT/NMSQT in October</b><span>Baseline for SAT planning. Keep grades up — junior year weighs heaviest.</span></li>
-    <li><span class="when">Spring 2027</span><b>First SAT/ACT sitting</b><span>UD is test-optional, but a 1300+ SAT strengthens merit-scholarship odds. Retake in fall if needed.</span></li>
-    <li><span class="when">Summer 2027</span><b>Essay + Common App</b><span>Common App opens Aug 1. Draft the essay early; line up one teacher recommendation.</span></li>
-    <li><span class="when">Nov 1, 2027</span><b>Early Action deadline</b><span>Non-binding — apply EA for the earliest decision (by Jan 31) and full merit consideration. Choose a Lerner major or Business Undeclared on the application.</span></li>
-    <li><span class="when">Jan–Apr 2028</span><b>Compare offers</b><span>Merit awards arrive with admission. Regular Decision closes Jan 15 as a backup window.</span></li>
-    <li><span class="when">May 1, 2028</span><b>Decision day</b><span>National reply deadline. Deposit, then housing sign-up (freshman year on campus is required and guaranteed).</span></li>
-  </ul>
-</section>
-
-<section id="sources">
-  <div class="kicker">Fine print</div>
-  <h2>Sources &amp; notes</h2>
-  <p class="lead">Data compiled July 2026 from public sources. Figures change annually — verify with official UD pages before making decisions.</p>
-  <div class="card">
-    <ul style="font-size:13.5px">
-      <li><a href="https://ire.udel.edu/quick-facts/" rel="noopener">UD Quick Facts 2025–26</a> and the <a href="https://bpb-us-w2.wpmucdn.com/sites.udel.edu/dist/e/2019/files/2025/07/CDS2425_UDelaware.pdf" rel="noopener">UD Common Data Set 2024–25</a> — enrollment, admission stats, class sizes, retention/graduation</li>
-      <li><a href="https://www.udel.edu/apply/undergraduate-admissions/" rel="noopener">UD Undergraduate Admissions</a> — deadlines, requirements, <a href="https://www.udel.edu/apply/undergraduate-admissions/plan-your-visit/" rel="noopener">visit planning</a>, and <a href="https://www.udel.edu/apply/undergraduate-admissions/financing-your-degree/out-of-state-freshmen/" rel="noopener">out-of-state scholarships</a></li>
-      <li><a href="https://www.udel.edu/students/sfs/" rel="noopener">UD Student Financial Services</a> — official 2026–27 cost of attendance</li>
-      <li><a href="https://lerner.udel.edu/" rel="noopener">Lerner College</a> — majors, quick facts, Trading Center, and per-major Class of 2025 hiring/salary data from the individual <a href="https://lerner.udel.edu/programs/undergraduate-programs/majors/" rel="noopener">major pages</a></li>
-      <li><a href="https://www.udel.edu/apply/career-outcomes/" rel="noopener">UD Career Outcomes dashboard</a> (NACE first-destination data) and <a href="https://www.udel.edu/udaily/2024/september/wsj-wall-street-journal-college-pulse-rankings/" rel="noopener">UDaily</a> — university-wide 94% six-month placement</li>
-      <li><a href="https://www.usnews.com/best-colleges/university-of-delaware-1431" rel="noopener">U.S. News</a> (2026 edition rankings) · <a href="https://www.niche.com/colleges/university-of-delaware/" rel="noopener">Niche</a> (grades &amp; ~3,900 student reviews) · <a href="https://collegescorecard.ed.gov/" rel="noopener">College Scorecard</a> (debt &amp; earnings)</li>
-      <li>News: UDaily, The Review (campus paper), Newark Post, Delaware Business Times, ESPN (FBS move), Princeton Review party-school rankings coverage</li>
-      <li>Demographics &amp; Greek participation: UD Common Data Set 2024–25 (Sections B and F1); chapters and rush rules from UD Fraternity &amp; Sorority Leadership &amp; Learning; athletics from UDaily, bluehens.com, and Conference USA; Business Undeclared path from Lerner advising (my.lerner.udel.edu) and UD catalog checksheets; recreation facilities from rec.bluehens.com</li>
-      <li>Student-voice quotes: archived Reddit threads (r/udel, r/ApplyingToCollege, 2018–2025) retrieved via the Pullpush archive — real posts lightly trimmed for length; treat as anecdotes, not statistics</li>
-    </ul>
-  </div>
-  <div class="note">📱 <b>Add this to your home screen:</b> in Safari tap Share → "Add to Home Screen"; in Chrome tap ⋮ → "Add to Home Screen." The page works offline once loaded — handy on a spotty-signal campus walk.</div>
 </section>
 
 </main>
 
 <footer>
   <div class="wrap">
-    <p>Unofficial guide for a family campus visit — not affiliated with the University of Delaware. Data as of July 2026; always confirm current figures with <a href="https://www.udel.edu" rel="noopener">udel.edu</a>.</p>
+    <p>Unofficial guides for family campus visits — not affiliated with any university. Data as of July 2026; always confirm current figures with each school's official site.</p>
   </div>
 </footer>
 
-<div class="backdrop" id="backdrop" hidden></div>
-<aside class="drawer" id="drawer" aria-label="Menu" hidden>
-  <div class="dhead"><span>Menu</span><button class="dclose" id="dclose" aria-label="Close menu">✕</button></div>
-  <button class="ditem" id="btnUpdate"><span class="em">🔄</span><span>Update app<small id="updHint">Fetches the latest version of this guide</small></span></button>
-  <button class="ditem" id="btnTheme"><span class="em">🎨</span><span>Theme: <b id="themeLabel">Auto</b><small>Tap to cycle auto → dark → light</small></span></button>
-  <button class="ditem" id="btnInstall"><span class="em">📲</span><span>Add to home screen<small>Install this guide as an app</small></span></button>
-  <button class="ditem" id="btnShare"><span class="em">🔗</span><span id="shareLabel">Share this guide</span></button>
-  <hr>
-  <a class="ditem" href="https://maps.google.com/?q=210+South+College+Ave,+Newark,+DE+19716" rel="noopener"><span class="em">🗺️</span><span>Directions to Visitors Center<small>210 S College Ave · Visitor Lot 41</small></span></a>
-  <a class="ditem" href="tel:+13028318123"><span class="em">📞</span><span>Call Admissions<small>302-831-8123 · Mon–Fri 8:30–4:30</small></span></a>
-  <a class="ditem" href="mailto:admissions@udel.edu"><span class="em">✉️</span><span>Email Admissions<small>admissions@udel.edu</small></span></a>
-  <hr>
-  <a class="ditem" href="https://www.udel.edu/apply/undergraduate-admissions/plan-your-visit/" rel="noopener"><span class="em">🎟️</span><span>Book an official campus tour</span></a>
-  <a class="ditem" href="https://lerner.udel.edu" rel="noopener"><span class="em">💼</span><span>Lerner College of Business</span></a>
-  <a class="ditem" href="https://www.udel.edu" rel="noopener"><span class="em">🌐</span><span>udel.edu</span></a>
-  <a class="ditem" href="https://github.com/pfeilbr/university-of-delaware-app" rel="noopener"><span class="em">⚙️</span><span>Source on GitHub</span></a>
-  <div class="dver">Version <span id="verLabel"></span> · data compiled July 2026</div>
-</aside>
-
 <div class="tip" id="tip" role="tooltip"></div>
 
-<script>
-// scroll-spy for nav pills
-const nav=document.querySelector('nav.pills');
-const links=[...nav.querySelectorAll('a')];
-const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
-let cur=-1;
-const SAT=(()=>{const d=document.createElement('div');d.style.cssText='position:fixed;padding-top:env(safe-area-inset-top,0px)';document.body.appendChild(d);const v=parseFloat(getComputedStyle(d).paddingTop)||0;d.remove();return v})();
-const spy=()=>{
-  let i=secs.length-1;
-  while(i>0&&window.scrollY+130+SAT<secs[i].offsetTop)i--;
-  if(i===cur)return;
-  cur=i;
-  links.forEach((a,j)=>a.classList.toggle('on',j===i));
-  // center the active pill by scrolling ONLY the nav strip, never the page
-  const a=links[i];
-  nav.scrollTo({left:Math.max(0,a.offsetLeft-(nav.clientWidth-a.offsetWidth)/2),behavior:'smooth'});
-};
-document.addEventListener('scroll',spy,{passive:true});spy();
-
-// chart segment tooltips
-const tip=document.getElementById('tip');
-document.querySelectorAll('.seg[data-tip]').forEach(el=>{
-  const show=e=>{
-    tip.textContent=el.dataset.tip.replace('&amp;','&');
-    tip.style.opacity=1;
-    const x=(e.touches?e.touches[0].clientX:e.clientX);
-    const y=(e.touches?e.touches[0].clientY:e.clientY);
-    tip.style.left=Math.min(x+12,window.innerWidth-tip.offsetWidth-8)+'px';
-    tip.style.top=(y-36)+'px';
-  };
-  el.addEventListener('mousemove',show);
-  el.addEventListener('touchstart',show,{passive:true});
-  el.addEventListener('mouseleave',()=>tip.style.opacity=0);
-  el.addEventListener('touchend',()=>setTimeout(()=>tip.style.opacity=0,1500));
-});
-
-// service worker for offline use
-if('serviceWorker'in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
-
-// ===== hamburger drawer =====
-const APP_VERSION='v6 · 2026-07-21';
-document.getElementById('verLabel').textContent=APP_VERSION;
-const menuBtn=document.getElementById('menuBtn'),drawer=document.getElementById('drawer'),backdrop=document.getElementById('backdrop');
-function openMenu(){
-  drawer.hidden=false;backdrop.hidden=false;
-  requestAnimationFrame(()=>{drawer.classList.add('open');backdrop.classList.add('open')});
-  menuBtn.setAttribute('aria-expanded','true');
-}
-function closeMenu(){
-  drawer.classList.remove('open');backdrop.classList.remove('open');
-  menuBtn.setAttribute('aria-expanded','false');
-  setTimeout(()=>{drawer.hidden=true;backdrop.hidden=true},220);
-}
-menuBtn.addEventListener('click',openMenu);
-document.getElementById('dclose').addEventListener('click',closeMenu);
-backdrop.addEventListener('click',closeMenu);
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!drawer.hidden)closeMenu()});
-
-// update: unregister SW, clear caches, reload fresh
-document.getElementById('btnUpdate').addEventListener('click',async()=>{
-  document.getElementById('updHint').textContent='Updating…';
-  try{
-    if('serviceWorker'in navigator){
-      const regs=await navigator.serviceWorker.getRegistrations();
-      await Promise.all(regs.map(r=>r.unregister()));
-    }
-    if(window.caches){
-      const keys=await caches.keys();
-      await Promise.all(keys.map(k=>caches.delete(k)));
-    }
-  }catch(e){}
-  location.replace(location.pathname+'?u='+Date.now());
-});
-
-// theme cycle: auto -> dark -> light
-const themeLabel=document.getElementById('themeLabel');
-function applyTheme(t){
-  if(t==='dark'||t==='light'){document.documentElement.dataset.theme=t;}
-  else{delete document.documentElement.dataset.theme;t='auto';}
-  themeLabel.textContent=t[0].toUpperCase()+t.slice(1);
-}
-applyTheme(localStorage.getItem('udTheme'));
-document.getElementById('btnTheme').addEventListener('click',()=>{
-  const order=['auto','dark','light'];
-  const now=localStorage.getItem('udTheme')||'auto';
-  const next=order[(order.indexOf(now)+1)%3];
-  if(next==='auto')localStorage.removeItem('udTheme');else localStorage.setItem('udTheme',next);
-  applyTheme(next);
-});
-
-// install / add to home screen
-let deferredPrompt=null;
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;});
-document.getElementById('btnInstall').addEventListener('click',async()=>{
-  if(deferredPrompt){deferredPrompt.prompt();deferredPrompt=null;return;}
-  const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
-  alert(ios
-    ?'In Safari: tap the Share button (square with arrow), then "Add to Home Screen".'
-    :'In your browser menu (⋮), choose "Add to Home Screen" or "Install app".');
-});
-
-// share
-document.getElementById('btnShare').addEventListener('click',async()=>{
-  const data={title:'University of Delaware — Campus Visit Guide',url:location.origin+location.pathname};
-  if(navigator.share){try{await navigator.share(data)}catch(e){}}
-  else{
-    try{await navigator.clipboard.writeText(data.url);
-      document.getElementById('shareLabel').textContent='Link copied!';
-      setTimeout(()=>document.getElementById('shareLabel').textContent='Share this guide',2000);
-    }catch(e){}
-  }
-});
-</script>
+<script src="data/delaware.js"></script>
+<script src="data/northeastern.js"></script>
+<script src="data/fordham.js"></script>
+<script src="data/umass.js"></script>
+<script src="data/tufts.js"></script>
+<script src="data/bu.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
