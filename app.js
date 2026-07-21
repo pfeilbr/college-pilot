@@ -1,7 +1,7 @@
 /* College Tours — shared app shell + renderers */
 (function () {
   'use strict';
-  const APP_VERSION = 'v7 · 2026-07-21';
+  const APP_VERSION = 'v8 · 2026-07-21';
   const SCHOOLS = window.SCHOOLS = window.SCHOOLS || {};
   const ORDER = window.SCHOOL_ORDER || Object.keys(SCHOOLS);
   const qs = (s, el) => (el || document).querySelector(s);
