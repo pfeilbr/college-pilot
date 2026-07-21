@@ -5,7 +5,7 @@ college tour list: admissions stats, costs & aid, business programs, hiring
 outcomes, student demographics, honest pros & cons (including real archived
 Reddit sentiment), visit-day logistics, and nearby attractions.
 
-**Live site:** https://pfeilbr.github.io/university-of-delaware-app/
+**Live site:** https://pfeilbr.github.io/college-tours/
 
 ## Schools covered
 
