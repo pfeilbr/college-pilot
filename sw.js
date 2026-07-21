@@ -1,4 +1,4 @@
-const CACHE = 'ud-guide-v1';
+const CACHE = 'ud-guide-v2';
 const ASSETS = [
   './',
   './index.html',
