@@ -1,12 +1,12 @@
 {
-  "name": "University of Delaware — Campus Visit Guide",
-  "short_name": "UD Guide",
-  "description": "Stats, costs, pros & cons, and visit info for the University of Delaware",
+  "name": "College Tours — Campus Visit Guides",
+  "short_name": "College Tours",
+  "description": "Stats, costs, business programs, pros & cons, and visit tips for every school on the college tour list",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#00539F",
-  "theme_color": "#00539F",
+  "background_color": "#1B2A4A",
+  "theme_color": "#1B2A4A",
   "icons": [
     {
       "src": "icons/icon-192.png",
