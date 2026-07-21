@@ -1,4 +1,4 @@
-const CACHE = 'college-tours-v7';
+const CACHE = 'college-tours-v8';
 const ASSETS = [
   './',
   './index.html',

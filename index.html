@@ -26,6 +26,7 @@
   </div>
   <nav class="pills" aria-label="Sections">
     <ul>
+      <li><a href="#aid">Aid Estimator</a></li>
       <li><a href="#schools">Schools</a></li>
       <li><a href="#compare">Compare</a></li>
       <li><a href="#howto">How to use</a></li>
@@ -48,6 +49,58 @@
 </div>
 
 <main class="wrap">
+
+<section id="aid">
+  <div class="kicker">Money first</div>
+  <h2>What would each school actually cost?</h2>
+  <p class="lead">Sticker prices are fiction — what matters is the net price after aid, and it depends on <b>which household's income each school counts</b>. Pick an income bracket to see rough planning ranges, cheapest first. These are estimates built from each school's published aid policies and federal data — the schools' own net price calculators (linked below) give the real answer.</p>
+
+  <div class="card">
+    <div class="aidLbl">Household income the school will count</div>
+    <div class="aidChips" id="aidBrackets" role="group" aria-label="Income bracket"></div>
+    <div class="aidLbl">Family situation</div>
+    <div class="aidChips"><button id="aidDiv" aria-pressed="false">💔 Parents divorced / separated</button></div>
+    <p class="src" id="aidHint">Tip: for the two public schools, "income" means only the parent the student lives with. For the four private (CSS Profile) schools it usually means <b>both parents combined</b> — if those are different numbers for your family, check both brackets.</p>
+  </div>
+
+  <div class="aidRows" id="aidRows"></div>
+  <p class="src">Planning ranges per year including housing, before loans — modeled July 2026 from each school's aid policy (need-met pledges, merit programs), College Scorecard income-bracket data, and published grant averages. Actual offers move with assets, siblings in college, and annual changes. Every family should run the calculators: <a href="https://www.udel.edu/apply/undergraduate-admissions/financing-your-degree/" rel="noopener">UD</a> · <a href="https://www.umass.edu/financialaid/" rel="noopener">UMass</a> · <a href="https://www.fordham.edu/admissions-and-aid/costs-and-financing-options/" rel="noopener">Fordham</a> · <a href="https://studentfinance.northeastern.edu/" rel="noopener">Northeastern</a> · <a href="https://www.bu.edu/finaid/" rel="noopener">BU</a> · <a href="https://admissions.tufts.edu/tuition-and-aid/" rel="noopener">Tufts</a> · <a href="https://myintuition.org/" rel="noopener">MyinTuition</a> (fast 3-minute estimates for several of these).</p>
+
+  <div class="cards g2" style="margin-top:18px">
+    <div class="card">
+      <h3>💔 Divorced parents: the rule that changes everything</h3>
+      <p>Since the 2024 FAFSA overhaul, the FAFSA counts <b>one parent: the one who provides the most financial support</b> (usually the parent the student lives with). The other parent's income is invisible to it.</p>
+      <ul style="margin-top:8px">
+        <li><span class="badge f">FAFSA ONLY</span> <b>Delaware &amp; UMass</b> — aid is computed on the one FAFSA household. A moderate custodial income reads as high need here <em>no matter what the other parent earns</em>.</li>
+        <li><span class="badge c">CSS + BOTH PARENTS</span> <b>Fordham, Northeastern, BU, Tufts</b> — these require the CSS Profile <em>plus a separate noncustodial-parent profile</em>. Both households' income and assets count toward institutional aid. If the other parent earns well, the generous "meets 100% of need" pledges shrink fast.</li>
+        <li><b>Waivers exist but are strict:</b> CSS noncustodial waivers are for no-contact/abandonment situations — not for "he won't pay." Divorce decrees saying who pays for college don't bind the aid formulas.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🐘 Pennsylvania money that travels (or doesn't)</h3>
+      <ul>
+        <li><b>PA State Grant (PHEAA):</b> income-based, up to ~$5,750/yr — and it's <b>portable to Delaware and Massachusetts</b> (UD, UMass, Northeastern, BU, Tufts) but <b>NOT to New York</b> — Fordham can't use it. A ~$70K-income household often qualifies for a partial grant; file the FAFSA + PA State Grant form to find out.</li>
+        <li><b>PA 529 plans</b> spend anywhere, with a PA state-tax deduction on contributions.</li>
+        <li><b>American Opportunity Tax Credit:</b> up to $2,500/yr back at tax time for tuition payers under the income caps.</li>
+        <li><b>Federal baseline everyone gets:</b> $5,500 first-year federal loan (rising yearly), plus work-study eligibility where need exists.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🎯 The strategy in one paragraph</h3>
+      <p>For a family where the FAFSA parent earns a moderate income: if the <em>combined</em>-parent picture is also moderate, the CSS need-met schools (BU, Northeastern, Tufts) can drop below the publics — sometimes dramatically. If the noncustodial household earns a lot, those same schools jump toward sticker, and the winners become <b>Delaware and UMass</b>: FAFSA-only (one income counted), automatic merit on top, and the PA grant travels to both. Fordham sits in between — big discounts, both parents counted, no PA grant. Run the NPCs both ways before ranking the list.</p>
+    </div>
+    <div class="card">
+      <h3>🗓️ Aid deadlines to calendar</h3>
+      <ul>
+        <li><b>Junior year (2026–27):</b> run every NPC twice — once with custodial income only, once combined — before building the final list</li>
+        <li><b>Oct 1, 2027:</b> CSS Profile opens (needed for the four privates; ~$25/school, fee waivers exist)</li>
+        <li><b>Fall 2027:</b> FAFSA opens — file early; PA State Grant deadline typically May 1 for fall</li>
+        <li><b>With each ED/EA deadline:</b> aid forms are due at or near the application date — late forms mean late (worse) packages</li>
+        <li><b>Spring 2028:</b> compare official offers line-by-line; appeal with competing offers where reasonable</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
 <section id="schools">
   <div class="kicker">The list</div>
@@ -91,5 +144,60 @@
 <script src="data/tufts.js"></script>
 <script src="data/bu.js"></script>
 <script src="app.js"></script>
+<script>
+(function(){
+  'use strict';
+  var BRACKETS=['Under $30K','$30–48K','$48–75K','$75–110K','Over $110K'];
+  // Planning ranges [$K low, $K high] per bracket, per year incl. housing, before loans.
+  var DATA=[
+    {id:'tufts',name:'Tufts',css:true,est:[[3,12],[6,16],[12,26],[25,45],[90,95]],
+     why:'Meets 100% of need, zero merit aid — cheapest at low counted income, full sticker at high income.'},
+    {id:'bu',name:'Boston University',css:true,est:[[5,15],[9,20],[16,32],[28,48],[62,94]],
+     why:'affordableBU meets 100% of need (loan-free if Pell-eligible); merit is rare (~4% of students).'},
+    {id:'northeastern',name:'Northeastern',css:true,est:[[8,18],[12,24],[18,34],[30,50],[62,94]],
+     why:'Meets 100% of first-year need; paid co-ops (~$20–25K per rotation) offset costs on top.'},
+    {id:'fordham',name:'Fordham',css:true,est:[[16,28],[20,32],[27,40],[38,52],[52,72]],
+     why:'Big discounts (avg need grant ≈$42K) + merit, but does not meet full need — and the PA grant does not travel to NY.'},
+    {id:'umass',name:'UMass Amherst',css:false,est:[[26,36],[29,39],[33,43],[38,48],[44,54]],
+     why:'Does not meet full need OOS; merit review is automatic and the PA grant travels to MA. Lowest sticker of the five OOS options.'},
+    {id:'delaware',name:'Delaware',css:false,est:[[30,40],[32,42],[36,47],[42,52],[48,58]],
+     why:'Does not meet full need OOS; automatic merit ($8.5–15K) is the lever, and the PA grant travels to DE.'}
+  ];
+  var bi=2, divorced=false;
+  var S=window.SCHOOLS||{};
+  var chipsEl=document.getElementById('aidBrackets'), rowsEl=document.getElementById('aidRows'), divBtn=document.getElementById('aidDiv');
+
+  BRACKETS.forEach(function(b,i){
+    var btn=document.createElement('button');
+    btn.textContent=b;
+    btn.addEventListener('click',function(){bi=i;render();});
+    chipsEl.appendChild(btn);
+  });
+  divBtn.addEventListener('click',function(){divorced=!divorced;divBtn.setAttribute('aria-pressed',String(divorced));render();});
+
+  function render(){
+    [].forEach.call(chipsEl.children,function(c,i){c.classList.toggle('on',i===bi);});
+    divBtn.classList.toggle('on',divorced);
+    var rows=DATA.slice().sort(function(a,b){
+      return (a.est[bi][0]+a.est[bi][1])-(b.est[bi][0]+b.est[bi][1]);
+    });
+    rowsEl.innerHTML=rows.map(function(s,rank){
+      var e=s.est[bi], color=(S[s.id]&&S[s.id].colors.sc)||'#00539F';
+      var badge=s.css?'<span class="badge c">CSS · BOTH PARENTS</span>':'<span class="badge f">FAFSA · ONE PARENT</span>';
+      var extra='';
+      if(divorced){
+        extra=s.css
+          ?'<small class="why"><b>Divorced-parent note:</b> both households’ income and assets count here — if the other parent earns well, expect the top of this range or above (bracket = combined income).</small>'
+          :'<small class="why"><b>Divorced-parent note:</b> only the parent the student lives with counts — the other parent’s income is invisible to this school’s aid formula.</small>';
+      }
+      return '<div class="aidRow"><div class="dot" style="background:'+color+'"></div>'+
+        '<div class="nm">'+(rank===0?'🏆 ':'')+s.name+' '+badge+
+        '<small class="why">'+s.why+'</small>'+extra+'</div>'+
+        '<div class="amt"><b>$'+e[0]+'K–'+e[1]+'K</b><small>est. net / yr</small></div></div>';
+    }).join('');
+  }
+  render();
+})();
+</script>
 </body>
 </html>

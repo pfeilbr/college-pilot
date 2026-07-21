@@ -180,6 +180,24 @@ footer a{color:var(--ink-3)}
 .scard .mini b{display:block;font-size:15px;color:var(--stripe-ink,var(--mark-1))}
 .scard .mini span{font-size:10.5px;color:var(--ink-3);letter-spacing:.02em;text-transform:uppercase;font-weight:700}
 .scard .go{margin-top:12px;font-size:13.5px;font-weight:700;color:var(--stripe-ink,var(--mark-1))}
+/* aid estimator */
+.aidChips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+.aidChips button{background:var(--chip);border:1.5px solid transparent;border-radius:999px;padding:7px 14px;font-size:13.5px;font-weight:700;color:var(--ink-2);cursor:pointer;font-family:inherit}
+.aidChips button.on{background:var(--gold);color:#1a2433;border-color:var(--gold)}
+.aidLbl{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-top:14px}
+.aidRows{display:grid;gap:10px;margin-top:16px}
+.aidRow{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:var(--shadow)}
+.aidRow .dot{width:9px;align-self:stretch;border-radius:5px;flex:none}
+.aidRow .nm{font-weight:700;font-size:14.5px;min-width:0}
+.aidRow .nm .badge{margin-top:4px}
+.aidRow .nm small.why{display:block;font-weight:500;color:var(--ink-2);font-size:12.5px;margin-top:4px;line-height:1.4}
+.aidRow .amt{margin-left:auto;text-align:right;flex:none;padding-left:8px}
+.aidRow .amt b{display:block;font-weight:800;color:var(--mark-1);font-size:16.5px;white-space:nowrap}
+.aidRow .amt small{color:var(--ink-3);font-size:10.5px;letter-spacing:.03em;text-transform:uppercase;font-weight:700}
+.badge{font-size:10.5px;font-weight:800;letter-spacing:.04em;border-radius:6px;padding:2px 7px;display:inline-block}
+.badge.f{background:var(--pro-bg);color:var(--pro)}
+.badge.c{background:var(--con-bg);color:var(--con)}
+
 .cmp th:first-child{position:sticky;left:0;background:var(--surface)}
 .cmp td:first-child{position:sticky;left:0;background:var(--surface);min-width:130px}
 .cmp th{min-width:128px}
