@@ -32,7 +32,7 @@
   <button class="ditem" id="btnShare"><span class="em">🔗</span><span id="shareLabel">Share this guide</span></button>
   ${contact}
   <hr>
-  <a class="ditem" href="https://github.com/pfeilbr/university-of-delaware-app" rel="noopener"><span class="em">⚙️</span><span>Source on GitHub</span></a>
+  <a class="ditem" href="https://github.com/pfeilbr/college-tours" rel="noopener"><span class="em">⚙️</span><span>Source on GitHub</span></a>
   <div class="dver">Version <span id="verLabel"></span> · data compiled July 2026</div>
 </aside>`;
     while (el.firstChild) document.body.appendChild(el.firstChild);
