@@ -1,7 +1,7 @@
 {
-  "name": "College Tours — Campus Visit Guides",
-  "short_name": "College Tours",
-  "description": "Stats, costs, business programs, pros & cons, and visit tips for every school on the college tour list",
+  "name": "Shortlist — Tour, Compare, Decide",
+  "short_name": "Shortlist",
+  "description": "Campus-visit guides, cost estimates, and a decision board for narrowing the college list to one",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

@@ -1,7 +1,22 @@
 /* College Tours — shared app shell + renderers */
 (function () {
   'use strict';
-  const APP_VERSION = 'v8 · 2026-07-21';
+  const APP_VERSION = 'v9 · 2026-07-21';
+
+  /* ---------- ratings store (localStorage, device-only) ---------- */
+  const RATE_CATS = ['Business program', 'Campus & dorms', 'Location', 'Cost fit', 'Social scene', 'Sports & spirit', 'Food & dining', 'Gut feel'];
+  const STATUSES = [
+    { k: 'love', label: '❤️ Shortlist it', short: '❤️ Shortlisted' },
+    { k: 'maybe', label: '🤔 Undecided', short: '🤔 Undecided' },
+    { k: 'pass', label: '❌ Pass', short: '❌ Passed' }
+  ];
+  const loadR = () => { try { return JSON.parse(localStorage.getItem('shortlist-ratings') || '{}'); } catch (e) { return {}; } };
+  const saveR = (r) => { try { localStorage.setItem('shortlist-ratings', JSON.stringify(r)); } catch (e) { } };
+  const avgStars = (rec) => {
+    if (!rec || !rec.stars) return 0;
+    const v = Object.values(rec.stars).filter(Boolean);
+    return v.length ? v.reduce((a, b) => a + b, 0) / v.length : 0;
+  };
   const SCHOOLS = window.SCHOOLS = window.SCHOOLS || {};
   const ORDER = window.SCHOOL_ORDER || Object.keys(SCHOOLS);
   const qs = (s, el) => (el || document).querySelector(s);
@@ -23,7 +38,7 @@
 <div class="backdrop" id="backdrop" hidden></div>
 <aside class="drawer" id="drawer" aria-label="Menu" hidden>
   <div class="dhead"><span>Menu</span><button class="dclose" id="dclose" aria-label="Close menu">✕</button></div>
-  <a class="ditem" href="index.html"><span class="em">🏠</span><span>All schools<small>College Tours home &amp; comparison</small></span></a>
+  <a class="ditem" href="index.html"><span class="em">🏠</span><span>All schools<small>Shortlist home · Decision Board · comparison</small></span></a>
   ${schoolLinks}
   <hr>
   <button class="ditem" id="btnUpdate"><span class="em">🔄</span><span>Update app<small id="updHint">Fetches the latest version of this guide</small></span></button>
@@ -32,7 +47,7 @@
   <button class="ditem" id="btnShare"><span class="em">🔗</span><span id="shareLabel">Share this guide</span></button>
   ${contact}
   <hr>
-  <a class="ditem" href="https://github.com/pfeilbr/college-tours" rel="noopener"><span class="em">⚙️</span><span>Source on GitHub</span></a>
+  <a class="ditem" href="https://github.com/pfeilbr/shortlist" rel="noopener"><span class="em">⚙️</span><span>Source on GitHub</span></a>
   <div class="dver">Version <span id="verLabel"></span> · data compiled July 2026</div>
 </aside>`;
     while (el.firstChild) document.body.appendChild(el.firstChild);
@@ -156,11 +171,11 @@
   function renderSchool() {
     const id = new URLSearchParams(location.search).get('s') || ORDER[0];
     const sc = SCHOOLS[id] || SCHOOLS[ORDER[0]];
-    document.title = sc.name + ' — College Tours';
+    document.title = sc.name + ' — Shortlist';
     document.documentElement.style.setProperty('--sc', sc.colors.sc);
     document.documentElement.style.setProperty('--sc-dark', sc.colors.scDark);
 
-    qs('#barTitle').innerHTML = `<a href="index.html">${sc.name}</a><small>College Tours · ${sc.city}</small>`;
+    qs('#barTitle').innerHTML = `<a href="index.html">${sc.name}</a><small>Shortlist · ${sc.city}</small>`;
     qs('#pills').innerHTML = sc.sections.map(s => `<li><a href="#${s.id}">${s.nav}</a></li>`).join('');
     qs('#heroWrap').innerHTML = `
       <span class="loc">${sc.locChip}</span>
@@ -174,10 +189,111 @@
         <h2>${s.title}</h2>
         ${s.lead ? `<p class="lead">${s.lead}</p>` : ''}
         ${s.html}
-      </section>`).join('');
+      </section>`).join('') + buildRateSection(sc);
+    qs('#pills').insertAdjacentHTML('beforeend', '<li><a href="#mytake">⭐ My Take</a></li>');
+    wireRateSection(sc);
     buildDrawer(sc);
     initTips();
     initSpy();
+  }
+
+  /* ---------- per-school "My Take" rating section ---------- */
+  function buildRateSection(sc) {
+    const rec = loadR()[sc.id] || {};
+    const starsRow = (cat) => {
+      const v = (rec.stars && rec.stars[cat]) || 0;
+      let btns = '';
+      for (let i = 1; i <= 5; i++) btns += `<button data-cat="${cat}" data-v="${i}" class="${i <= v ? 'on' : ''}" aria-label="${cat}: ${i} star${i > 1 ? 's' : ''}">★</button>`;
+      return `<div class="rateRow"><span>${cat}</span><span class="stars">${btns}</span></div>`;
+    };
+    return `
+      <section id="mytake">
+        <div class="kicker">Your call</div>
+        <h2>My take on ${sc.short}</h2>
+        <p class="lead">Rate it right after the tour, while it's fresh. Everything here is saved only on this device and feeds the Decision Board on the home page.</p>
+        <div class="card">
+          <div class="aidLbl">Verdict</div>
+          <div class="aidChips" id="rateStatus">
+            ${STATUSES.map(s => `<button data-k="${s.k}" class="${rec.status === s.k ? 'on' : ''}">${s.label}</button>`).join('')}
+          </div>
+          <div class="aidLbl" style="margin-top:16px">Rate what matters (tap the stars)</div>
+          <div id="rateStars">${RATE_CATS.map(starsRow).join('')}</div>
+          <div class="aidLbl" style="margin-top:16px">Notes from the visit</div>
+          <textarea id="rateNote" class="rateNote" rows="4" placeholder="What stood out? Best moment of the tour? Dealbreakers? Food verdict?">${(rec.note || '').replace(/</g, '&lt;')}</textarea>
+          <p class="src"><span id="rateSaved"></span> Saved automatically on this device only — nothing is uploaded. <button id="rateClear" class="linkBtn">Clear this school's ratings</button></p>
+        </div>
+      </section>`;
+  }
+
+  function wireRateSection(sc) {
+    const upd = (fn) => {
+      const all = loadR();
+      const rec = all[sc.id] || (all[sc.id] = { stars: {}, note: '', status: null });
+      if (!rec.stars) rec.stars = {};
+      fn(rec, all);
+      all[sc.id] = rec; saveR(all);
+      const el = qs('#rateSaved'); if (el) { el.textContent = '✓ Saved.'; setTimeout(() => el.textContent = '', 1500); }
+    };
+    qsa('#rateStatus button').forEach(b => b.addEventListener('click', () => {
+      upd(rec => { rec.status = rec.status === b.dataset.k ? null : b.dataset.k; });
+      const cur = (loadR()[sc.id] || {}).status;
+      qsa('#rateStatus button').forEach(x => x.classList.toggle('on', x.dataset.k === cur));
+    }));
+    qsa('#rateStars button').forEach(b => b.addEventListener('click', () => {
+      const cat = b.dataset.cat, v = +b.dataset.v;
+      upd(rec => { rec.stars[cat] = rec.stars[cat] === v ? 0 : v; });
+      const cur = (loadR()[sc.id] || { stars: {} }).stars[cat] || 0;
+      qsa(`#rateStars button[data-cat="${CSS.escape(cat)}"]`).forEach(x => x.classList.toggle('on', +x.dataset.v <= cur));
+    }));
+    const note = qs('#rateNote');
+    let t = null;
+    note.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => upd(rec => { rec.note = note.value.slice(0, 4000); }), 400); });
+    qs('#rateClear').addEventListener('click', () => {
+      if (!confirm('Clear ratings and notes for ' + sc.name + '?')) return;
+      const all = loadR(); delete all[sc.id]; saveR(all);
+      location.reload();
+    });
+  }
+
+  /* ---------- hub Decision Board ---------- */
+  function renderBoard() {
+    const host = qs('#boardRows');
+    if (!host) return;
+    const all = loadR();
+    const rated = ORDER.filter(id => SCHOOLS[id] && all[id] && (all[id].status || avgStars(all[id]) > 0 || (all[id].note || '').trim()));
+    const unrated = ORDER.filter(id => SCHOOLS[id] && !rated.includes(id));
+    const rank = { love: 0, maybe: 1, null: 2, pass: 3 };
+    rated.sort((a, b) => (rank[all[a].status] ?? 2) - (rank[all[b].status] ?? 2) || avgStars(all[b]) - avgStars(all[a]));
+    if (!rated.length) {
+      host.innerHTML = '<div class="note">Nothing rated yet. Open any school\'s guide and scroll to <b>⭐ My Take</b> — verdicts, stars, and notes land here automatically.</div>';
+    } else {
+      host.innerHTML = rated.map((id, i) => {
+        const s = SCHOOLS[id], r = all[id], avg = avgStars(r);
+        const st = STATUSES.find(x => x.k === r.status);
+        const cats = RATE_CATS.filter(c => r.stars && r.stars[c]);
+        const best = cats.slice().sort((a, b) => r.stars[b] - r.stars[a])[0];
+        const worst = cats.slice().sort((a, b) => r.stars[a] - r.stars[b])[0];
+        return `<a class="aidRow" href="school.html?s=${id}" style="text-decoration:none;color:inherit${r.status === 'pass' ? ';opacity:.55' : ''}">
+          <div class="dot" style="background:${s.colors.sc}"></div>
+          <div class="nm">${r.status === 'love' && i === 0 ? '🏆 ' : ''}${s.name} ${st ? `<span class="badge ${r.status === 'pass' ? 'c' : 'f'}">${st.short}</span>` : ''}
+            <small class="why">${best ? `Best: ${best} (${r.stars[best]}★)` : ''}${worst && worst !== best ? ` · Weakest: ${worst} (${r.stars[worst]}★)` : ''}${(r.note || '').trim() ? ` · “${r.note.trim().slice(0, 90).replace(/</g, '&lt;')}${r.note.trim().length > 90 ? '…' : ''}”` : ''}</small>
+          </div>
+          <div class="amt"><b>${avg ? avg.toFixed(1) + '★' : '—'}</b><small>${cats.length}/${RATE_CATS.length} rated</small></div>
+        </a>`;
+      }).join('');
+    }
+    const un = qs('#boardUnrated');
+    if (un) un.innerHTML = unrated.length
+      ? 'Not rated yet: ' + unrated.map(id => `<a href="school.html?s=${id}#mytake">${SCHOOLS[id].short}</a>`).join(' · ')
+      : 'Every school is rated — time to decide. 🎓';
+    const clr = qs('#boardClear');
+    if (clr && !clr.dataset.wired) {
+      clr.dataset.wired = '1';
+      clr.addEventListener('click', () => {
+        if (!confirm('Clear ALL ratings and notes on this device?')) return;
+        localStorage.removeItem('shortlist-ratings'); renderBoard();
+      });
+    }
   }
 
   /* ---------- hub renderer ---------- */
@@ -220,6 +336,7 @@
       <tr><th></th>${ORDER.map(id => `<th>${SCHOOLS[id].short}</th>`).join('')}</tr>
       ${metrics.map(([label, fn]) => `<tr><td>${label}</td>${ORDER.map(id => `<td>${fn(SCHOOLS[id]) || '—'}</td>`).join('')}</tr>`).join('')}
     </table>`;
+    renderBoard();
     buildDrawer(null);
     initSpy();
   }
