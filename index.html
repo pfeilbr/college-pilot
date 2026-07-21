@@ -107,6 +107,13 @@ td:first-child{color:var(--ink);font-weight:600}
 .tip{position:fixed;z-index:99;background:var(--ink);color:var(--bg);padding:6px 10px;border-radius:8px;font-size:12.5px;pointer-events:none;opacity:0;transition:opacity .1s;white-space:nowrap;box-shadow:var(--shadow)}
 @media (prefers-color-scheme: dark){.tip{background:#e8eef6;color:#0c1624}}
 
+/* reddit quotes + thin demographic bars */
+.rq{border-left:3px solid var(--gold-ink);background:var(--chip);padding:10px 14px;border-radius:0 10px 10px 0;font-size:13.5px;color:var(--ink-2);font-style:italic;margin:12px 0 0;line-height:1.45}
+.rq b{font-style:normal;font-weight:700;color:var(--ink-3);font-size:11.5px;display:block;margin-top:5px;letter-spacing:.04em}
+.bar-h.thin{height:24px}
+.bar-h.thin .seg{font-size:11.5px}
+.crow.tight{margin:9px 0 13px}
+
 /* pros cons */
 .pc{border-radius:16px;padding:18px;border:1px solid var(--line);box-shadow:var(--shadow)}
 .pc.pros{background:var(--pro-bg);border-color:color-mix(in srgb,var(--pro) 30%,transparent)}
@@ -158,6 +165,7 @@ footer a{color:var(--ink-3)}
       <li><a href="#costs">Costs &amp; Aid</a></li>
       <li><a href="#business">Business</a></li>
       <li><a href="#outcomes">Outcomes</a></li>
+      <li><a href="#studentlife">Student Life</a></li>
       <li><a href="#proscons">Pros &amp; Cons</a></li>
       <li><a href="#criticisms">Criticisms</a></li>
       <li><a href="#visit">Visit</a></li>
@@ -304,6 +312,7 @@ footer a{color:var(--ink-3)}
         <li>Housing: only the <b>first year</b> is required on campus (~$16,614 with dining); shared off-campus houses in Newark typically run $400–800/person/month</li>
         <li>Realistic OOS net with a mid-tier merit award: roughly <b>$51K–57K/yr</b> — comparable to Penn State's out-of-state neighbors but above PA in-state options</li>
       </ul>
+      <div class="rq">"Unless you receive a significant scholarship, you shouldn't be attending UD — tuition for out-of-staters is too high." … vs. "He got merit for University of Delaware which brought the cost down to the low $30s."<b>— r/udel &amp; r/ApplyingToCollege (archived threads) — the classic debate; merit aid is the swing factor</b></div>
     </div>
   </div>
 </section>
@@ -333,8 +342,17 @@ footer a{color:var(--ink-3)}
       <div class="chips">
         <span class="chip">Finance</span><span class="chip">Accounting</span><span class="chip">Marketing</span><span class="chip">Management</span><span class="chip">Entrepreneurship</span><span class="chip">Business Analytics</span><span class="chip">Fintech</span><span class="chip">Sport Management</span><span class="chip">Economics (BA/BS)</span><span class="chip">MIS</span><span class="chip">Operations</span><span class="chip">Global Business</span><span class="chip">Financial Planning &amp; Wealth Mgmt</span><span class="chip">CS &amp; Business</span><span class="chip">Hospitality (2 tracks)</span><span class="chip">Economics Education</span><span class="chip">Business Undeclared</span>
       </div>
-      <p>Business Undeclared students take the intro BUAD sequence and explore before committing — a good fit if he likes business broadly but isn't sure which lane yet.</p>
+      <p>About 30% of Lerner students start as <b>Business Undeclared</b> and explore before committing — the full course path is below.</p>
     </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>🧭 Business Undeclared → declared: the actual course path</h3>
+    <ul class="tl" style="margin-top:14px">
+      <li><span class="when">Year 1</span><b>Shared start — no major decision needed</b><span><b>BUAD 110 Basics of Business</b> (the first-year experience course every Lerner freshman takes) + ECON 101 &amp; 103 (micro/macro) + MATH 221 Calculus + ENGL 110 + university breadth courses.</span></li>
+      <li><span class="when">Year 2</span><b>Business core ramps up · declaration deadline</b><span>ACCT 207/208 (financial &amp; managerial accounting), statistics (MATH 201/202), MISY 160 &amp; 261 (business computing/info systems), COMM 212 business communication, FINC 311 Principles of Finance. <b>Declare by Oct 1 of sophomore year</b> — before that deadline, switching into nearly any Lerner major (finance, accounting, marketing, analytics, MIS, sport management…) is <b>guaranteed, with no GPA gate</b>, via a form in UDSIS. After it, most majors require a 3.0 GPA. Entrepreneurship is the one exception: a separate, selective application.</span></li>
+      <li><span class="when">Years 3–4</span><b>Major courses + capstone → done in 4</b><span>BUAD 301 Marketing, BUAD 306 Operations, BUAD 309 Organizational Behavior, then major-specific courses, finishing with the <b>BUAD 441 Strategic Management capstone</b> senior year. ~120–121 credits total, C- or better required in core courses, plus one Discovery Learning Experience (internship, co-op, or study abroad). Four years is the normal finish; 4+1 master's options add a fifth year for an M.S./MBA (or the 150 hours accountants need for the CPA).</span></li>
+    </ul>
+    <div class="rq">"Career fairs each semester, ton of recruiting from Big 4 firms and IB roles. If you're looking to stay in the Delaware/Philly area postgrad you'll be competitive." … "Lerner is what you make it — if you want to push yourself there are a lot of ways to do that."<b>— r/udel students, "Is Lerner worth it?" (archived thread)</b></div>
   </div>
 </section>
 
@@ -407,6 +425,88 @@ footer a{color:var(--ink-3)}
   </div>
 </section>
 
+<section id="studentlife">
+  <div class="kicker">Who's on campus</div>
+  <h2>Student body &amp; campus life</h2>
+  <p class="lead">Official demographics from UD's Fall 2024 Common Data Set, plus the social scene as students actually describe it — quoted lines come from archived r/udel threads.</p>
+
+  <div class="chart">
+    <h3>Undergraduate demographics</h3>
+    <div class="sub">18,332 degree-seeking undergrads, Fall 2024 (Common Data Set). 64% come from out of state.</div>
+    <div class="crow tight">
+      <div class="lbl"><span>Gender</span><span class="tot">60.6% women · 39.4% men</span></div>
+      <div class="bar-h" role="img" aria-label="Gender: 60.6 percent women, 39.4 percent men">
+        <div class="seg s1" style="width:60.6%" data-tip="Women — 11,103 students (60.6%)"><i>Women 60.6%</i></div>
+        <div class="seg s2" style="width:39.4%" data-tip="Men — 7,229 students (39.4%)"><i>Men 39.4%</i></div>
+      </div>
+    </div>
+    <div class="crow tight" style="margin-top:20px">
+      <div class="lbl"><span>White</span><span class="tot">67.6%</span></div>
+      <div class="bar-h thin"><div class="seg s1" style="width:100%;flex:none" data-tip="White, non-Hispanic — 12,398 (67.6%)"><i></i></div></div>
+    </div>
+    <div class="crow tight">
+      <div class="lbl"><span>Hispanic / Latino</span><span class="tot">10.2%</span></div>
+      <div class="bar-h thin"><div class="seg s1" style="width:15.1%;flex:none" data-tip="Hispanic/Latino — 1,878 (10.2%)"><i></i></div></div>
+    </div>
+    <div class="crow tight">
+      <div class="lbl"><span>Black / African American</span><span class="tot">6.1%</span></div>
+      <div class="bar-h thin"><div class="seg s1" style="width:9%;flex:none" data-tip="Black/African American — 1,125 (6.1%)"><i></i></div></div>
+    </div>
+    <div class="crow tight">
+      <div class="lbl"><span>Asian</span><span class="tot">5.6%</span></div>
+      <div class="bar-h thin"><div class="seg s1" style="width:8.3%;flex:none" data-tip="Asian — 1,021 (5.6%)"><i></i></div></div>
+    </div>
+    <div class="crow tight">
+      <div class="lbl"><span>Two or more races</span><span class="tot">5.2%</span></div>
+      <div class="bar-h thin"><div class="seg s1" style="width:7.7%;flex:none" data-tip="Two or more races — 956 (5.2%)"><i></i></div></div>
+    </div>
+    <div class="crow tight">
+      <div class="lbl"><span>International</span><span class="tot">3.3%</span></div>
+      <div class="bar-h thin"><div class="seg s1" style="width:4.9%;flex:none" data-tip="International — 596 (3.3%)"><i></i></div></div>
+    </div>
+    <div class="crow tight">
+      <div class="lbl"><span>Unknown / other</span><span class="tot">2.0%</span></div>
+      <div class="bar-h thin"><div class="seg s1" style="width:3%;flex:none" data-tip="Unknown or other — 358 (2.0%)"><i></i></div></div>
+    </div>
+    <p class="src">Bars scaled to the largest group. The first-year class skews even more female (61%).</p>
+  </div>
+
+  <div class="cards g2" style="margin-top:16px">
+    <div class="card">
+      <h3>🎉 Party scene: reputation vs. reality</h3>
+      <p>The reputation is earned — Princeton Review's #1 party school in 2018, still Niche's #40 of ~1,500 today, with a culture of frat parties, "darties," and Main Street bars. It's <b>not a dry campus</b>, but rules are tight: alcohol only for 21+ in their own residence-hall room, with pong tables and funnels banned in dorms.</p>
+      <div class="rq">"Tons of drinking and crazy parties." … but also: "I'm not a party person and I haven't been to one — you can honestly choose to be heavily involved or not involved at all."<b>— r/udel students (archived threads)</b></div>
+    </div>
+    <div class="card">
+      <h3>🏛️ Greek life</h3>
+      <p><b>20% of men and 25% of women</b> join one of <b>62 chapters</b> (29 fraternities, 13 sororities, 13 multicultural, 7 special-interest). Freshmen <b>can't rush in the fall</b> — eligibility requires 12 UD credits and a 2.50 GPA, so first rush is spring of freshman year, which gives new students a semester to settle in first.</p>
+      <div class="rq">"Greek life is easy to find but also very easy to avoid; you have to be looking for it." … "Was part of Greek life and it was just so annoying. It's like a job, honestly."<b>— r/udel, "Greek life" thread (archived)</b></div>
+    </div>
+    <div class="card">
+      <h3>🏈 Blue Hens sports</h3>
+      <p><b>21+ varsity programs</b>, now anchored in <b>Conference USA</b> — football made the jump to FBS in 2025 (14 programs moved to CUSA; others compete as affiliates, e.g. lacrosse in the A-10/ASUN). Football claims <b>6 national titles</b>; field hockey won the <b>2016 NCAA championship</b>; alumni include Joe Flacco and Elena Delle Donne. Game days at 18,500-seat Delaware Stadium come with a serious tailgating tradition — UD out-drew every other FCS program for a decade. Beyond varsity: <b>37 club teams</b> and intramural leagues with 5,400+ players a year.</p>
+    </div>
+    <div class="card">
+      <h3>💪 For a gym regular (PF member's guide)</h3>
+      <p>The <b>Carpenter Sports Building — "the Little Bob"</b> — is a 167,000 sq ft rec center (post-$25M renovation): a three-floor strength/cardio center, rooftop indoor track, pool, climbing wall, CrossFit box, and racquetball courts. <b>Access is included in the student fee</b> — just swipe your student ID. Satellite gyms in Independence Hall (North Campus) and Harrington round it out.</p>
+      <div class="rq">"Yes the gym at UD is phenomenal. I wouldn't waste time with another membership elsewhere. Best gym I've ever been to, frankly." … "Absolutely crowded [at peak]; only times it's not are weekends and Friday nights."<b>— r/udel gym threads (archived)</b></div>
+      <p style="margin-top:10px">And yes — there's a <b>Planet Fitness 2 miles from campus</b> (53 Marrows Rd, Brookside Plaza, ~5-min drive; 24 hrs on weekdays). A PF Black Card works at any location, so an existing membership doubles as an off-peak/late-night backup and works back home on breaks.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <h3>🧾 The Reddit consensus, distilled</h3>
+    <ul>
+      <li><b>"Worth it out-of-state?"</b> is the eternal r/udel debate — the consistent answer: a great choice <em>with merit money</em> ("merit brought the cost down to the low $30s"), think hard at full sticker ("tuition for out-of-staters is too high").</li>
+      <li><b>Party school:</b> real, but genuinely avoidable — the counterweight is the 400+ clubs, which is also how non-Greek students say they found their people.</li>
+      <li><b>Lerner:</b> respected regionally — strong Big 4/banking pipeline in the Delaware–Philly corridor; students place it in the same tier as Penn State or JMU business.</li>
+      <li><b>Dorms are bimodal:</b> Redding (Honors), Caesar Rodney, and Sharp get praise (AC, renovated); Russell and older East-campus halls mean fans in September and shared bathrooms.</li>
+      <li><b>Most-complained-about services:</b> academic advising and the shuttle buses — by a wide margin. <b>Most positive surprise:</b> safety ("I am a woman who attends UD and have never felt unsafe on campus").</li>
+    </ul>
+    <p class="src">Sentiment from archived r/udel and r/ApplyingToCollege threads (2018–2025) — real posts, but anecdotes, not statistics.</p>
+  </div>
+</section>
+
 <section id="proscons">
   <div class="kicker">The balance sheet</div>
   <h2>Pros &amp; cons</h2>
@@ -457,10 +557,11 @@ footer a{color:var(--ink-3)}
     <div class="card">
       <h3>🛏️ Dorms &amp; dining</h3>
       <p>Niche grades: Dorms <span class="grade">B-</span> Campus food <span class="grade">B+</span>. Recurring complaints: older halls without AC, distance from North Campus, and dining quality that "declines as the year goes on." Housing is guaranteed (and required) only for year one; most upperclassmen move to off-campus houses, which are usually cheaper.</p>
+      <div class="rq">"Redding is the nicest freshman dorm there is — air conditioned, super nice lounges." … "No AC in Russell so definitely bring a fan or two." On food: "You will get bored of it… you just kinda survive," though "Pencader has the best dining — you can never go wrong with the custom burger and pizza station."<b>— r/udel dorm &amp; dining threads (archived)</b></div>
     </div>
     <div class="card">
       <h3>🚔 Safety picture</h3>
-      <p>Niche Safety grade <span class="grade">B</span>; 76% of surveyed students report feeling very safe. Reported on-campus Clery incidents rose from 23 (2021) to 37 (2023) — a trend typical of large residential campuses, but reviewable in UD's public Clery report. UD Police is a full-service department; free campus shuttles run at night.</p>
+      <p>Niche Safety grade <span class="grade">B</span>; 76% of surveyed students report feeling very safe. Reported on-campus Clery incidents rose from 23 (2021) to 37 (2023) — a trend typical of large residential campuses, but reviewable in UD's public Clery report. UD Police is a full-service department; free campus shuttles run at night. Reddit sentiment here is notably positive: "UD and Delaware in general are safe… we just have property and drug/alcohol crimes with the odd fight."</p>
     </div>
     <div class="card">
       <h3>👩‍🏫 Academics — the fine print</h3>
@@ -468,7 +569,8 @@ footer a{color:var(--ink-3)}
     </div>
     <div class="card">
       <h3>🅿️ Logistics gripes</h3>
-      <p>Parking is the most persistent everyday complaint — permits are limited and enforcement is aggressive. Advising quality is mixed at this scale; students who use Lerner's dedicated career services report better experiences than those relying on general advising.</p>
+      <p>Parking is the most persistent everyday complaint — permits are limited and enforcement is aggressive. Advising quality is mixed at this scale; students who use Lerner's dedicated career services report better experiences than those relying on general advising. The campus shuttle system draws similar fire.</p>
+      <div class="rq">"For a university this size, the shuttle system is truly terrible." … "My assigned advisor never responds to my emails." … "There is no free parking in Newark/UD — the city uses the scarcity of parking as one of its largest money makers."<b>— r/udel (archived threads)</b></div>
     </div>
   </div>
 </section>
@@ -548,6 +650,8 @@ footer a{color:var(--ink-3)}
       <li><a href="https://www.udel.edu/apply/career-outcomes/" rel="noopener">UD Career Outcomes dashboard</a> (NACE first-destination data) and <a href="https://www.udel.edu/udaily/2024/september/wsj-wall-street-journal-college-pulse-rankings/" rel="noopener">UDaily</a> — university-wide 94% six-month placement</li>
       <li><a href="https://www.usnews.com/best-colleges/university-of-delaware-1431" rel="noopener">U.S. News</a> (2026 edition rankings) · <a href="https://www.niche.com/colleges/university-of-delaware/" rel="noopener">Niche</a> (grades &amp; ~3,900 student reviews) · <a href="https://collegescorecard.ed.gov/" rel="noopener">College Scorecard</a> (debt &amp; earnings)</li>
       <li>News: UDaily, The Review (campus paper), Newark Post, Delaware Business Times, ESPN (FBS move), Princeton Review party-school rankings coverage</li>
+      <li>Demographics &amp; Greek participation: UD Common Data Set 2024–25 (Sections B and F1); chapters and rush rules from UD Fraternity &amp; Sorority Leadership &amp; Learning; athletics from UDaily, bluehens.com, and Conference USA; Business Undeclared path from Lerner advising (my.lerner.udel.edu) and UD catalog checksheets; recreation facilities from rec.bluehens.com</li>
+      <li>Student-voice quotes: archived Reddit threads (r/udel, r/ApplyingToCollege, 2018–2025) retrieved via the Pullpush archive — real posts lightly trimmed for length; treat as anecdotes, not statistics</li>
     </ul>
   </div>
   <div class="note">📱 <b>Add this to your home screen:</b> in Safari tap Share → "Add to Home Screen"; in Chrome tap ⋮ → "Add to Home Screen." The page works offline once loaded — handy on a spotty-signal campus walk.</div>
