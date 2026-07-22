@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic school-stats fetcher for the Shortlist app.
+"""Deterministic school-stats fetcher for the College Pilot app.
 
 Pulls official data from the U.S. Dept. of Education College Scorecard API
 (https://collegescorecard.ed.gov/data/api-documentation/) for every school in

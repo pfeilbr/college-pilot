@@ -1,7 +1,7 @@
-/* College Tours — shared app shell + renderers */
+/* College Pilot — shared app shell + renderers */
 (function () {
   'use strict';
-  const APP_VERSION = 'v9 · 2026-07-21';
+  const APP_VERSION = 'v10 · 2026-07-22';
 
   /* ---------- ratings store (localStorage, device-only) ---------- */
   const RATE_CATS = ['Business program', 'Campus & dorms', 'Location', 'Cost fit', 'Social scene', 'Sports & spirit', 'Food & dining', 'Gut feel'];
@@ -10,8 +10,15 @@
     { k: 'maybe', label: '🤔 Undecided', short: '🤔 Undecided' },
     { k: 'pass', label: '❌ Pass', short: '❌ Passed' }
   ];
-  const loadR = () => { try { return JSON.parse(localStorage.getItem('shortlist-ratings') || '{}'); } catch (e) { return {}; } };
-  const saveR = (r) => { try { localStorage.setItem('shortlist-ratings', JSON.stringify(r)); } catch (e) { } };
+  const RKEY = 'college-pilot-ratings';
+  try { // one-time migration from the app's earlier name
+    if (!localStorage.getItem(RKEY) && localStorage.getItem('shortlist-ratings')) {
+      localStorage.setItem(RKEY, localStorage.getItem('shortlist-ratings'));
+      localStorage.removeItem('shortlist-ratings');
+    }
+  } catch (e) { }
+  const loadR = () => { try { return JSON.parse(localStorage.getItem(RKEY) || '{}'); } catch (e) { return {}; } };
+  const saveR = (r) => { try { localStorage.setItem(RKEY, JSON.stringify(r)); } catch (e) { } };
   const avgStars = (rec) => {
     if (!rec || !rec.stars) return 0;
     const v = Object.values(rec.stars).filter(Boolean);
@@ -38,7 +45,7 @@
 <div class="backdrop" id="backdrop" hidden></div>
 <aside class="drawer" id="drawer" aria-label="Menu" hidden>
   <div class="dhead"><span>Menu</span><button class="dclose" id="dclose" aria-label="Close menu">✕</button></div>
-  <a class="ditem" href="index.html"><span class="em">🏠</span><span>All schools<small>Shortlist home · Decision Board · comparison</small></span></a>
+  <a class="ditem" href="index.html"><span class="em">🏠</span><span>All schools<small>College Pilot home · Decision Board · comparison</small></span></a>
   ${schoolLinks}
   <hr>
   <button class="ditem" id="btnUpdate"><span class="em">🔄</span><span>Update app<small id="updHint">Fetches the latest version of this guide</small></span></button>
@@ -47,7 +54,7 @@
   <button class="ditem" id="btnShare"><span class="em">🔗</span><span id="shareLabel">Share this guide</span></button>
   ${contact}
   <hr>
-  <a class="ditem" href="https://github.com/pfeilbr/shortlist" rel="noopener"><span class="em">⚙️</span><span>Source on GitHub</span></a>
+  <a class="ditem" href="https://github.com/pfeilbr/college-pilot" rel="noopener"><span class="em">⚙️</span><span>Source on GitHub</span></a>
   <div class="dver">Version <span id="verLabel"></span> · data compiled July 2026</div>
 </aside>`;
     while (el.firstChild) document.body.appendChild(el.firstChild);
@@ -171,11 +178,11 @@
   function renderSchool() {
     const id = new URLSearchParams(location.search).get('s') || ORDER[0];
     const sc = SCHOOLS[id] || SCHOOLS[ORDER[0]];
-    document.title = sc.name + ' — Shortlist';
+    document.title = sc.name + ' — College Pilot';
     document.documentElement.style.setProperty('--sc', sc.colors.sc);
     document.documentElement.style.setProperty('--sc-dark', sc.colors.scDark);
 
-    qs('#barTitle').innerHTML = `<a href="index.html">${sc.name}</a><small>Shortlist · ${sc.city}</small>`;
+    qs('#barTitle').innerHTML = `<a href="index.html">${sc.name}</a><small>College Pilot · ${sc.city}</small>`;
     qs('#pills').innerHTML = sc.sections.map(s => `<li><a href="#${s.id}">${s.nav}</a></li>`).join('');
     qs('#heroWrap').innerHTML = `
       <span class="loc">${sc.locChip}</span>
@@ -291,7 +298,7 @@
       clr.dataset.wired = '1';
       clr.addEventListener('click', () => {
         if (!confirm('Clear ALL ratings and notes on this device?')) return;
-        localStorage.removeItem('shortlist-ratings'); renderBoard();
+        localStorage.removeItem(RKEY); renderBoard();
       });
     }
   }
