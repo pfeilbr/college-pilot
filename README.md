@@ -1,11 +1,11 @@
-# Shortlist — Tour · Compare · Decide
+# College Pilot — Tour · Compare · Decide
 
 A data-driven PWA for narrowing a college list to one: a full campus-visit
 guide per school, a financial-aid estimator with divorced-parent handling, a
 side-by-side comparison table, and a Decision Board that turns tour-day
 ratings into a ranked shortlist.
 
-**Live site:** https://pfeilbr.github.io/shortlist/
+**Live site:** https://pfeilbr.github.io/college-pilot/
 
 ## Schools covered
 

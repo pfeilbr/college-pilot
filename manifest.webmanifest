@@ -1,6 +1,6 @@
 {
-  "name": "Shortlist — Tour, Compare, Decide",
-  "short_name": "Shortlist",
+  "name": "College Pilot — Tour, Compare, Decide",
+  "short_name": "College Pilot",
   "description": "Campus-visit guides, cost estimates, and a decision board for narrowing the college list to one",
   "start_url": "./",
   "scope": "./",
