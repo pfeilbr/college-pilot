@@ -209,6 +209,14 @@ footer a{color:var(--ink-3)}
 .rateNote:focus{outline:2px solid var(--sc);outline-offset:1px}
 .linkBtn{background:none;border:0;color:var(--mark-1);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline;padding:0}
 
+/* dark mode: school-brand text colors lightened for contrast on dark cards */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .scard .mini b,
+  :root:not([data-theme="light"]) .scard .go{color:color-mix(in srgb,var(--stripe,#4D8FD1) 40%,#d3e2f6)}
+}
+:root[data-theme="dark"] .scard .mini b,
+:root[data-theme="dark"] .scard .go{color:color-mix(in srgb,var(--stripe,#4D8FD1) 40%,#d3e2f6)}
+
 .cmp th:first-child{position:sticky;left:0;background:var(--surface)}
 .cmp td:first-child{position:sticky;left:0;background:var(--surface);min-width:130px}
 .cmp th{min-width:128px}
