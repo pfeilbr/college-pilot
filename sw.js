@@ -1,4 +1,4 @@
-const CACHE = 'college-pilot-v11';
+const CACHE = 'college-pilot-v12';
 const ASSETS = [
   './',
   './index.html',
@@ -8,7 +8,6 @@ const ASSETS = [
   './data/delaware.js',
   './data/northeastern.js',
   './data/fordham.js',
-  './data/villanova.js',
   './data/pennstate.js',
   './data/pitt.js',
   './data/umass.js',

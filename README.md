@@ -10,7 +10,6 @@ ratings into a ranked shortlist.
 ## Schools covered
 
 - University of Delaware (Newark, DE)
-- Villanova University (Villanova, PA)
 - Penn State — University Park (State College, PA)
 - University of Pittsburgh (Pittsburgh, PA)
 - UMass Amherst (Amherst, MA)
