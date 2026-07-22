@@ -126,7 +126,7 @@ window.SCHOOLS['pennstate'] = {
       <h3>💵 Debt &amp; payoff</h3>
       <ul>
         <li>Median debt: <b>$25,000</b>; PA students historically graduate with some of the nation's higher debt loads because of the thin-aid structure</li>
-        <li>Median earnings 10 years after entry: <b>$63,435</b> — the lowest of the nine, diluted by the huge major mix; Smeal outcomes run well above it</li>
+        <li>Median earnings 10 years after entry: <b>$63,435</b> — the lowest of the eight, diluted by the huge major mix; Smeal outcomes run well above it</li>
         <li>The in-state value case vs. Delaware-with-merit is closer than you'd guess — run both numbers</li>
       </ul>
     </div>
@@ -275,7 +275,7 @@ window.SCHOOLS['pennstate'] = {
         <li>Scale mechanics<small>Huge lectures, stretched advising, bureaucracy — the classic megaversity trade</small></li>
         <li>Geographic isolation<small>Happy Valley is 3+ hours from everywhere; internships mostly wait for summer</small></li>
         <li>Party culture is ambient<small>Top-party-school rankings are earned; quieter students must build their own lane</small></li>
-        <li>Lowest measured earnings of the nine<small>$63.4K median at 10 years (all majors — Smeal runs higher)</small></li>
+        <li>Lowest measured earnings of the eight<small>$63.4K median at 10 years (all majors — Smeal runs higher)</small></li>
       </ul>
     </div>
   </div>`
@@ -340,7 +340,7 @@ window.SCHOOLS['pennstate'] = {
       lead: '"Happy Valley" is the archetypal college town — the university and the town are the same organism.',
       html: `
   <div class="cards g3">
-    <div class="card"><h3>🍦 Berkey Creamery</h3><p>The country's largest university creamery — the single mandatory stop of the entire nine-school tour.</p></div>
+    <div class="card"><h3>🍦 Berkey Creamery</h3><p>The country's largest university creamery — the single mandatory stop of the entire eight-school tour.</p></div>
     <div class="card"><h3>🍕 College Ave &amp; Beaver Ave</h3><p>The downtown strip: pizza institutions, diners (the Waffle Shop), bars, and Penn State merch on every corner.</p></div>
     <div class="card"><h3>⛰️ Mount Nittany</h3><p>The hike overlooking the valley — a rite of passage with the stadium view.</p></div>
     <div class="card"><h3>🌳 The Arboretum</h3><p>Beautiful gardens at the campus edge — the quiet counterweight to game day.</p></div>

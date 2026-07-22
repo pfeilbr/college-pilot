@@ -42,44 +42,6 @@
     "retention_full_time": 0.9196,
     "median_earnings_10yr": 72950
   },
-  "villanova": {
-    "unitid": 216597,
-    "name": "Villanova University",
-    "city": "Villanova, PA",
-    "admission_rate": 0.2698,
-    "sat_mid50": [
-      1395,
-      1510
-    ],
-    "undergrad_size": 6938,
-    "pct_women": 0.5382,
-    "pct_men": 0.4618,
-    "race_ethnicity": {
-      "white": 0.6766,
-      "hispanic": 0.1134,
-      "black": 0.0647,
-      "asian": 0.0669,
-      "two_or_more": 0.0405,
-      "international": 0.018
-    },
-    "tuition_in_state": 67776,
-    "tuition_out_of_state": 67776,
-    "roomboard": 17694,
-    "total_cost_academic_year": 84793,
-    "avg_net_price": 43756,
-    "net_price_by_income": {
-      "0-30000": 17823,
-      "30001-48000": 16496,
-      "48001-75000": 20923,
-      "75001-110000": 33389,
-      "110001-plus": 58741
-    },
-    "median_debt_completers": 25874,
-    "pell_rate": 0.1202,
-    "grad_rate_150pct": 0.9186,
-    "retention_full_time": 0.9506,
-    "median_earnings_10yr": 100423
-  },
   "pennstate": {
     "unitid": 214777,
     "name": "Pennsylvania State University-Main Campus",

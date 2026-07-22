@@ -26,7 +26,6 @@ from pathlib import Path
 # IPEDS UnitIDs (find any school's at https://nces.ed.gov/collegenavigator/)
 SCHOOLS = {
     "delaware": 130943,
-    "villanova": 216597,
     "pennstate": 214777,   # University Park
     "pitt": 215293,        # Pittsburgh campus
     "umass": 166629,       # Amherst
