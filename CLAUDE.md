@@ -10,6 +10,7 @@ bundler, no framework. Just HTML/CSS/vanilla JS served as files.
 
 - **Live:** https://pfeilbr.github.io/college-pilot/
 - **Run locally:** `python3 -m http.server 8000` then open http://localhost:8000
+- **Test:** `node tests/run.js` (no install step — Node stdlib only)
 - **Deploy:** pushing to `main` or `claude/session-wvyudu` triggers
   [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml), which
   publishes the repo root to the `gh-pages` branch.
@@ -24,6 +25,7 @@ styles.css        Design system; per-school accent color via the --sc CSS var
 data/<id>.js      One authored guide per school; registers window.SCHOOLS[<id>]
 data/generated/   Machine-fetched official stats (author-time reference, see below)
 scripts/          Deterministic Python data fetcher (stdlib only, no deps)
+tests/            `node tests/run.js` — zero-dep suite guarding the contract + sync points
 sw.js             Service worker: network-first with cache fallback, explicit asset list
 ```
 
@@ -92,5 +94,11 @@ prose/figures in the affected `data/<id>.js` files.
   6. the school's IPEDS UnitID in `scripts/fetch_school_data.py`
   7. school-count copy: the hero in [index.html](index.html) and phrases like
      "the nine" / "of the nine" in the guide files (grep for the number word)
-- No tests, no linter, no CI beyond the Pages deploy. Verify changes by loading
-  the pages in a browser.
+- **Run `node tests/run.js` before and after any change.** Zero-dependency, Node
+  stdlib only, no CI beyond the Pages deploy. It enforces every rule on this page
+  — the data contract, all seven sync points above, and the `APP_VERSION`/`CACHE`
+  pairing — so a drifted school list fails loudly instead of silently rendering a
+  half-broken page. `tests/app-render.test.js` boots `app.js` for real against the
+  `tests/dom.js` shim and exercises the Decision Board ranking and both renderers.
+  See [tests/README.md](tests/README.md). Still verify UI changes in a browser —
+  the shim models no layout or geometry.

@@ -257,3 +257,20 @@ footer a{color:var(--ink-3)}
 .cmp td.cmp-best{background:var(--pro-bg);color:var(--pro);font-weight:700}
 .cmp td.cmp-best::before{content:'★ ';font-size:11px}
 .cmp td.cmp-best.cmp-active{background:color-mix(in srgb,var(--pro-bg) 60%,var(--chip))}
+
+/* ===== focus visibility ===== */
+/* The a11y pass made the drawer, star rows and chips keyboard-operable; without
+   a visible ring, a keyboard user can operate them but cannot see where they are. */
+.ditem:focus-visible,
+.stars button:focus-visible,
+.aidChips button:focus-visible,
+.linkBtn:focus-visible,
+nav.pills a:focus-visible,
+.scard:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
+.drawer .ditem:focus-visible{outline-offset:-2px}
+@media (prefers-reduced-motion: reduce){
+  .stars button{transition:none}
+  .stars button:active{transform:none}
+  .seg{transition:none}
+  nav.pills{scroll-behavior:auto}
+}

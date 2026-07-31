@@ -1,4 +1,4 @@
-const CACHE = 'college-pilot-v13';
+const CACHE = 'college-pilot-v14';
 const ASSETS = [
   './',
   './index.html',
