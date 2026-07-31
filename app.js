@@ -43,7 +43,7 @@
     const el = document.createElement('div');
     el.innerHTML = `
 <div class="backdrop" id="backdrop" hidden></div>
-<aside class="drawer" id="drawer" aria-label="Menu" hidden>
+<aside class="drawer" id="drawer" aria-label="Menu" role="dialog" aria-modal="true" hidden>
   <div class="dhead"><span>Menu</span><button class="dclose" id="dclose" aria-label="Close menu">✕</button></div>
   <a class="ditem" href="index.html"><span class="em">🏠</span><span>All schools<small>College Pilot home · Decision Board · comparison</small></span></a>
   ${schoolLinks}
@@ -61,20 +61,33 @@
     qs('#verLabel').textContent = APP_VERSION;
 
     const menuBtn = qs('#menuBtn'), drawer = qs('#drawer'), backdrop = qs('#backdrop');
+    const drawerFocusables = () => qsa('a[href], button:not([disabled])', drawer);
+    let lastFocus = null;
     const openMenu = () => {
+      lastFocus = document.activeElement;
       drawer.hidden = false; backdrop.hidden = false;
       requestAnimationFrame(() => { drawer.classList.add('open'); backdrop.classList.add('open'); });
       menuBtn.setAttribute('aria-expanded', 'true');
+      const f = drawerFocusables(); if (f.length) f[0].focus();
     };
     const closeMenu = () => {
       drawer.classList.remove('open'); backdrop.classList.remove('open');
       menuBtn.setAttribute('aria-expanded', 'false');
       setTimeout(() => { drawer.hidden = true; backdrop.hidden = true; }, 220);
+      (lastFocus || menuBtn).focus();
     };
     menuBtn.addEventListener('click', openMenu);
     qs('#dclose').addEventListener('click', closeMenu);
     backdrop.addEventListener('click', closeMenu);
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && !drawer.hidden) closeMenu(); });
+    drawer.addEventListener('keydown', e => {
+      if (e.key !== 'Tab') return;
+      const f = drawerFocusables();
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
 
     qs('#btnUpdate').addEventListener('click', async () => {
       qs('#updHint').textContent = 'Updating…';
@@ -161,14 +174,15 @@
     const secs = links.map(a => qs(a.getAttribute('href')));
     let cur = -1;
     const SAT = (() => { const d = document.createElement('div'); d.style.cssText = 'position:fixed;padding-top:env(safe-area-inset-top,0px)'; document.body.appendChild(d); const v = parseFloat(getComputedStyle(d).paddingTop) || 0; d.remove(); return v; })();
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const spy = () => {
       let i = secs.length - 1;
       while (i > 0 && window.scrollY + 130 + SAT < secs[i].offsetTop) i--;
       if (i === cur) return;
       cur = i;
-      links.forEach((a, j) => a.classList.toggle('on', j === i));
+      links.forEach((a, j) => { a.classList.toggle('on', j === i); if (j === i) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
       const a = links[i];
-      nav.scrollTo({ left: Math.max(0, a.offsetLeft - (nav.clientWidth - a.offsetWidth) / 2), behavior: 'smooth' });
+      nav.scrollTo({ left: Math.max(0, a.offsetLeft - (nav.clientWidth - a.offsetWidth) / 2), behavior: reduceMotion ? 'auto' : 'smooth' });
     };
     document.addEventListener('scroll', spy, { passive: true });
     spy();
@@ -210,8 +224,11 @@
     const starsRow = (cat) => {
       const v = (rec.stars && rec.stars[cat]) || 0;
       let btns = '';
-      for (let i = 1; i <= 5; i++) btns += `<button data-cat="${cat}" data-v="${i}" class="${i <= v ? 'on' : ''}" aria-label="${cat}: ${i} star${i > 1 ? 's' : ''}">★</button>`;
-      return `<div class="rateRow"><span>${cat}</span><span class="stars">${btns}</span></div>`;
+      for (let i = 1; i <= 5; i++) {
+        const tab = (v ? i === v : i === 1) ? '0' : '-1';
+        btns += `<button data-cat="${cat}" data-v="${i}" class="${i <= v ? 'on' : ''}" role="radio" aria-checked="${i === v}" tabindex="${tab}" aria-label="${cat}: ${i} star${i > 1 ? 's' : ''}">★</button>`;
+      }
+      return `<div class="rateRow"><span>${cat}</span><span class="stars" role="radiogroup" aria-label="${cat}">${btns}</span></div>`;
     };
     return `
       <section id="mytake">
@@ -221,13 +238,13 @@
         <div class="card">
           <div class="aidLbl">Verdict</div>
           <div class="aidChips" id="rateStatus">
-            ${STATUSES.map(s => `<button data-k="${s.k}" class="${rec.status === s.k ? 'on' : ''}">${s.label}</button>`).join('')}
+            ${STATUSES.map(s => `<button data-k="${s.k}" class="${rec.status === s.k ? 'on' : ''}" aria-pressed="${rec.status === s.k}">${s.label}</button>`).join('')}
           </div>
           <div class="aidLbl" style="margin-top:16px">Rate what matters (tap the stars)</div>
           <div id="rateStars">${RATE_CATS.map(starsRow).join('')}</div>
           <div class="aidLbl" style="margin-top:16px">Notes from the visit</div>
           <textarea id="rateNote" class="rateNote" rows="4" placeholder="What stood out? Best moment of the tour? Dealbreakers? Food verdict?">${(rec.note || '').replace(/</g, '&lt;')}</textarea>
-          <p class="src"><span id="rateSaved"></span> Saved automatically on this device only — nothing is uploaded. <button id="rateClear" class="linkBtn">Clear this school's ratings</button></p>
+          <p class="src"><span id="rateSaved" aria-live="polite"></span> Saved automatically on this device only — nothing is uploaded. <button id="rateClear" class="linkBtn">Clear this school's ratings</button></p>
         </div>
       </section>`;
   }
@@ -244,13 +261,33 @@
     qsa('#rateStatus button').forEach(b => b.addEventListener('click', () => {
       upd(rec => { rec.status = rec.status === b.dataset.k ? null : b.dataset.k; });
       const cur = (loadR()[sc.id] || {}).status;
-      qsa('#rateStatus button').forEach(x => x.classList.toggle('on', x.dataset.k === cur));
+      qsa('#rateStatus button').forEach(x => { x.classList.toggle('on', x.dataset.k === cur); x.setAttribute('aria-pressed', x.dataset.k === cur); });
     }));
     qsa('#rateStars button').forEach(b => b.addEventListener('click', () => {
       const cat = b.dataset.cat, v = +b.dataset.v;
       upd(rec => { rec.stars[cat] = rec.stars[cat] === v ? 0 : v; });
       const cur = (loadR()[sc.id] || { stars: {} }).stars[cat] || 0;
-      qsa(`#rateStars button[data-cat="${CSS.escape(cat)}"]`).forEach(x => x.classList.toggle('on', +x.dataset.v <= cur));
+      qsa(`#rateStars button[data-cat="${CSS.escape(cat)}"]`).forEach(x => {
+        const xv = +x.dataset.v;
+        x.classList.toggle('on', xv <= cur);
+        x.setAttribute('aria-checked', xv === cur);
+        x.tabIndex = (cur ? xv === cur : xv === 1) ? 0 : -1;
+      });
+    }));
+    qsa('#rateStars .stars').forEach(group => group.addEventListener('keydown', e => {
+      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+      const btns = qsa('button', group);
+      const idx = btns.indexOf(document.activeElement);
+      if (idx === -1) return;
+      e.preventDefault();
+      let next = idx;
+      if (e.key === 'ArrowRight') next = Math.min(idx + 1, btns.length - 1);
+      else if (e.key === 'ArrowLeft') next = Math.max(idx - 1, 0);
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = btns.length - 1;
+      if (next === idx) return;
+      btns[next].focus();
+      btns[next].click();
     }));
     const note = qs('#rateNote');
     let t = null;

@@ -220,3 +220,11 @@ footer a{color:var(--ink-3)}
 .cmp th:first-child{position:sticky;left:0;background:var(--surface)}
 .cmp td:first-child{position:sticky;left:0;background:var(--surface);min-width:130px}
 .cmp th{min-width:128px}
+
+/* ===== a11y ===== */
+.skip-link{position:absolute;left:-999px;top:-999px;width:1px;height:1px;overflow:hidden;background:var(--surface);color:var(--ink);padding:10px 16px;border-radius:8px;box-shadow:var(--shadow);z-index:100}
+.skip-link:focus{left:12px;top:calc(12px + var(--sat));width:auto;height:auto;outline:2px solid var(--sc);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .drawer,.backdrop{transition:none}
+}
