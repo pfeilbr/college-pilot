@@ -1,7 +1,7 @@
 /* The cross-file sync gotchas from CLAUDE.md: adding or removing a school touches
    seven places, and the version stamp is duplicated across app.js and sw.js. */
 'use strict';
-const { describe, test, ok, eq, deepEq, match, read, loadSchools, scriptSrcs, inlineScripts } = require('./harness');
+const { describe, test, ok, eq, deepEq, match, read, loadSchools, scriptSrcs } = require('./harness');
 
 const { SCHOOLS, ORDER } = loadSchools();
 const ids = Object.keys(SCHOOLS).sort();
@@ -9,6 +9,7 @@ const indexHtml = read('index.html');
 const schoolHtml = read('school.html');
 const swJs = read('sw.js');
 const appJs = read('app.js');
+const aidJs = read('aid.js');
 const fetcher = read('scripts/fetch_school_data.py');
 
 const dataSrcs = html => scriptSrcs(html).filter(s => s.startsWith('data/')).map(s => s.replace(/^data\/|\.js$/g, ''));
@@ -48,18 +49,16 @@ describe('cross-file sync', () => {
   });
 
   test('the Aid Estimator DATA array covers every school exactly once', () => {
-    const inline = inlineScripts(indexHtml).find(s => s.includes('var DATA=')) || '';
-    ok(inline, 'could not find the Aid Estimator inline script in index.html');
-    const rows = [...inline.matchAll(/\{id:'([a-z]+)'/g)].map(m => m[1]);
+    const rows = [...aidJs.matchAll(/\{id:'([a-z]+)'/g)].map(m => m[1]);
+    ok(rows.length, 'could not find the Aid Estimator DATA array in aid.js');
     eq(new Set(rows).size, rows.length, 'duplicate ids in the Aid Estimator DATA array');
     deepEq(rows.slice().sort(), ids, 'Aid Estimator DATA array is out of sync with the school list');
   });
 
   test('every Aid Estimator row has one estimate pair per income bracket', () => {
-    const inline = inlineScripts(indexHtml).find(s => s.includes('var DATA=')) || '';
-    const brackets = (inline.match(/var BRACKETS=\[([^\]]*)\]/) || [, ''])[1].split(',').filter(Boolean).length;
+    const brackets = (aidJs.match(/var BRACKETS=\[([^\]]*)\]/) || [, ''])[1].split(',').filter(Boolean).length;
     eq(brackets, 5, 'expected 5 income brackets');
-    const rows = [...inline.matchAll(/\{id:'([a-z]+)'[\s\S]*?est:\[([\s\S]*?)\],\s*\n/g)];
+    const rows = [...aidJs.matchAll(/\{id:'([a-z]+)'[\s\S]*?est:\[([\s\S]*?)\],\s*\n/g)];
     eq(rows.length, Object.keys(SCHOOLS).length, 'could not parse every est: array');
     for (const [, id, est] of rows) {
       const pairs = [...est.matchAll(/\[(\d+),(\d+)\]/g)].map(m => [+m[1], +m[2]]);

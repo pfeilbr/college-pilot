@@ -5,6 +5,7 @@ const ASSETS = [
   './school.html',
   './styles.css',
   './app.js',
+  './aid.js',
   './data/delaware.js',
   './data/northeastern.js',
   './data/fordham.js',
