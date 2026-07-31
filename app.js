@@ -40,9 +40,10 @@
     if (data.app !== 'college-pilot') return { ok: false, error: 'That file is not a College Pilot ratings export.' };
     if (data.version !== SCHEMA_VERSION) return { ok: false, error: 'That export is from an unsupported version of College Pilot.' };
     if (!data.ratings || typeof data.ratings !== 'object' || Array.isArray(data.ratings)) return { ok: false, error: 'That file has no ratings in it.' };
-    const ratings = {};
+    const ratings = Object.create(null);
+    const own = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
     for (const id of Object.keys(data.ratings)) {
-      if (!schools[id]) continue;
+      if (!own(schools, id)) continue; // 'constructor'/'__proto__' are truthy on any object
       const rec = data.ratings[id];
       if (!rec || typeof rec !== 'object' || Array.isArray(rec)) continue;
       const clean = { stars: {}, note: '', status: null };

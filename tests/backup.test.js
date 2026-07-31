@@ -159,4 +159,30 @@ describe('backup: mergeRatings', () => {
     mergeRatings(existing, incoming, false);
     deepEq(existing, existingCopy, 'mergeRatings must not mutate the existing ratings map it was given');
   });
+
+  test('inherited Object keys are not mistaken for school ids', () => {
+    /* `schools['constructor']` and `schools['__proto__']` are truthy on any plain
+       object, so a truthiness check would wave these through into storage. */
+    for (const key of ['constructor', '__proto__', 'toString', 'hasOwnProperty']) {
+      const payload = JSON.stringify({
+        app: 'college-pilot', version: SCHEMA_VERSION,
+        ratings: { [key]: { stars: {}, note: 'junk', status: 'love' } }
+      });
+      const res = sanitizeImport(payload, SCHOOLS, RATE_CATS, STATUSES);
+      ok(res.ok, `import should still succeed for key "${key}"`);
+      deepEq(Object.keys(res.ratings), [], `"${key}" is not a school id and must be dropped`);
+    }
+  });
+
+  test('a prototype-polluting payload cannot reach the merged ratings', () => {
+    const payload = JSON.stringify({
+      app: 'college-pilot', version: SCHEMA_VERSION,
+      ratings: { __proto__: { stars: {}, note: 'x', status: 'love' }, [S1]: { stars: {}, note: 'ok', status: 'love' } }
+    });
+    const res = sanitizeImport(payload, SCHOOLS, RATE_CATS, STATUSES);
+    ok(res.ok);
+    const { merged } = mergeRatings({}, res.ratings, false);
+    deepEq(Object.keys(merged), [S1], 'only real school ids survive an import');
+    eq({}.polluted, undefined, 'Object.prototype must be untouched');
+  });
 });
