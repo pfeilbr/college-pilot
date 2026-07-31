@@ -42,6 +42,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(SCRIPT_DIR)
 DATA_DIR = os.path.join(REPO_ROOT, "data")
 SCORECARD_PATH = os.path.join(REPO_ROOT, "data", "generated", "scorecard.json")
+BASELINE_PATH = os.path.join(SCRIPT_DIR, "drift_baseline.json")
 
 # `card` fields with no College Scorecard equivalent at all -- always
 # reported as unchecked, never silently skipped.
@@ -279,6 +280,39 @@ def check_school(school: str, card: Dict[str, str], official: Dict) -> List[Chec
     return checks
 
 
+def load_baseline(path: str = BASELINE_PATH) -> Dict:
+    """Reviewed, accepted differences. Missing or unreadable file = no waivers."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+    except (OSError, ValueError):
+        return {}
+    return {k: v for k, v in data.items() if k != "_meta"}
+
+
+def apply_baseline(checks: List[Check], baseline: Dict) -> List[Check]:
+    """Downgrade a drift finding to 'accepted' only when a baseline entry pins
+    BOTH the authored and the official string it was reviewed against. If either
+    side has changed since, the waiver no longer applies and the drift stands --
+    so an entry here can never mask a later edit or a fresher data pull.
+    """
+    out: List[Check] = []
+    for c in checks:
+        entry = baseline.get(c.school, {}).get(c.field) if c.status == "drift" else None
+        if (
+            entry
+            and entry.get("authored") == c.authored
+            and entry.get("official") == c.official
+        ):
+            out.append(Check(
+                c.school, c.field, "accepted", c.authored, c.official, c.delta,
+                c.tolerance, entry.get("reason", "(no reason recorded)"),
+            ))
+        else:
+            out.append(c)
+    return out
+
+
 def run_all(data_dir: str = DATA_DIR, scorecard_path: str = SCORECARD_PATH) -> List[Check]:
     with open(scorecard_path, encoding="utf-8") as f:
         scorecard = json.load(f)
@@ -302,9 +336,15 @@ def run_all(data_dir: str = DATA_DIR, scorecard_path: str = SCORECARD_PATH) -> L
 # --------------------------------------------------------------------------
 
 def format_check(c: Check) -> str:
-    tag = {"ok": "OK   ", "drift": "DRIFT", "unchecked": "SKIP "}[c.status]
+    tag = {"ok": "OK   ", "drift": "DRIFT", "unchecked": "SKIP ", "accepted": "KNOWN"}[c.status]
     if c.status == "unchecked":
         return f"[{tag}] {c.school:<15} {c.field:<12} {c.authored!r:<28} -- {c.note}"
+    if c.status == "accepted":
+        return (
+            f"[{tag}] {c.school:<15} {c.field:<12} "
+            f"authored={c.authored!r:<20} official={c.official!r:<14} "
+            f"delta={c.delta:<8} -- {c.note}"
+        )
     return (
         f"[{tag}] {c.school:<15} {c.field:<12} "
         f"authored={c.authored!r:<20} official={c.official!r:<14} "
@@ -316,12 +356,18 @@ def print_report(checks: List[Check], quiet: bool = False) -> int:
     drift = [c for c in checks if c.status == "drift"]
     ok = [c for c in checks if c.status == "ok"]
     unchecked = [c for c in checks if c.status == "unchecked"]
+    accepted = [c for c in checks if c.status == "accepted"]
 
     if not quiet:
         print("College Pilot drift check -- authored card vs. data/generated/scorecard.json")
         print("=" * 78)
         for c in checks:
-            if c.status != "unchecked":
+            if c.status not in ("unchecked", "accepted"):
+                print(format_check(c))
+        if accepted:
+            print()
+            print("Known differences (reviewed, recorded in scripts/drift_baseline.json):")
+            for c in accepted:
                 print(format_check(c))
         if unchecked:
             print()
@@ -336,7 +382,8 @@ def print_report(checks: List[Check], quiet: bool = False) -> int:
     status = "FAIL" if drift else "CLEAN"
     print(
         f"SUMMARY: {status} -- {len(ok)} ok, {len(drift)} drift, "
-        f"{len(unchecked)} unchecked, {len(checks)} total checks considered"
+        f"{len(accepted)} known, {len(unchecked)} unchecked, "
+        f"{len(checks)} total checks considered"
     )
     return 1 if drift else 0
 
@@ -347,9 +394,15 @@ def main(argv: Optional[List[str]] = None) -> int:
         "--quiet", action="store_true",
         help="only print drift findings and the summary line",
     )
+    parser.add_argument(
+        "--strict", action="store_true",
+        help="ignore scripts/drift_baseline.json and report every difference",
+    )
     args = parser.parse_args(argv)
 
     checks = run_all()
+    if not args.strict:
+        checks = apply_baseline(checks, load_baseline())
     return print_report(checks, quiet=args.quiet)
 
 

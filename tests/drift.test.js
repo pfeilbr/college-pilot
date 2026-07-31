@@ -379,3 +379,66 @@ print(json.dumps(status))`);
     eq(got, cliStatus, 'print_report()\'s return value should match the CLI exit code');
   });
 });
+
+describe('check_drift.py — the reviewed-differences baseline', () => {
+  test('the baseline file is valid JSON and every entry carries a reason', () => {
+    const raw = h.read(path.join('scripts', 'drift_baseline.json'));
+    const baseline = JSON.parse(raw);
+    ok(baseline._meta, 'the baseline should document what it is for');
+    const schools = Object.keys(baseline).filter(k => k !== '_meta');
+    ok(schools.length, 'expected at least one reviewed difference');
+    const { SCHOOLS } = h.loadSchools();
+    for (const school of schools) {
+      ok(SCHOOLS[school], `baseline names unknown school "${school}"`);
+      for (const [field, entry] of Object.entries(baseline[school])) {
+        for (const key of ['authored', 'official', 'reason']) {
+          ok(typeof entry[key] === 'string' && entry[key].trim(),
+            `${school}.${field} baseline entry needs a non-empty ${key}`);
+        }
+        ok(entry.reason.length > 30,
+          `${school}.${field} needs a real explanation, not "${entry.reason}"`);
+      }
+    }
+  });
+
+  test('the repo is clean once reviewed differences are accounted for', () => {
+    const { status, stdout } = runCli(['--quiet']);
+    eq(status, 0, `check_drift.py should exit 0 on current data:\n${stdout}`);
+    includes(stdout, 'SUMMARY: CLEAN');
+  });
+
+  test('--strict ignores the baseline and reports the raw differences', () => {
+    const { status, stdout } = runCli(['--strict', '--quiet']);
+    eq(status, 1, 'every baselined difference is still a real difference under --strict');
+    includes(stdout, 'SUMMARY: FAIL');
+    const known = Object.entries(JSON.parse(h.read(path.join('scripts', 'drift_baseline.json'))))
+      .filter(([k]) => k !== '_meta')
+      .flatMap(([school, fields]) => Object.keys(fields).map(f => [school, f]));
+    for (const [school, field] of known) {
+      ok(new RegExp(`${school}\\s+${field}\\b`).test(stdout),
+        `--strict should still report ${school}.${field}`);
+    }
+  });
+
+  test('a waiver applies only to the exact pair it was reviewed against', () => {
+    /* This is the whole point: a baseline entry must not be able to hide a
+       later edit to a guide or a fresher number from the Scorecard. */
+    const drifted = runPy(`
+checks = cd.run_all()
+one = [c for c in checks if c.school == 'umass' and c.field == 'grad4'][0]
+baseline = cd.load_baseline()
+same = cd.apply_baseline([one], baseline)[0]
+moved = cd.apply_baseline([cd.Check('umass', 'grad4', 'drift', '70% (6-yr)', one.official, 13.26, 1.0)], baseline)[0]
+official_moved = cd.apply_baseline([cd.Check('umass', 'grad4', 'drift', one.authored, '99.00%', 18.0, 1.0)], baseline)[0]
+print(json.dumps({'same': same.status, 'authored_changed': moved.status, 'official_changed': official_moved.status}))
+`);
+    eq(drifted.same, 'accepted', 'the reviewed pair should be waived');
+    eq(drifted.authored_changed, 'drift', 'editing the guide must re-expose the drift');
+    eq(drifted.official_changed, 'drift', 'a fresher Scorecard number must re-expose the drift');
+  });
+
+  test('a missing baseline file degrades to no waivers rather than throwing', () => {
+    const res = runPy(`print(json.dumps(cd.load_baseline('/nonexistent/baseline.json')))`);
+    eq(Object.keys(res).length, 0, 'an unreadable baseline should simply mean no waivers');
+  });
+});

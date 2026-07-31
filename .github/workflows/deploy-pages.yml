@@ -22,6 +22,8 @@ jobs:
         with:
           node-version: 20
       - run: node tests/run.js
+      - name: Check authored stats against College Scorecard
+        run: python3 scripts/check_drift.py --quiet
 
   deploy:
     needs: test

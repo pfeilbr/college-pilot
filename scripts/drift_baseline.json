@@ -1,0 +1,48 @@
+{
+  "_meta": {
+    "purpose": "Known, reviewed differences between authored card copy and data/generated/scorecard.json.",
+    "how_it_works": "An entry suppresses a drift finding ONLY when BOTH the authored and official strings still match exactly. If either side changes — someone edits a guide, or fetch_school_data.py pulls a new vintage — the waiver stops matching and the drift is reported again. A baseline entry can therefore never hide a future change.",
+    "adding_an_entry": "Run scripts/check_drift.py, confirm the difference is real and intended, then record it here with a reason that says WHY it is acceptable. Do not add entries to silence a genuine mistake — fix the guide instead.",
+    "reviewed": "2026-07-31"
+  },
+  "delaware": {
+    "accept": {
+      "authored": "74.1%",
+      "official": "70.60%",
+      "reason": "Authored figure is the school's own Fall 2025 rate (data/delaware.js labels it '(Fall 2025)'); the Scorecard record is an older vintage. Authored is the more current number."
+    },
+    "sat_low": {
+      "authored": "1220–1370",
+      "official": "1190",
+      "reason": "Same vintage gap as the acceptance rate — the authored 25th-percentile band tracks the newer Common Data Set. Upper bound already agrees exactly."
+    }
+  },
+  "bu": {
+    "accept": {
+      "authored": "12.8%",
+      "official": "11.11%",
+      "reason": "Assumed vintage gap: authored rate comes from BU's own more recent admissions reporting, Scorecard lags. Verify against the current Common Data Set at the next stats refresh."
+    }
+  },
+  "fordham": {
+    "sat_low": {
+      "authored": "1350–1480",
+      "official": "1320",
+      "reason": "Assumed vintage gap on the 25th-percentile bound; upper bound agrees exactly. Verify against the current Common Data Set at the next stats refresh."
+    }
+  },
+  "northeastern": {
+    "undergrads": {
+      "authored": "22,695",
+      "official": "17326",
+      "reason": "Definitional, not drift. The authored figure counts Northeastern's full undergraduate population across its global campuses; the Scorecard record is keyed to IPEDS UnitID 167358, the Boston main campus only. Neither number is wrong for its own scope."
+    }
+  },
+  "umass": {
+    "grad4": {
+      "authored": "81% (6-yr)",
+      "official": "83.26%",
+      "reason": "Assumed vintage gap in the 6-year completion rate. Verify against the current Common Data Set at the next stats refresh."
+    }
+  }
+}
