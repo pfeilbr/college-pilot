@@ -1,3 +1,6 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# transient agent worktrees — never part of the app
+.claude/worktrees/
