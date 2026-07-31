@@ -372,11 +372,16 @@ print(json.dumps(status))`);
   });
 
   test('run_all() reports non-zero when drift exceeds tolerance', () => {
-    const got = runPy(`status = cd.print_report(cd.run_all(), quiet=True)
-print(json.dumps(status))`);
-    // this mirrors the CLI's own exit code on the real repo data
-    const cliStatus = runCli(['--quiet']).status;
-    eq(got, cliStatus, 'print_report()\'s return value should match the CLI exit code');
+    /* Mirror what main() does in each mode: default applies the reviewed
+       baseline, --strict does not. print_report()'s return value must match the
+       exit code the CLI actually produces in that same mode. */
+    const got = runPy(`checks = cd.run_all()
+status_strict = cd.print_report(checks, quiet=True)
+status_default = cd.print_report(cd.apply_baseline(checks, cd.load_baseline()), quiet=True)
+print(json.dumps({'strict': status_strict, 'default': status_default}))`);
+    eq(got.strict, runCli(['--strict', '--quiet']).status, 'print_report() must match the --strict exit code');
+    eq(got.default, runCli(['--quiet']).status, "print_report() must match the default exit code");
+    eq(got.strict, 1, 'the raw data still differs from the Scorecard in known ways');
   });
 });
 
