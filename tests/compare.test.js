@@ -221,3 +221,37 @@ describe('compare-table: best-value winners match the authored data (regression 
     }
   });
 });
+
+describe('compare: prose values never win a numeric row', () => {
+  const { ORDER } = loadSchools();
+
+  test('a bare digit inside prose does not become a placement rate', () => {
+    /* Indiana's card.placed is "excellent (Wall St / Big 4 pipeline)" — the "4"
+       is a firm-count, not a percentage. Rows that rank percentages must guard
+       on a literal % so prose is skipped rather than parsed. */
+    eq(parseLeadingNumber('excellent (Wall St / Big 4 pipeline)'), 4, 'the raw parser does read the stray digit');
+    ok(!/%/.test(SCHOOLS.indiana.card.placed), 'Indiana states placement as prose, not a percentage');
+  });
+
+  test('every ranked percentage row guards on a literal %', () => {
+    const src = read('app.js');
+    const rows = src.slice(src.indexOf('const metrics = ['), src.indexOf('];', src.indexOf('const metrics = [')));
+    for (const label of ['Grads placed (6 mo)', '4-yr grad rate']) {
+      const line = rows.split('\n').find(l => l.includes(label));
+      ok(line, `no metrics row for ${label}`);
+      ok(/\/%\/\s*\]/.test(line), `${label} ranks percentages and must pass the /%/ guard: ${line.trim()}`);
+    }
+  });
+
+  test('guarded rows only ever crown schools that actually report a percentage', () => {
+    for (const field of ['placed', 'grad4']) {
+      const numeric = ORDER.filter(id => /%/.test(SCHOOLS[id].card[field]));
+      const best = Math.max(...numeric.map(id => parseLeadingNumber(SCHOOLS[id].card[field])));
+      const winners = numeric.filter(id => parseLeadingNumber(SCHOOLS[id].card[field]) === best);
+      ok(winners.length, `no winner computable for ${field}`);
+      for (const id of winners) {
+        ok(/%/.test(SCHOOLS[id].card[field]), `${id} won the ${field} row without reporting a percentage`);
+      }
+    }
+  });
+});

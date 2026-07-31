@@ -641,7 +641,7 @@
       ['Sticker cost / yr', s => s.card.cost, 'min', 'Lowest sticker cost / yr shown'],
       ['Undergrads', s => s.card.undergrads],
       ['Business program', s => s.card.biz],
-      ['Grads placed (6 mo)', s => s.card.placed, 'max', 'Highest reported placement rate'],
+      ['Grads placed (6 mo)', s => s.card.placed, 'max', 'Highest reported placement rate', /%/],
       ['4-yr grad rate', s => s.card.grad4, 'max', 'Highest graduation rate', /%/],
       ['Greek life', s => s.card.greek],
       ['Sports', s => s.card.sports],
