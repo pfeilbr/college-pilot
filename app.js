@@ -476,12 +476,86 @@
     wireBoardBackup();
   }
 
+  /* ---------- school grid filters (pure helpers) ---------- */
+  const normText = (s) => (s || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const isPublicType = (type) => /^Public/.test(type || '');
+  const VULGAR_FRACS = { '¼': .25, '½': .5, '¾': .75 };
+  const parseDriveHours = (str) => {
+    if (typeof str !== 'string') return null;
+    const m = str.trim().replace(/^~/, '').match(/^(\d+)?\s*([¼½¾])?/);
+    const whole = m && m[1] ? parseInt(m[1], 10) : 0;
+    const frac = m && m[2] ? VULGAR_FRACS[m[2]] : 0;
+    const hrs = whole + frac;
+    return hrs > 0 ? hrs : null;
+  };
+  const driveBand = (hrs) => hrs == null ? null : hrs < 2 ? 'lt2' : hrs < 4 ? '2to4' : '4plus';
+
+  const FKEY = 'college-pilot-filters';
+  const VALID_TYPE = ['public', 'private'], VALID_DRIVE = ['lt2', '2to4', '4plus'], VALID_VERDICT = ['love', 'maybe', 'unrated'];
+  const FILTER_DEFAULTS = () => ({ q: '', type: [], drive: [], verdict: [], hidePassed: false });
+  const sanitizeFilters = (raw) => {
+    raw = raw && typeof raw === 'object' ? raw : {};
+    const arr = (v, valid) => Array.isArray(v) ? v.filter(x => valid.includes(x)) : [];
+    return {
+      q: typeof raw.q === 'string' ? raw.q.slice(0, 200) : '',
+      type: arr(raw.type, VALID_TYPE),
+      drive: arr(raw.drive, VALID_DRIVE),
+      verdict: arr(raw.verdict, VALID_VERDICT),
+      hidePassed: raw.hidePassed === true
+    };
+  };
+  const loadFilters = () => { try { return sanitizeFilters(JSON.parse(localStorage.getItem(FKEY) || '{}')); } catch (e) { return FILTER_DEFAULTS(); } };
+  const saveFilters = (f) => { try { localStorage.setItem(FKEY, JSON.stringify(f)); } catch (e) { } };
+
+  /* fails open: a school only drops out on a POSITIVE mismatch, never because a card string was unparseable */
+  const schoolMatchesFilters = (s, rec, f) => {
+    if (f.q) {
+      const hay = normText([s.name, s.short, s.city, s.card.blurb].join(' '));
+      if (!hay.includes(normText(f.q))) return false;
+    }
+    if (f.type.length && !f.type.includes(isPublicType(s.card.type) ? 'public' : 'private')) return false;
+    if (f.drive.length) {
+      const band = driveBand(parseDriveHours(s.card.drive));
+      if (band && !f.drive.includes(band)) return false;
+    }
+    const status = (rec && rec.status) || null;
+    if (f.hidePassed && status === 'pass') return false;
+    if (f.verdict.length) {
+      const key = status === 'love' ? 'love' : status === 'maybe' ? 'maybe' : status === 'pass' ? 'pass' : 'unrated';
+      if (!f.verdict.includes(key)) return false; // 'pass' is never a VALID_VERDICT key, so it's excluded whenever a verdict chip is active
+    }
+    return true;
+  };
+
+  const TYPE_CHIPS = [{ k: 'public', label: 'Public' }, { k: 'private', label: 'Private' }];
+  const DRIVE_CHIPS = [{ k: 'lt2', label: 'Under 2 hr' }, { k: '2to4', label: '2–4 hr' }, { k: '4plus', label: '4+ hr' }];
+  const VERDICT_CHIPS = [{ k: 'love', label: '❤️ Shortlisted' }, { k: 'maybe', label: '🤔 Undecided' }, { k: 'unrated', label: '⚪ Not yet rated' }];
+
   /* ---------- hub renderer ---------- */
   function renderHub() {
     const grid = qs('#schoolGrid');
-    grid.innerHTML = ORDER.map(id => {
-      const s = SCHOOLS[id];
-      return `<a class="scard" href="school.html?s=${id}" style="--stripe:${s.colors.sc};--stripe-ink:${s.colors.sc}">
+    const emptyEl = qs('#schoolGridEmpty'), countEl = qs('#schoolFilterCount');
+    const searchEl = qs('#schoolSearch'), searchClearEl = qs('#schoolSearchClear');
+    const typeWrap = qs('#filterType'), driveWrap = qs('#filterDrive'), verdictWrap = qs('#filterVerdict');
+    const resetBtn = qs('#schoolFilterReset');
+    let filters = loadFilters();
+
+    const paintChips = () => {
+      const chipHtml = (list, key) => list.map(c => `<button type="button" data-k="${c.k}" class="${filters[key].includes(c.k) ? 'on' : ''}">${c.label}</button>`).join('');
+      if (typeWrap) typeWrap.innerHTML = chipHtml(TYPE_CHIPS, 'type');
+      if (driveWrap) driveWrap.innerHTML = chipHtml(DRIVE_CHIPS, 'drive');
+      if (verdictWrap) verdictWrap.innerHTML = chipHtml(VERDICT_CHIPS, 'verdict') +
+        `<button type="button" data-hide-passed="1" class="${filters.hidePassed ? 'on' : ''}">🙈 Hide passed</button>`;
+      if (searchEl) searchEl.value = filters.q;
+      if (searchClearEl) searchClearEl.hidden = !filters.q;
+    };
+
+    const paintGrid = () => {
+      const all = loadR(); // re-read so a verdict set on a school page shows up here too
+      const shown = ORDER.filter(id => SCHOOLS[id] && schoolMatchesFilters(SCHOOLS[id], all[id], filters));
+      grid.innerHTML = shown.map(id => {
+        const s = SCHOOLS[id];
+        return `<a class="scard" href="school.html?s=${id}" style="--stripe:${s.colors.sc};--stripe-ink:${s.colors.sc}">
         <div class="stripe"></div>
         <div class="body">
           <h3>${s.name}</h3>
@@ -495,7 +569,46 @@
           </div>
           <div class="go">Open guide →</div>
         </div></a>`;
-    }).join('');
+      }).join('');
+      if (countEl) countEl.textContent = `Showing ${shown.length} of ${ORDER.length} schools`;
+      if (emptyEl) emptyEl.hidden = shown.length !== 0;
+      grid.hidden = shown.length === 0;
+    };
+
+    const applyFilters = () => { saveFilters(filters); paintChips(); paintGrid(); };
+
+    if (typeWrap) typeWrap.addEventListener('click', e => {
+      const b = e.target.closest('button[data-k]'); if (!b) return;
+      const k = b.dataset.k;
+      filters.type = filters.type.includes(k) ? filters.type.filter(x => x !== k) : [...filters.type, k];
+      applyFilters();
+    });
+    if (driveWrap) driveWrap.addEventListener('click', e => {
+      const b = e.target.closest('button[data-k]'); if (!b) return;
+      const k = b.dataset.k;
+      filters.drive = filters.drive.includes(k) ? filters.drive.filter(x => x !== k) : [...filters.drive, k];
+      applyFilters();
+    });
+    if (verdictWrap) verdictWrap.addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b) return;
+      if (b.dataset.hidePassed) { filters.hidePassed = !filters.hidePassed; applyFilters(); return; }
+      const k = b.dataset.k; if (!k) return;
+      filters.verdict = filters.verdict.includes(k) ? filters.verdict.filter(x => x !== k) : [...filters.verdict, k];
+      applyFilters();
+    });
+    let searchT = null;
+    if (searchEl) searchEl.addEventListener('input', () => {
+      if (searchClearEl) searchClearEl.hidden = !searchEl.value;
+      clearTimeout(searchT);
+      searchT = setTimeout(() => { filters.q = searchEl.value.slice(0, 200); applyFilters(); }, 200);
+    });
+    if (searchClearEl) searchClearEl.addEventListener('click', () => {
+      searchEl.value = ''; filters.q = ''; searchEl.focus(); applyFilters();
+    });
+    if (resetBtn) resetBtn.addEventListener('click', () => { filters = FILTER_DEFAULTS(); applyFilters(); });
+
+    paintChips();
+    paintGrid();
 
     const metrics = [
       ['Type', s => s.card.type],
