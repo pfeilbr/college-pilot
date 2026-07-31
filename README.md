@@ -97,6 +97,16 @@ python3 -m http.server 8000
 # open http://localhost:8000
 ```
 
+## Tests
+
+```sh
+node tests/run.js
+```
+
+Zero-dependency, Node stdlib only — no install step. CI runs it on every push
+and pull request, and the GitHub Pages deploy won't publish unless it passes.
+See `tests/README.md` for what's covered.
+
 Data compiled July 2026 from public sources (Common Data Sets, official
 admissions/aid pages, College Scorecard, U.S. News, Niche, Pullpush Reddit
 archive). Verify current figures with official sources before decisions.
