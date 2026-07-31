@@ -68,6 +68,11 @@ function makeRequest({ url, method, mode, destination }) {
 function makeResponse({ ok, body }) {
   return { ok: ok !== false, body, clone() { return this; } };
 }
+/* Minimal stand-in for the SW-global Response, enough for Response.error() —
+   the network-error sentinel a worker must resolve with when it has nothing
+   to serve. Resolving respondWith() with undefined instead would throw. */
+const FakeResponse = { error: () => ({ ok: false, type: 'error', body: null, clone() { return this; } }) };
+
 function makeEvent(request) {
   return {
     request,
@@ -121,7 +126,7 @@ function loadSW(opts) {
     clients: { claim() { return syncResolve(undefined); } }
   };
 
-  const sandbox = { self: fakeSelf, caches: fakeCaches, fetch: fakeFetch, URL, Promise };
+  const sandbox = { self: fakeSelf, caches: fakeCaches, fetch: fakeFetch, URL, Promise, Response: FakeResponse };
   vm.createContext(sandbox);
   vm.runInContext(swSrc, sandbox, { filename: 'sw.js' });
 
@@ -269,5 +274,29 @@ describe('offline / update UX wiring in app.js (static)', () => {
   test('service-worker wiring degrades silently when unsupported', () => {
     match(appJs, /'serviceWorker' in navigator/, 'app.js must feature-detect serviceWorker before using it');
     match(appJs, /\.catch\(\(\) => \{ ?\}\)/, 'the service-worker registration must swallow rejection silently');
+  });
+});
+
+describe('sw.js — nothing cached and the network is gone', () => {
+  test('a static asset resolves to a network error, never to undefined', () => {
+    /* respondWith() requires a Response. Resolving with `undefined` makes the
+       browser throw a TypeError instead of letting the request fail cleanly. */
+    const sw = loadSW({ fetchImpl: () => syncReject(new Error('offline')) });
+    const event = makeEvent(makeRequest({ url: 'https://example.test/data/newschool.js', method: 'GET' }));
+    sw.dispatch('fetch', event);
+    ok(event._respondedCalled, 'respondWith must be called');
+    const got = resolved(event);
+    ok(got !== undefined, 'must not resolve with undefined — respondWith() would throw');
+    eq(got.type, 'error', 'expected the Response.error() network-error sentinel');
+  });
+
+  test('a cached static asset still wins even when the network rejects', () => {
+    const sw = loadSW({ fetchImpl: () => syncReject(new Error('offline')) });
+    const url = 'https://example.test/app.js';
+    const cached = makeResponse({ ok: true, body: 'cached-app' });
+    sw.cacheMap(sw.CACHE_NAME).set(url, cached);
+    const event = makeEvent(makeRequest({ url, method: 'GET' }));
+    sw.dispatch('fetch', event);
+    eq(resolved(event), cached, 'the cached copy must be served when offline');
   });
 });

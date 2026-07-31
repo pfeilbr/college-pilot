@@ -98,7 +98,10 @@ self.addEventListener('fetch', (e) => {
           }
           return res;
         })
-        .catch(() => cached);
+        // Nothing cached and the network is gone: resolve to a proper network
+        // error. Resolving with `undefined` would make respondWith() throw
+        // rather than let the request fail cleanly.
+        .catch(() => cached || Response.error());
       return cached || network;
     })
   );

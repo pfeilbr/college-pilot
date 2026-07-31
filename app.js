@@ -434,13 +434,20 @@
     const all = loadR();
     const rated = rankedBoard(all);
     if (!rated.length) return '';
+    /* Use the same weights the board ranks by, so the pasted summary can't
+       report a star average that contradicts the order it lists schools in. */
+    const weights = loadW();
+    const custom = !weightsAreDefault(weights, RATE_CATS);
     const lines = [`College Pilot — Decision Board (${new Date().toLocaleDateString()})`, ''];
+    if (custom) {
+      const stressed = RATE_CATS.filter(c => weightOf(weights, c) !== 1)
+        .map(c => `${c}: ${(WEIGHT_LEVELS.find(l => l.v === weightOf(weights, c)) || {}).label}`);
+      lines.push('Ranked with custom weights — ' + stressed.join(', '), '');
+    }
     rated.forEach((id, i) => {
-      const s = SCHOOLS[id], r = all[id], avg = avgStars(r);
+      const s = SCHOOLS[id], r = all[id], avg = weightedAvgStars(r, weights, RATE_CATS);
       const st = STATUSES.find(x => x.k === r.status);
-      const cats = RATE_CATS.filter(c => r.stars && r.stars[c]);
-      const best = cats.slice().sort((a, b) => r.stars[b] - r.stars[a])[0];
-      const worst = cats.slice().sort((a, b) => r.stars[a] - r.stars[b])[0];
+      const { best, worst } = bestWorstCats(r, weights, RATE_CATS);
       lines.push(`${i + 1}. ${s.name}${st ? ' — ' + st.short : ''}${avg ? ' — ' + avg.toFixed(1) + '★' : ''}`);
       if (best) lines.push(`   Best: ${best} (${r.stars[best]}★)${worst && worst !== best ? `  ·  Weakest: ${worst} (${r.stars[worst]}★)` : ''}`);
       if ((r.note || '').trim()) lines.push('   Note: ' + r.note.trim().replace(/\s+/g, ' '));

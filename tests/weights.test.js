@@ -227,3 +227,25 @@ describe('weights: sanitizeWeights round-trips a corrupt/absent stored blob defe
     RATE_CATS.forEach(c => eq(weights[c], DEFAULT_WEIGHT));
   });
 });
+
+describe('weights: the copy-summary agrees with the board it summarizes', () => {
+  /* buildBoardSummary() is DOM-coupled (it reads both localStorage stores), so
+     this is a static guard rather than a behavioral one: the summary must use
+     the same weighted helpers the board ranks with. Without it the pasted text
+     can list schools in weighted order while printing unweighted star averages
+     and best/weakest categories beside them — a summary that contradicts itself. */
+  const src = read('app.js');
+  const body = src.slice(src.indexOf('function buildBoardSummary'), src.indexOf('function wireBoardBackup'));
+
+  test('the summary is built from the weighted helpers, not the flat mean', () => {
+    ok(body, 'could not locate buildBoardSummary in app.js');
+    ok(/weightedAvgStars\(/.test(body), 'buildBoardSummary must use weightedAvgStars, not avgStars');
+    ok(/bestWorstCats\(/.test(body), 'buildBoardSummary must pick best/weakest via bestWorstCats');
+    ok(!/\bavgStars\(r\)/.test(body), 'buildBoardSummary must not fall back to the unweighted mean');
+  });
+
+  test('the summary says so when custom weights are in play', () => {
+    ok(/weightsAreDefault\(/.test(body),
+      'the summary should note when a non-default weighting produced the order');
+  });
+});
