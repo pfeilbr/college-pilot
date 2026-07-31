@@ -387,7 +387,7 @@ window.SCHOOLS['northeastern'] = {
       html: `
   <div class="card">
     <ul style="font-size:13.5px">
-      <li><a href="http://uds.northeastern.edu/wp-content/uploads/2026/03/CDS-2024-25.pdf" rel="noopener">Northeastern Common Data Set 2024–25</a> — admissions, demographics, aid, Greek life, retention</li>
+      <li><a href="https://uds.northeastern.edu/wp-content/uploads/2026/03/CDS-2024-25.pdf" rel="noopener">Northeastern Common Data Set 2024–25</a> — admissions, demographics, aid, Greek life, retention</li>
       <li><a href="https://admissions.northeastern.edu/application-information/admissions-deadlines-decisions/" rel="noopener">Admissions deadlines</a> and <a href="https://admissions.northeastern.edu/visit/" rel="noopener">visit pages</a>; Huntington News (Class of 2029 admit rate and pathway-admit reporting)</li>
       <li><a href="https://damore-mckim.northeastern.edu/" rel="noopener">D'Amore-McKim</a> — undergraduate employment report (Class of 2023/latest), co-op wage report by concentration, program structure</li>
       <li><a href="https://www.usnews.com/best-colleges/northeastern-university-2199" rel="noopener">U.S. News</a> (#46, #1 co-ops) · Poets&amp;Quants (#20 undergrad business) · <a href="https://collegescorecard.ed.gov/" rel="noopener">College Scorecard</a> (earnings/debt)</li>
