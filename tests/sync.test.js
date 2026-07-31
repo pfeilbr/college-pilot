@@ -111,14 +111,39 @@ describe('cross-file sync', () => {
   });
 
   test('the Aid Estimator hint lists the right public/private split', () => {
-    const publics = ORDER.filter(id => /^Public/.test(SCHOOLS[id].card.type));
-    const privates = ORDER.filter(id => !/^Public/.test(SCHOOLS[id].card.type));
+    /* "State-related" is Pennsylvania's designation for its public universities,
+       so Penn State and Pitt count as public — matching the hint's own wording. */
+    const isPublic = id => /^(Public|State-related)/.test(SCHOOLS[id].card.type);
+    const publics = ORDER.filter(isPublic);
+    const privates = ORDER.filter(id => !isPublic(id));
+    eq(publics.length, 9, 'expected nine public/state schools');
+    eq(privates.length, 4, 'expected four private schools');
+
     const hint = (indexHtml.match(/id="aidHint"[\s\S]*?<\/p>/) || [''])[0];
+    ok(hint, 'could not find the aidHint copy in index.html');
+    /* Split the sentence so each school is checked against the clause it belongs
+       to — asserting both lists against the whole string would pass either way. */
+    const split = hint.search(/For the \w+ private/);
+    ok(split > -1, 'aidHint should have a "For the <n> private ..." clause');
+    const publicClause = hint.slice(0, split), privateClause = hint.slice(split);
+
     for (const id of publics) {
-      ok(hint.includes(SCHOOLS[id].short), `aidHint should name the public school ${SCHOOLS[id].short}`);
+      ok(publicClause.includes(SCHOOLS[id].short), `aidHint's public/state clause should name ${SCHOOLS[id].short}`);
+      ok(!privateClause.includes(SCHOOLS[id].short), `aidHint lists the public school ${SCHOOLS[id].short} as private`);
     }
     for (const id of privates) {
-      ok(hint.includes(SCHOOLS[id].short), `aidHint should name the private school ${SCHOOLS[id].short}`);
+      ok(privateClause.includes(SCHOOLS[id].short), `aidHint's private clause should name ${SCHOOLS[id].short}`);
+    }
+  });
+
+  test('the Aid Estimator CSS-Profile flags agree with the hint copy', () => {
+    /* aid.js decides FAFSA-vs-CSS per row; the hint prose says which schools are
+       which. If those disagree the app contradicts itself on who counts income. */
+    const isPublic = id => /^(Public|State-related)/.test(SCHOOLS[id].card.type);
+    const rows = [...aidJs.matchAll(/\{id:'([a-z]+)',name:'[^']*',css:(true|false)/g)];
+    eq(rows.length, ORDER.length, 'could not read the css: flag for every Aid Estimator row');
+    for (const [, id, css] of rows) {
+      eq(css === 'true', !isPublic(id), `aid.js marks ${id} css:${css}, which contradicts card.type "${SCHOOLS[id].card.type}"`);
     }
   });
 });
