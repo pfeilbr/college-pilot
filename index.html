@@ -173,7 +173,21 @@
   <div class="kicker">The list</div>
   <h2>Pick a school</h2>
   <p class="lead">Each guide has the same sections — overview, admissions, costs &amp; aid, the business program, hiring outcomes, student life &amp; demographics, pros &amp; cons, honest criticisms, visit logistics, nearby food &amp; sights, and an application timeline — so schools are easy to compare apples-to-apples.</p>
+
+  <div class="schoolFilters" id="schoolFilters">
+    <div class="filterSearch">
+      <label for="schoolSearch" class="vh">Search schools by name, city, or blurb</label>
+      <input type="search" id="schoolSearch" placeholder="Search by name, city, or blurb…" autocomplete="off">
+      <button type="button" id="schoolSearchClear" aria-label="Clear search" hidden>✕</button>
+    </div>
+    <div class="aidChips" id="filterType" role="group" aria-label="Filter by school type"></div>
+    <div class="aidChips" id="filterDrive" role="group" aria-label="Filter by drive time"></div>
+    <div class="aidChips" id="filterVerdict" role="group" aria-label="Filter by your verdict"></div>
+    <p class="src" id="schoolFilterCount"></p>
+  </div>
+
   <div class="schoolGrid" id="schoolGrid"></div>
+  <div class="note" id="schoolGridEmpty" hidden>No schools match your filters. <button type="button" class="linkBtn" id="schoolFilterReset">Clear filters</button></div>
 </section>
 
 <section id="compare">

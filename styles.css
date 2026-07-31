@@ -220,3 +220,15 @@ footer a{color:var(--ink-3)}
 .cmp th:first-child{position:sticky;left:0;background:var(--surface)}
 .cmp td:first-child{position:sticky;left:0;background:var(--surface);min-width:130px}
 .cmp th{min-width:128px}
+
+/* ===== filters ===== */
+.vh{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.schoolFilters{margin:18px 0 -2px}
+.filterSearch{position:relative;margin-bottom:12px}
+.filterSearch input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:11px 40px 11px 14px;font-family:inherit;font-size:14px;color:var(--ink);box-sizing:border-box}
+.filterSearch input:focus{outline:2px solid var(--sc,var(--mark-1));outline-offset:1px}
+.filterSearch input::-webkit-search-cancel-button{display:none}
+.filterSearch button{position:absolute;top:50%;right:6px;transform:translateY(-50%);background:var(--chip);border:0;border-radius:8px;width:28px;height:28px;color:var(--ink-2);cursor:pointer;font-family:inherit;font-size:13px}
+.schoolFilters .aidChips{margin-bottom:10px}
+#schoolFilterCount{margin:2px 0 0}
+#schoolGridEmpty{text-align:center}
