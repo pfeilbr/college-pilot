@@ -3,7 +3,7 @@
    app.js and evaluates it in a vm sandbox — no DOM, no browser needed. */
 'use strict';
 const vm = require('vm');
-const { describe, test, ok, eq, read, loadSchools } = require('./harness');
+const { describe, test, ok, eq, deepEq, read, loadSchools } = require('./harness');
 
 const START = '/* ---------- school grid filters (pure helpers) ---------- */';
 const END = '/* ---------- hub renderer ---------- */';
@@ -75,22 +75,27 @@ describe('drive-time parser', () => {
 describe('type predicate', () => {
   test('partitions all 13 schools into public/private with none left uncategorized', () => {
     eq(ORDER.length, 13, 'sanity check: this suite assumes the current 13-school roster');
-    let publics = 0, privates = 0;
-    for (const id of ORDER) {
-      const type = SCHOOLS[id].card.type;
-      if (api.isPublicType(type)) publics++; else privates++;
-    }
-    eq(publics + privates, ORDER.length, 'every school must fall into exactly one bucket');
-    ok(publics > 0, 'expected at least one public school');
-    ok(privates > 0, 'expected at least one private school');
+    const publics = ORDER.filter(id => api.isPublicType(SCHOOLS[id].card.type));
+    const privates = ORDER.filter(id => !api.isPublicType(SCHOOLS[id].card.type));
+    eq(publics.length + privates.length, ORDER.length, 'every school must fall into exactly one bucket');
+    /* The Aid Estimator copy in index.html commits to this exact split:
+       "the nine public/state schools" vs "the four private (CSS Profile) schools". */
+    eq(publics.length, 9, 'expected nine public/state schools: ' + publics.join(', '));
+    eq(privates.length, 4, 'expected four private schools: ' + privates.join(', '));
+    deepEq(privates.slice().sort(), ['bu', 'fordham', 'northeastern', 'tufts']);
   });
 
-  test('only classifies a type as public when it starts with "Public"', () => {
+  test('Pennsylvania "State-related" schools count as public', () => {
+    /* State-related is PA's designation for its public universities. Treating
+       Penn State and Pitt as private would hide the two schools the whole list
+       is anchored on from a "Public" filter. */
     ok(api.isPublicType('Public flagship (OOS)'));
     ok(api.isPublicType('Public (state-assisted)'));
+    ok(api.isPublicType('State-related (PA in-state!)'));
+    ok(api.isPublicType(SCHOOLS.pennstate.card.type), 'Penn State is a public university');
+    ok(api.isPublicType(SCHOOLS.pitt.card.type), 'Pitt is a public university');
     ok(!api.isPublicType('Private'));
     ok(!api.isPublicType('Private (Jesuit)'));
-    ok(!api.isPublicType('State-related (PA in-state!)'));
     ok(!api.isPublicType(undefined));
     ok(!api.isPublicType(''));
   });

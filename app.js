@@ -478,7 +478,10 @@
 
   /* ---------- school grid filters (pure helpers) ---------- */
   const normText = (s) => (s || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-  const isPublicType = (type) => /^Public/.test(type || '');
+  /* "State-related" is Pennsylvania's designation for its public universities
+     (Penn State, Pitt) — they are public, and the Aid Estimator already counts
+     them among "the nine public/state schools". */
+  const isPublicType = (type) => /^(Public|State-related)/.test(type || '');
   const VULGAR_FRACS = { '¼': .25, '½': .5, '¾': .75 };
   const parseDriveHours = (str) => {
     if (typeof str !== 'string') return null;
