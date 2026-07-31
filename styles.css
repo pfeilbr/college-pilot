@@ -220,3 +220,8 @@ footer a{color:var(--ink-3)}
 .cmp th:first-child{position:sticky;left:0;background:var(--surface)}
 .cmp td:first-child{position:sticky;left:0;background:var(--surface);min-width:130px}
 .cmp th{min-width:128px}
+
+/* ===== backup ===== */
+#boardBackup{gap:10px}
+#boardBackup .btn{font-family:inherit;font-size:13.5px;border:0;cursor:pointer}
+#boardBackup label.btn{display:inline-block}

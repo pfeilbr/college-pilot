@@ -24,6 +24,54 @@
     const v = Object.values(rec.stars).filter(Boolean);
     return v.length ? v.reduce((a, b) => a + b, 0) / v.length : 0;
   };
+
+  /* BACKUP:PURE:START — sanitizeImport/mergeRatings are pure (no DOM, no closure
+     state beyond their own args) so tests/backup.test.js can extract and run this
+     block on its own. Keep them that way. */
+  const SCHEMA_VERSION = 1;
+  const NOTE_MAX = 4000;
+  /* Validate + sanitize an imported ratings export. Never trusts the file: bad
+     JSON, a missing/wrong envelope, unknown school ids, out-of-range stars, and
+     non-string notes are all rejected or dropped rather than applied. */
+  function sanitizeImport(raw, schools, cats, statuses) {
+    let data;
+    try { data = JSON.parse(raw); } catch (e) { return { ok: false, error: 'That file is not valid JSON.' }; }
+    if (!data || typeof data !== 'object' || Array.isArray(data)) return { ok: false, error: 'That file is not a College Pilot ratings export.' };
+    if (data.app !== 'college-pilot') return { ok: false, error: 'That file is not a College Pilot ratings export.' };
+    if (data.version !== SCHEMA_VERSION) return { ok: false, error: 'That export is from an unsupported version of College Pilot.' };
+    if (!data.ratings || typeof data.ratings !== 'object' || Array.isArray(data.ratings)) return { ok: false, error: 'That file has no ratings in it.' };
+    const ratings = {};
+    for (const id of Object.keys(data.ratings)) {
+      if (!schools[id]) continue;
+      const rec = data.ratings[id];
+      if (!rec || typeof rec !== 'object' || Array.isArray(rec)) continue;
+      const clean = { stars: {}, note: '', status: null };
+      if (rec.stars && typeof rec.stars === 'object' && !Array.isArray(rec.stars)) {
+        for (const cat of cats) {
+          const v = rec.stars[cat];
+          if (Number.isInteger(v) && v >= 1 && v <= 5) clean.stars[cat] = v;
+        }
+      }
+      if (typeof rec.note === 'string') clean.note = rec.note.slice(0, NOTE_MAX);
+      if (statuses.some(s => s.k === rec.status)) clean.status = rec.status;
+      if (clean.status || Object.keys(clean.stars).length || clean.note.trim()) ratings[id] = clean;
+    }
+    return { ok: true, ratings };
+  }
+  /* Merge a sanitized import into the current ratings map. keepExisting=true
+     leaves schools rated on both sides untouched; false lets the import win. */
+  function mergeRatings(existing, incoming, keepExisting) {
+    const merged = Object.assign({}, existing);
+    let imported = 0, skipped = 0;
+    for (const id of Object.keys(incoming)) {
+      if (merged[id] && keepExisting) { skipped++; continue; }
+      merged[id] = incoming[id];
+      imported++;
+    }
+    return { merged, imported, skipped };
+  }
+  /* BACKUP:PURE:END */
+
   const SCHOOLS = window.SCHOOLS = window.SCHOOLS || {};
   const ORDER = window.SCHOOL_ORDER || Object.keys(SCHOOLS);
   const qs = (s, el) => (el || document).querySelector(s);
@@ -263,14 +311,100 @@
   }
 
   /* ---------- hub Decision Board ---------- */
+  /* Same rated/ranked-schools list feeds both the board markup and the copy
+     summary, so the ordering never drifts between the two. */
+  function rankedBoard(all) {
+    const rated = ORDER.filter(id => SCHOOLS[id] && all[id] && (all[id].status || avgStars(all[id]) > 0 || (all[id].note || '').trim()));
+    const rank = { love: 0, maybe: 1, null: 2, pass: 3 };
+    rated.sort((a, b) => (rank[all[a].status] ?? 2) - (rank[all[b].status] ?? 2) || avgStars(all[b]) - avgStars(all[a]));
+    return rated;
+  }
+
+  /* Plain-text Decision Board summary for pasting into a family text thread. */
+  function buildBoardSummary() {
+    const all = loadR();
+    const rated = rankedBoard(all);
+    if (!rated.length) return '';
+    const lines = [`College Pilot — Decision Board (${new Date().toLocaleDateString()})`, ''];
+    rated.forEach((id, i) => {
+      const s = SCHOOLS[id], r = all[id], avg = avgStars(r);
+      const st = STATUSES.find(x => x.k === r.status);
+      const cats = RATE_CATS.filter(c => r.stars && r.stars[c]);
+      const best = cats.slice().sort((a, b) => r.stars[b] - r.stars[a])[0];
+      const worst = cats.slice().sort((a, b) => r.stars[a] - r.stars[b])[0];
+      lines.push(`${i + 1}. ${s.name}${st ? ' — ' + st.short : ''}${avg ? ' — ' + avg.toFixed(1) + '★' : ''}`);
+      if (best) lines.push(`   Best: ${best} (${r.stars[best]}★)${worst && worst !== best ? `  ·  Weakest: ${worst} (${r.stars[worst]}★)` : ''}`);
+      if ((r.note || '').trim()) lines.push('   Note: ' + r.note.trim().replace(/\s+/g, ' '));
+      lines.push('');
+    });
+    return lines.join('\n').trim();
+  }
+
+  /* Export / import / copy — everything still stays local; import only ever
+     writes sanitizeImport's cleaned output, never the raw file. */
+  function wireBoardBackup() {
+    const exportBtn = qs('#boardExport'), importInput = qs('#boardImport'), copyBtn = qs('#boardCopy'), msg = qs('#boardBackupMsg');
+    if (!exportBtn || !importInput || !copyBtn || exportBtn.dataset.wired) return;
+    exportBtn.dataset.wired = '1';
+    const setMsg = t => { if (msg) msg.textContent = t; };
+
+    exportBtn.addEventListener('click', () => {
+      const all = loadR();
+      if (!Object.keys(all).length) { setMsg('Nothing rated yet — nothing to export.'); return; }
+      const envelope = { app: 'college-pilot', version: SCHEMA_VERSION, exported: new Date().toISOString(), ratings: all };
+      const blob = new Blob([JSON.stringify(envelope, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `college-pilot-ratings-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+      setMsg(`Exported ${Object.keys(all).length} school(s) to a .json file.`);
+    });
+
+    importInput.addEventListener('change', () => {
+      const file = importInput.files && importInput.files[0];
+      importInput.value = '';
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const res = sanitizeImport(String(reader.result), SCHOOLS, RATE_CATS, STATUSES);
+        if (!res.ok) { setMsg('Import failed: ' + res.error); return; }
+        const ids = Object.keys(res.ratings);
+        if (!ids.length) { setMsg('That file had no usable ratings in it.'); return; }
+        const existing = loadR();
+        const conflicts = ids.filter(id => existing[id]);
+        const keepExisting = conflicts.length
+          ? confirm(`${conflicts.length} school${conflicts.length === 1 ? ' is' : 's are'} rated on both this device and in the file. OK = keep this device's ratings for ${conflicts.length === 1 ? 'it' : 'them'}. Cancel = let the imported file win.`)
+          : true;
+        const { merged, imported, skipped } = mergeRatings(existing, res.ratings, keepExisting);
+        saveR(merged);
+        setMsg(`Imported ${imported} school${imported === 1 ? '' : 's'}, skipped ${skipped}.`);
+        renderBoard();
+      };
+      reader.onerror = () => setMsg('Import failed: could not read that file.');
+      reader.readAsText(file);
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      const text = buildBoardSummary();
+      if (!text) { setMsg('Nothing rated yet — nothing to copy.'); return; }
+      try {
+        if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error('no clipboard api');
+        await navigator.clipboard.writeText(text);
+        setMsg('Summary copied to clipboard.');
+      } catch (e) {
+        setMsg('Could not copy automatically — showing it instead, copy it manually.');
+        window.prompt('Copy this summary:', text);
+      }
+    });
+  }
+
   function renderBoard() {
     const host = qs('#boardRows');
     if (!host) return;
     const all = loadR();
-    const rated = ORDER.filter(id => SCHOOLS[id] && all[id] && (all[id].status || avgStars(all[id]) > 0 || (all[id].note || '').trim()));
+    const rated = rankedBoard(all);
     const unrated = ORDER.filter(id => SCHOOLS[id] && !rated.includes(id));
-    const rank = { love: 0, maybe: 1, null: 2, pass: 3 };
-    rated.sort((a, b) => (rank[all[a].status] ?? 2) - (rank[all[b].status] ?? 2) || avgStars(all[b]) - avgStars(all[a]));
     if (!rated.length) {
       host.innerHTML = '<div class="note">Nothing rated yet. Open any school\'s guide and scroll to <b>⭐ My Take</b> — verdicts, stars, and notes land here automatically.</div>';
     } else {
@@ -301,6 +435,7 @@
         localStorage.removeItem(RKEY); renderBoard();
       });
     }
+    wireBoardBackup();
   }
 
   /* ---------- hub renderer ---------- */
