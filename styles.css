@@ -274,3 +274,10 @@ nav.pills a:focus-visible,
   .seg{transition:none}
   nav.pills{scroll-behavior:auto}
 }
+
+/* ===== weights ===== */
+#boardWeights{margin:14px 0}
+#boardWeights summary{cursor:pointer;font-weight:800;font-size:14px;display:flex;align-items:center;gap:8px}
+#boardWeights[open] summary{margin-bottom:6px}
+#boardWeightRows .rateRow .aidChips{justify-content:flex-end}
+#boardWeightRows .rateRow .aidChips button{padding:6px 11px;font-size:12.5px}
