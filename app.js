@@ -303,6 +303,26 @@
     }
   }
 
+  /* ---------- compare-table helpers ---------- */
+  const FRACS = { '¼': 0.25, '½': 0.5, '¾': 0.75 };
+  const parseLeadingNumber = str => {
+    if (typeof str !== 'string') return null;
+    const m = str.match(/(\d[\d,]*(?:\.\d+)?)([¼½¾])?|([¼½¾])/);
+    if (!m) return null;
+    if (m[1]) return parseFloat(m[1].replace(/,/g, '')) + (m[2] ? FRACS[m[2]] : 0);
+    return FRACS[m[3]];
+  };
+  const cmpWinners = (fn, dir, guard) => {
+    const vals = ORDER.map(id => {
+      const raw = fn(SCHOOLS[id]);
+      return guard && !guard.test(raw || '') ? null : parseLeadingNumber(raw);
+    });
+    const real = vals.filter(v => v != null);
+    if (!real.length) return new Set();
+    const target = dir === 'min' ? Math.min(...real) : Math.max(...real);
+    return new Set(ORDER.filter((id, i) => vals[i] === target));
+  };
+
   /* ---------- hub renderer ---------- */
   function renderHub() {
     const grid = qs('#schoolGrid');
@@ -329,20 +349,47 @@
       ['Acceptance rate', s => s.card.accept],
       ['SAT middle 50%', s => s.card.sat],
       ['US News rank', s => s.card.rank],
-      ['Sticker cost / yr', s => s.card.cost],
+      ['Sticker cost / yr', s => s.card.cost, 'min', 'Lowest sticker cost / yr shown'],
       ['Undergrads', s => s.card.undergrads],
       ['Business program', s => s.card.biz],
-      ['Grads placed (6 mo)', s => s.card.placed],
-      ['4-yr grad rate', s => s.card.grad4],
+      ['Grads placed (6 mo)', s => s.card.placed, 'max', 'Highest reported placement rate'],
+      ['4-yr grad rate', s => s.card.grad4, 'max', 'Highest graduation rate', /%/],
       ['Greek life', s => s.card.greek],
       ['Sports', s => s.card.sports],
-      ['Drive from Philly burbs', s => s.card.drive],
+      ['Drive from Philly burbs', s => s.card.drive, 'min', 'Shortest drive from the Philly burbs'],
       ['Application deadlines', s => s.card.deadlines],
     ];
+    const winners = metrics.map(([, fn, dir, , guard]) => dir ? cmpWinners(fn, dir, guard) : null);
     qs('#cmpWrap').innerHTML = `<table class="cmp">
-      <tr><th></th>${ORDER.map(id => `<th>${SCHOOLS[id].short}</th>`).join('')}</tr>
-      ${metrics.map(([label, fn]) => `<tr><td>${label}</td>${ORDER.map(id => `<td>${fn(SCHOOLS[id]) || '—'}</td>`).join('')}</tr>`).join('')}
-    </table>`;
+      <thead><tr><th class="cmp-corner"></th>${ORDER.map(id => `<th data-col="${id}" tabindex="0" role="button" aria-pressed="false" aria-label="Highlight the ${SCHOOLS[id].short} column">${SCHOOLS[id].short}</th>`).join('')}</tr></thead>
+      <tbody>${metrics.map(([label, fn, , why], i) => `<tr><td>${label}</td>${ORDER.map(id => {
+        const raw = fn(SCHOOLS[id]);
+        const win = winners[i] && winners[i].has(id);
+        const attrs = win ? ` class="cmp-best" title="${why}" aria-label="${why} — ${SCHOOLS[id].short}"` : '';
+        return `<td data-col="${id}"${attrs}>${raw || '—'}</td>`;
+      }).join('')}</tr>`).join('')}</tbody>
+    </table>
+    <p class="src">★ marks the best value in a row where "better" is objective (lowest cost, highest grad/placement rate, shortest drive). Acceptance rate isn't marked that way — easier to get into isn't the same as "better." Tap or hover a school's name to trace its column down the table.</p>`;
+    const wrap = qs('#cmpWrap');
+    if (!wrap.dataset.wired) {
+      wrap.dataset.wired = '1';
+      let pinned = null;
+      const highlight = id => qsa('[data-col]', wrap).forEach(el => el.classList.toggle('cmp-active', el.dataset.col === id));
+      const toggle = th => {
+        pinned = pinned === th.dataset.col ? null : th.dataset.col;
+        qsa('th[data-col]', wrap).forEach(t => t.setAttribute('aria-pressed', String(t.dataset.col === pinned)));
+        highlight(pinned);
+      };
+      wrap.addEventListener('mouseover', e => { const th = e.target.closest('th[data-col]'); if (th) highlight(th.dataset.col); });
+      wrap.addEventListener('mouseleave', () => highlight(pinned));
+      wrap.addEventListener('click', e => { const th = e.target.closest('th[data-col]'); if (th) toggle(th); });
+      wrap.addEventListener('keydown', e => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        const th = e.target.closest('th[data-col]');
+        if (!th) return;
+        e.preventDefault(); toggle(th);
+      });
+    }
     renderBoard();
     buildDrawer(null);
     initSpy();

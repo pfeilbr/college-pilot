@@ -220,3 +220,15 @@ footer a{color:var(--ink-3)}
 .cmp th:first-child{position:sticky;left:0;background:var(--surface)}
 .cmp td:first-child{position:sticky;left:0;background:var(--surface);min-width:130px}
 .cmp th{min-width:128px}
+
+/* ===== compare ===== */
+.cmp-corner{background:var(--surface)}
+.cmp thead th{position:sticky;top:0;background:var(--surface);z-index:2}
+.cmp th:first-child{z-index:3}
+.cmp td:first-child{z-index:1}
+.cmp th[data-col]{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.cmp th[data-col]:focus-visible{outline:2px solid var(--sc);outline-offset:-2px;border-radius:4px}
+.cmp [data-col].cmp-active{background:var(--chip)}
+.cmp td.cmp-best{background:var(--pro-bg);color:var(--pro);font-weight:700}
+.cmp td.cmp-best::before{content:'★ ';font-size:11px}
+.cmp td.cmp-best.cmp-active{background:color-mix(in srgb,var(--pro-bg) 60%,var(--chip))}
