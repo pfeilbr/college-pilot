@@ -26,7 +26,8 @@ data/<id>.js      One authored guide per school; registers window.SCHOOLS[<id>]
 data/generated/   Machine-fetched official stats (author-time reference, see below)
 scripts/          Deterministic Python data fetcher (stdlib only, no deps)
 tests/            `node tests/run.js` — zero-dep suite guarding the contract + sync points
-sw.js             Service worker: network-first with cache fallback, explicit asset list
+aid.js            Aid Estimator (income brackets + net-cost table); pure logic on window.CollegePilotAid
+sw.js             Service worker: cache-first static assets, network-first navigations
 ```
 
 ## The data contract (the important part)
@@ -57,8 +58,10 @@ first, which it does in both HTML files' script lists.
 
 `localStorage` only, key `college-pilot-ratings`. Per school: a verdict
 (`love`/`maybe`/`pass`), 8 category star ratings, and a free-text note. The
-Decision Board ([app.js](app.js) `renderBoard`) ranks by verdict then star
-average. Nothing is ever uploaded. There's a one-time migration from the old
+Decision Board ([app.js](app.js) `renderBoard`) ranks by verdict then a
+*weighted* star average; per-category weights live under `college-pilot-weights`
+and default to equal, so the ranking matches the old flat mean until the family
+changes them. Nothing is ever uploaded. There's a one-time migration from the old
 `shortlist-ratings` key near the top of app.js.
 
 ## Refreshable stats vs. authored copy
@@ -98,13 +101,13 @@ says so explicitly rather than silently skipping or false-passing them.
   3. `<script src="data/<id>.js">` in **both** [index.html](index.html) and
      [school.html](school.html)
   4. `sw.js` `ASSETS` list
-  5. the Aid Estimator `DATA` array in the inline `<script>` at the bottom of
-     [index.html](index.html)
+  5. the Aid Estimator `DATA` array in [aid.js](aid.js)
   6. the school's IPEDS UnitID in `scripts/fetch_school_data.py`
   7. school-count copy: the hero in [index.html](index.html) and phrases like
      "the nine" / "of the nine" in the guide files (grep for the number word)
 - **Run `node tests/run.js` before and after any change.** Zero-dependency, Node
-  stdlib only, no CI beyond the Pages deploy. It enforces every rule on this page
+  stdlib only. CI runs it on every push and the Pages deploy is gated on it
+  ([.github/workflows/test.yml](.github/workflows/test.yml)). It enforces every rule on this page
   — the data contract, all seven sync points above, and the `APP_VERSION`/`CACHE`
   pairing — so a drifted school list fails loudly instead of silently rendering a
   half-broken page. `tests/app-render.test.js` boots `app.js` for real against the

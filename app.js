@@ -1,7 +1,7 @@
 /* College Pilot — shared app shell + renderers */
 (function () {
   'use strict';
-  const APP_VERSION = 'v14 · 2026-07-31';
+  const APP_VERSION = 'v15 · 2026-07-31';
 
   /* ---------- ratings store (localStorage, device-only) ---------- */
   const RATE_CATS = ['Business program', 'Campus & dorms', 'Location', 'Cost fit', 'Social scene', 'Sports & spirit', 'Food & dining', 'Gut feel'];
