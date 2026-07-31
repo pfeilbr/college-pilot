@@ -684,9 +684,80 @@
     initSpy();
   }
 
+  /* ---------- offline indicator ---------- */
+  /* A small, unobtrusive marker so a stale page reads as "offline", not
+     "broken". Only touches the DOM when navigator.onLine actually exists. */
+  function initOfflineIndicator() {
+    try {
+      if (typeof navigator === 'undefined' || !('onLine' in navigator)) return;
+      const badge = document.createElement('div');
+      badge.className = 'cp-offline';
+      badge.setAttribute('role', 'status');
+      badge.setAttribute('aria-live', 'polite');
+      badge.hidden = true;
+      badge.textContent = '📴 Offline — showing the saved copy';
+      document.body.appendChild(badge);
+      const sync = () => { badge.hidden = navigator.onLine; };
+      sync();
+      window.addEventListener('online', sync);
+      window.addEventListener('offline', sync);
+    } catch (e) { }
+  }
+
+  /* ---------- update-available toast ---------- */
+  /* Dismissible, out of the way — this is a guide someone is mid-tour on,
+     not a nag. Reload is opt-in: it tells the waiting worker to
+     skipWaiting(), then reloads once the new worker takes control. */
+  function showUpdateToast(onReload) {
+    try {
+      if (qs('.cp-update-toast')) return;
+      const el = document.createElement('div');
+      el.className = 'cp-update-toast';
+      el.setAttribute('role', 'status');
+      el.innerHTML = `<span>A new version of this guide is ready.</span>
+        <button type="button" class="cp-update-btn">Reload</button>
+        <button type="button" class="cp-update-dismiss" aria-label="Dismiss">✕</button>`;
+      document.body.appendChild(el);
+      qs('.cp-update-btn', el).addEventListener('click', () => onReload());
+      qs('.cp-update-dismiss', el).addEventListener('click', () => el.remove());
+    } catch (e) { }
+  }
+
+  function initServiceWorker() {
+    if (!('serviceWorker' in navigator)) return;
+    try {
+      navigator.serviceWorker.register('sw.js').then((reg) => {
+        if (!reg) return;
+        const watchInstalling = (worker) => {
+          if (!worker) return;
+          worker.addEventListener('statechange', () => {
+            // 'installed' + an existing controller means this is an update,
+            // not the very first install — the new worker is now parked in
+            // registration.waiting.
+            if (worker.state === 'installed' && navigator.serviceWorker.controller) {
+              showUpdateToast(() => worker.postMessage({ type: 'SKIP_WAITING' }));
+            }
+          });
+        };
+        if (reg.waiting && navigator.serviceWorker.controller) {
+          showUpdateToast(() => reg.waiting.postMessage({ type: 'SKIP_WAITING' }));
+        }
+        reg.addEventListener('updatefound', () => watchInstalling(reg.installing));
+      }).catch(() => { });
+
+      let reloading = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (reloading) return;
+        reloading = true;
+        location.reload();
+      });
+    } catch (e) { }
+  }
+
   /* ---------- boot ---------- */
   document.addEventListener('DOMContentLoaded', () => {
     if (qs('#schoolGrid')) renderHub(); else if (qs('#main')) renderSchool();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => { });
+    initOfflineIndicator();
+    initServiceWorker();
   });
 })();
