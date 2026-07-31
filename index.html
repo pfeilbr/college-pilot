@@ -57,7 +57,13 @@
 <section id="board">
   <div class="kicker">The point of all this</div>
   <h2>Decision Board</h2>
-  <p class="lead">After each tour, open that school's guide and hit <b>⭐ My Take</b>: a verdict (shortlist / undecided / pass), star ratings on the eight things that matter, and visit notes. It all lands here — ranked, so the shortlist writes itself. Stored only on this device.</p>
+  <p class="lead">After each tour, open that school's guide and hit <b>⭐ My Take</b>: a verdict (shortlist / undecided / pass), star ratings on the eight things that matter, and visit notes. It all lands here — ranked by verdict, then by a weighted average of those star ratings. Every category starts at equal (Normal) weight, so the ranking works exactly as before until you tune it below. Stored only on this device.</p>
+  <details class="card" id="boardWeights">
+    <summary>⚖️ Weight what matters <span id="boardWeightsBadge" class="badge f" hidden>Custom weights</span></summary>
+    <p class="src">Turn a category up if it should count more toward the ranking (say, the business program), or down to <b>Ignore</b> it entirely (say, food &amp; dining). Ignored categories are left out of the average, not scored as zero.</p>
+    <div id="boardWeightRows"></div>
+    <p class="src"><button id="boardWeightsReset" class="linkBtn">Reset to equal weights</button></p>
+  </details>
   <div class="aidRows" id="boardRows"></div>
   <p class="src" id="boardUnrated"></p>
   <div class="mapbtns" id="boardBackup">

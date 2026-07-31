@@ -73,6 +73,80 @@
   }
   /* BACKUP:PURE:END */
 
+  /* WEIGHTS:PURE:START — sanitizeWeights/weightedAvgStars/bestWorstCats/rankSchools
+     are pure (no DOM, no closure state beyond their own args) so tests/weights.test.js
+     can extract and run this block on its own. Keep them that way. */
+  const WKEY = 'college-pilot-weights';
+  const DEFAULT_WEIGHT = 1;
+  const WEIGHT_LEVELS = [
+    { v: 0, label: 'Ignore' },
+    { v: 1, label: 'Normal' },
+    { v: 2, label: 'Important' },
+    { v: 3, label: 'Critical' }
+  ];
+  /* Validate + sanitize a stored/parsed weights blob: unknown categories are
+     dropped, and a missing, out-of-range, or non-integer value falls back to
+     the default weight — never throws, never trusts the blob. */
+  function sanitizeWeights(raw, cats) {
+    raw = (raw && typeof raw === 'object' && !Array.isArray(raw)) ? raw : {};
+    const own = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+    const clean = {};
+    cats.forEach(cat => {
+      const v = own(raw, cat) ? raw[cat] : DEFAULT_WEIGHT;
+      clean[cat] = (Number.isInteger(v) && v >= 0 && v <= 3) ? v : DEFAULT_WEIGHT;
+    });
+    return clean;
+  }
+  const weightOf = (weights, cat) => {
+    const w = weights && weights[cat];
+    return (Number.isInteger(w) && w >= 0 && w <= 3) ? w : DEFAULT_WEIGHT;
+  };
+  const weightsAreDefault = (weights, cats) => cats.every(c => weightOf(weights, c) === DEFAULT_WEIGHT);
+  /* Weighted mean of a school's rated categories. A category weighted to 0 is
+     excluded from the average entirely — not counted as a zero score. If every
+     rated category on a school happens to be weighted 0, falls back to the
+     plain mean of those categories rather than reporting a meaningless 0. With
+     every category left at the default weight (1) this is exactly the flat
+     mean — the compatibility guarantee for existing rankings. */
+  function weightedAvgStars(rec, weights, cats) {
+    if (!rec || !rec.stars) return 0;
+    const rated = cats.filter(c => rec.stars[c]);
+    if (!rated.length) return 0;
+    const active = rated.filter(c => weightOf(weights, c) > 0);
+    const pool = active.length ? active : rated; // all-zero fallback: treat as unweighted
+    let sum = 0, wsum = 0;
+    pool.forEach(c => { const w = active.length ? weightOf(weights, c) : 1; sum += rec.stars[c] * w; wsum += w; });
+    return wsum ? sum / wsum : 0;
+  }
+  /* Best/weakest categories by weighted contribution (stars × weight) — a
+     category weighted to 0 never shows up as "best" or "weakest" unless every
+     rated category on the school is weighted 0, in which case raw stars decide. */
+  function bestWorstCats(rec, weights, cats) {
+    if (!rec || !rec.stars) return { best: null, worst: null, ratedCount: 0 };
+    const rated = cats.filter(c => rec.stars[c]);
+    if (!rated.length) return { best: null, worst: null, ratedCount: 0 };
+    const active = rated.filter(c => weightOf(weights, c) > 0);
+    const pool = active.length ? active : rated;
+    const score = c => rec.stars[c] * (active.length ? weightOf(weights, c) : 1);
+    const sorted = pool.slice().sort((a, b) => score(b) - score(a));
+    return { best: sorted[0], worst: sorted[sorted.length - 1], ratedCount: rated.length };
+  }
+  /* Rank school ids: verdict first (love > maybe > unrated-but-touched > pass),
+     then weighted average descending. Pure — every input is an argument, no
+     dependency on closure state, so it can run standalone in a vm sandbox. */
+  function rankSchools(order, schools, ratings, weights, cats) {
+    const rank = { love: 0, maybe: 1, null: 2, pass: 3 };
+    const isRated = id => schools[id] && ratings[id] &&
+      (ratings[id].status || weightedAvgStars(ratings[id], weights, cats) > 0 || (ratings[id].note || '').trim());
+    const rated = order.filter(isRated);
+    rated.sort((a, b) => (rank[ratings[a].status] ?? 2) - (rank[ratings[b].status] ?? 2) ||
+      weightedAvgStars(ratings[b], weights, cats) - weightedAvgStars(ratings[a], weights, cats));
+    return rated;
+  }
+  /* WEIGHTS:PURE:END */
+  const loadW = () => { try { return sanitizeWeights(JSON.parse(localStorage.getItem(WKEY) || '{}'), RATE_CATS); } catch (e) { return sanitizeWeights({}, RATE_CATS); } };
+  const saveW = (w) => { try { localStorage.setItem(WKEY, JSON.stringify(w)); } catch (e) { } };
+
   const SCHOOLS = window.SCHOOLS = window.SCHOOLS || {};
   const ORDER = window.SCHOOL_ORDER || Object.keys(SCHOOLS);
   const qs = (s, el) => (el || document).querySelector(s);
@@ -352,10 +426,7 @@
   /* Same rated/ranked-schools list feeds both the board markup and the copy
      summary, so the ordering never drifts between the two. */
   function rankedBoard(all) {
-    const rated = ORDER.filter(id => SCHOOLS[id] && all[id] && (all[id].status || avgStars(all[id]) > 0 || (all[id].note || '').trim()));
-    const rank = { love: 0, maybe: 1, null: 2, pass: 3 };
-    rated.sort((a, b) => (rank[all[a].status] ?? 2) - (rank[all[b].status] ?? 2) || avgStars(all[b]) - avgStars(all[a]));
-    return rated;
+    return rankSchools(ORDER, SCHOOLS, all, loadW(), RATE_CATS);
   }
 
   /* Plain-text Decision Board summary for pasting into a family text thread. */
@@ -437,27 +508,58 @@
     });
   }
 
+  /* Weight-what-matters panel: one row of Ignore/Normal/Important/Critical
+     chips per RATE_CATS category, stored under WKEY and applied by
+     rankedBoard/renderBoard via weightedAvgStars/bestWorstCats/rankSchools. */
+  const buildWeightRow = (cat, weights) => {
+    const w = weightOf(weights, cat);
+    return `<div class="rateRow"><span>${cat}</span><span class="aidChips" role="radiogroup" aria-label="${cat} weight">${WEIGHT_LEVELS.map(l =>
+      `<button data-cat="${cat}" data-w="${l.v}" class="${w === l.v ? 'on' : ''}" aria-pressed="${w === l.v}">${l.label}</button>`).join('')}</span></div>`;
+  };
+  function wireWeightsPanel() {
+    const host = qs('#boardWeightRows');
+    if (!host) return;
+    const weights = loadW();
+    // Rebuilt fresh on every renderBoard() call (same pattern as #boardRows
+    // itself), so listeners are attached directly to each button rather than
+    // via delegation on the host — no risk of stale/duplicate handlers.
+    host.innerHTML = RATE_CATS.map(c => buildWeightRow(c, weights)).join('');
+    const badge = qs('#boardWeightsBadge');
+    if (badge) badge.hidden = weightsAreDefault(weights, RATE_CATS);
+    qsa('button[data-cat]', host).forEach(b => b.addEventListener('click', () => {
+      const w = loadW();
+      w[b.dataset.cat] = +b.dataset.w;
+      saveW(w);
+      renderBoard();
+    }));
+    const reset = qs('#boardWeightsReset');
+    if (reset && !reset.dataset.wired) {
+      reset.dataset.wired = '1';
+      reset.addEventListener('click', () => { saveW(sanitizeWeights({}, RATE_CATS)); renderBoard(); });
+    }
+  }
+
   function renderBoard() {
     const host = qs('#boardRows');
     if (!host) return;
     const all = loadR();
+    const weights = loadW();
+    const customWeights = !weightsAreDefault(weights, RATE_CATS);
     const rated = rankedBoard(all);
     const unrated = ORDER.filter(id => SCHOOLS[id] && !rated.includes(id));
     if (!rated.length) {
       host.innerHTML = '<div class="note">Nothing rated yet. Open any school\'s guide and scroll to <b>⭐ My Take</b> — verdicts, stars, and notes land here automatically.</div>';
     } else {
       host.innerHTML = rated.map((id, i) => {
-        const s = SCHOOLS[id], r = all[id], avg = avgStars(r);
+        const s = SCHOOLS[id], r = all[id], avg = weightedAvgStars(r, weights, RATE_CATS);
         const st = STATUSES.find(x => x.k === r.status);
-        const cats = RATE_CATS.filter(c => r.stars && r.stars[c]);
-        const best = cats.slice().sort((a, b) => r.stars[b] - r.stars[a])[0];
-        const worst = cats.slice().sort((a, b) => r.stars[a] - r.stars[b])[0];
+        const { best, worst, ratedCount } = bestWorstCats(r, weights, RATE_CATS);
         return `<a class="aidRow" href="school.html?s=${id}" style="text-decoration:none;color:inherit${r.status === 'pass' ? ';opacity:.55' : ''}">
           <div class="dot" style="background:${s.colors.sc}"></div>
           <div class="nm">${r.status === 'love' && i === 0 ? '🏆 ' : ''}${s.name} ${st ? `<span class="badge ${r.status === 'pass' ? 'c' : 'f'}">${st.short}</span>` : ''}
             <small class="why">${best ? `Best: ${best} (${r.stars[best]}★)` : ''}${worst && worst !== best ? ` · Weakest: ${worst} (${r.stars[worst]}★)` : ''}${(r.note || '').trim() ? ` · “${r.note.trim().slice(0, 90).replace(/</g, '&lt;')}${r.note.trim().length > 90 ? '…' : ''}”` : ''}</small>
           </div>
-          <div class="amt"><b>${avg ? avg.toFixed(1) + '★' : '—'}</b><small>${cats.length}/${RATE_CATS.length} rated</small></div>
+          <div class="amt"><b>${avg ? avg.toFixed(1) + '★' : '—'}</b><small>${ratedCount}/${RATE_CATS.length} rated${customWeights ? ' · ⚖ weighted' : ''}</small></div>
         </a>`;
       }).join('');
     }
@@ -473,6 +575,7 @@
         localStorage.removeItem(RKEY); renderBoard();
       });
     }
+    wireWeightsPanel();
     wireBoardBackup();
   }
 
