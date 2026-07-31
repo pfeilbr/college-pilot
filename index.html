@@ -60,6 +60,13 @@
   <p class="lead">After each tour, open that school's guide and hit <b>⭐ My Take</b>: a verdict (shortlist / undecided / pass), star ratings on the eight things that matter, and visit notes. It all lands here — ranked, so the shortlist writes itself. Stored only on this device.</p>
   <div class="aidRows" id="boardRows"></div>
   <p class="src" id="boardUnrated"></p>
+  <div class="mapbtns" id="boardBackup">
+    <button id="boardExport" class="btn alt">⬇️ Export ratings (.json)</button>
+    <label for="boardImport" class="btn alt">⬆️ Import ratings</label>
+    <input type="file" id="boardImport" accept="application/json,.json" hidden>
+    <button id="boardCopy" class="btn alt">📋 Copy summary</button>
+  </div>
+  <p class="src" id="boardBackupMsg" role="status" aria-live="polite"></p>
   <p class="src"><button id="boardClear" class="linkBtn">Clear all ratings on this device</button></p>
 </section>
 

@@ -228,3 +228,8 @@ footer a{color:var(--ink-3)}
   html{scroll-behavior:auto}
   .drawer,.backdrop{transition:none}
 }
+
+/* ===== backup ===== */
+#boardBackup{gap:10px}
+#boardBackup .btn{font-family:inherit;font-size:13.5px;border:0;cursor:pointer}
+#boardBackup label.btn{display:inline-block}
