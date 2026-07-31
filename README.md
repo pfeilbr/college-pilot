@@ -12,11 +12,21 @@ ratings into a ranked shortlist.
 - University of Delaware (Newark, DE)
 - Penn State — University Park (State College, PA)
 - University of Pittsburgh (Pittsburgh, PA)
+- Rutgers University–New Brunswick (New Brunswick, NJ)
+- Ohio State University (Columbus, OH)
+- Michigan State University (East Lansing, MI)
+- Indiana University Bloomington (Bloomington, IN)
+- University of South Carolina (Columbia, SC)
 - UMass Amherst (Amherst, MA)
 - Fordham University (New York, NY)
 - Northeastern University (Boston, MA)
 - Tufts University (Medford/Somerville, MA)
 - Boston University (Boston, MA)
+
+The five Big Ten / SEC business flagships (Rutgers, Ohio State, Michigan State,
+Indiana, South Carolina) were added as "likely" peers to the two the student
+favors — Penn State and Pitt — and are surfaced in a **Recommended matches**
+section on the hub.
 
 ## Features
 

@@ -22,7 +22,7 @@ window.SCHOOLS['pitt'] = {
   },
   card: {
     type: 'State-related (PA in-state!)',
-    blurb: 'City campus in Oakland at the cheapest sticker of the eight — direct-admit business school, ACC sports, eds-and-meds internships.',
+    blurb: 'City campus in Oakland at the cheapest sticker of the thirteen for a PA family — direct-admit business school, ACC sports, eds-and-meds internships.',
     accept: '58.1%', rank: 'Top 30 public', cost: '$38.1K in-state', sat: '1280–1460',
     undergrads: '20,370', biz: 'Pitt Business (AACSB, direct admit)', placed: 'strong (career-guarantee programs)',
     grad4: '85.5% (6-yr)', greek: 'Small (~10%)', sports: 'ACC · Steelers\' stadium',
@@ -37,7 +37,7 @@ window.SCHOOLS['pitt'] = {
     <div class="tile"><b>1787</b><span>founded — older than the Constitution's ratification</span></div>
     <div class="tile"><b>42</b><span>stories of the Cathedral of Learning — the tallest educational building in the Western Hemisphere</span></div>
     <div class="tile"><b>92%</b><span>freshman retention · 85.5% graduation rate</span></div>
-    <div class="tile"><b>$21,926</b><span>in-state tuition (Scorecard) — with the lowest total sticker of the eight</span></div>
+    <div class="tile"><b>$21,926</b><span>in-state tuition (Scorecard) — the lowest total sticker of the thirteen for a PA family</span></div>
     <div class="tile"><b>~$5B+</b><span>endowment — big-league research money</span></div>
     <div class="tile"><b>#1-era</b><span>medicine/research legacy: the polio vaccine was developed at Pitt (Jonas Salk, 1955)</span></div>
     <div class="tile"><b>ACC</b><span>Panthers play football in the Steelers' Acrisure Stadium</span></div>
@@ -91,7 +91,7 @@ window.SCHOOLS['pitt'] = {
     },
     {
       id: 'costs', nav: 'Costs & Aid', kicker: 'Costs & Aid', title: 'What it costs in-state',
-      lead: "The cheapest sticker of all eight schools — and Pitt's need-aid curve, while still PA-thin, bends more than Penn State's at low incomes. FAFSA-only, PA State Grant applies, and merit for strong early applicants is real.",
+      lead: "The cheapest sticker of all thirteen for a PA family (in-state tuition) — and Pitt's need-aid curve, while still PA-thin, bends more than Penn State's at low incomes. FAFSA-only, PA State Grant applies, and merit for strong early applicants is real.",
       html: `
   <div class="chart">
     <h3>Sticker cost of attendance (in-state, latest reported)</h3>
@@ -124,7 +124,7 @@ window.SCHOOLS['pitt'] = {
     <div class="card">
       <h3>💵 Debt &amp; payoff</h3>
       <ul>
-        <li>Median debt: <b>$24,250</b> — lowest of the eight</li>
+        <li>Median debt: <b>$24,250</b> — among the lower on this list</li>
         <li>Median earnings 10 years after entry: <b>$66,125</b> (all majors; business runs higher)</li>
         <li>Bottom line: the <b>lowest realistic 4-year total cost on the entire list</b> for this family — the affordability anchor every other offer gets measured against</li>
       </ul>
@@ -168,8 +168,8 @@ window.SCHOOLS['pitt'] = {
   <div class="cards g4">
     <div class="tile"><b>$66,125</b><span>median 10-yr earnings, all majors (Scorecard)</span></div>
     <div class="tile"><b>85.5%</b><span>graduation rate · 92% retention</span></div>
-    <div class="tile"><b>$24,250</b><span>median debt — the lowest on this list</span></div>
-    <div class="tile"><b>Best ROI</b><span>cheapest total cost ÷ solid earnings = the value baseline of the eight</span></div>
+    <div class="tile"><b>$24,250</b><span>median debt — among the lowest on this list</span></div>
+    <div class="tile"><b>Best ROI</b><span>cheapest total cost ÷ solid earnings = the value baseline of the thirteen</span></div>
   </div>
   <div class="cards g2">
     <div class="card">
@@ -257,7 +257,7 @@ window.SCHOOLS['pitt'] = {
     <div class="pc pros">
       <h3>Pros</h3>
       <ul>
-        <li>Cheapest realistic total cost<small>$38.1K in-state sticker, $23K average net at moderate income, lowest debt of the eight</small></li>
+        <li>Cheapest realistic total cost<small>$38.1K in-state sticker, $23K average net at moderate income, low debt among the thirteen</small></li>
         <li>Direct-admit business school<small>No ETM gate — the business cohort starts freshman year (Penn State's biggest weakness is Pitt's pitch)</small></li>
         <li>A real city, integrated well<small>Museums, hospitals, tech, and internships during the semester — Boston's pitch at a PA price</small></li>
         <li>The Cathedral of Learning<small>The coolest campus building on this entire tour, full stop</small></li>

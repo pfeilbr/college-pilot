@@ -28,6 +28,11 @@ SCHOOLS = {
     "delaware": 130943,
     "pennstate": 214777,   # University Park
     "pitt": 215293,        # Pittsburgh campus
+    "rutgers": 186380,     # New Brunswick
+    "ohiostate": 204796,   # Columbus main campus
+    "michiganstate": 171100,
+    "indiana": 151351,     # Bloomington
+    "southcarolina": 218663,  # Columbia
     "umass": 166629,       # Amherst
     "fordham": 191241,
     "northeastern": 167358,

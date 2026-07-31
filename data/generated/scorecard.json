@@ -1,7 +1,7 @@
 {
   "_meta": {
     "source": "U.S. Dept. of Education College Scorecard API",
-    "fetched": "2026-07-21",
+    "fetched": "2026-07-30",
     "note": "Refresh with scripts/fetch_school_data.py \u2014 deterministic, no LLM."
   },
   "delaware": {
@@ -117,6 +117,196 @@
     "grad_rate_150pct": 0.855,
     "retention_full_time": 0.9199,
     "median_earnings_10yr": 66125
+  },
+  "rutgers": {
+    "unitid": 186380,
+    "name": "Rutgers University-New Brunswick",
+    "city": "New Brunswick, NJ",
+    "admission_rate": 0.5815,
+    "sat_mid50": [
+      1310,
+      1500
+    ],
+    "undergrad_size": 37751,
+    "pct_women": 0.5012,
+    "pct_men": 0.4988,
+    "race_ethnicity": {
+      "white": 0.2994,
+      "hispanic": 0.1589,
+      "black": 0.0702,
+      "asian": 0.3363,
+      "two_or_more": 0.0364,
+      "international": 0.0728
+    },
+    "tuition_in_state": 17929,
+    "tuition_out_of_state": 37441,
+    "roomboard": 15714,
+    "total_cost_academic_year": 36993,
+    "avg_net_price": 24406,
+    "net_price_by_income": {
+      "0-30000": 16343,
+      "30001-48000": 16210,
+      "48001-75000": 18282,
+      "75001-110000": 25106,
+      "110001-plus": 35016
+    },
+    "median_debt_completers": 21500,
+    "pell_rate": 0.279,
+    "grad_rate_150pct": 0.8363,
+    "retention_full_time": 0.9302,
+    "median_earnings_10yr": 74479
+  },
+  "ohiostate": {
+    "unitid": 204796,
+    "name": "Ohio State University-Main Campus",
+    "city": "Columbus, OH",
+    "admission_rate": 0.6057,
+    "sat_mid50": [
+      1310,
+      1480
+    ],
+    "undergrad_size": 45638,
+    "pct_women": 0.505,
+    "pct_men": 0.495,
+    "race_ethnicity": {
+      "white": 0.5975,
+      "hispanic": 0.0581,
+      "black": 0.0794,
+      "asian": 0.1078,
+      "two_or_more": 0.0485,
+      "international": 0.0761
+    },
+    "tuition_in_state": 13244,
+    "tuition_out_of_state": 40022,
+    "roomboard": 14738,
+    "total_cost_academic_year": 30305,
+    "avg_net_price": 17339,
+    "net_price_by_income": {
+      "0-30000": 4885,
+      "30001-48000": 5751,
+      "48001-75000": 9807,
+      "75001-110000": 20461,
+      "110001-plus": 27359
+    },
+    "median_debt_completers": 19976,
+    "pell_rate": 0.2016,
+    "grad_rate_150pct": 0.8772,
+    "retention_full_time": 0.9423,
+    "median_earnings_10yr": 60409
+  },
+  "michiganstate": {
+    "unitid": 171100,
+    "name": "Michigan State University",
+    "city": "East Lansing, MI",
+    "admission_rate": 0.848,
+    "sat_mid50": [
+      1180,
+      1360
+    ],
+    "undergrad_size": 40922,
+    "pct_women": 0.5165,
+    "pct_men": 0.4835,
+    "race_ethnicity": {
+      "white": 0.6723,
+      "hispanic": 0.0672,
+      "black": 0.066,
+      "asian": 0.0789,
+      "two_or_more": 0.0445,
+      "international": 0.0495
+    },
+    "tuition_in_state": 16458,
+    "tuition_out_of_state": 43842,
+    "roomboard": 12564,
+    "total_cost_academic_year": 32198,
+    "avg_net_price": 19680,
+    "net_price_by_income": {
+      "0-30000": 7068,
+      "30001-48000": 10830,
+      "48001-75000": 16521,
+      "75001-110000": 22703,
+      "110001-plus": 28546
+    },
+    "median_debt_completers": 23250,
+    "pell_rate": 0.2009,
+    "grad_rate_150pct": 0.8072,
+    "retention_full_time": 0.9005,
+    "median_earnings_10yr": 67253
+  },
+  "indiana": {
+    "unitid": 151351,
+    "name": "Indiana University-Bloomington",
+    "city": "Bloomington, IN",
+    "admission_rate": 0.7821,
+    "sat_mid50": [
+      1170,
+      1400
+    ],
+    "undergrad_size": 37806,
+    "pct_women": 0.4993,
+    "pct_men": 0.5007,
+    "race_ethnicity": {
+      "white": 0.6528,
+      "hispanic": 0.0864,
+      "black": 0.0442,
+      "asian": 0.1078,
+      "two_or_more": 0.0557,
+      "international": 0.0454
+    },
+    "tuition_in_state": 12144,
+    "tuition_out_of_state": 41891,
+    "roomboard": 13984,
+    "total_cost_academic_year": 28801,
+    "avg_net_price": 16264,
+    "net_price_by_income": {
+      "0-30000": 6324,
+      "30001-48000": 7610,
+      "48001-75000": 12154,
+      "75001-110000": 20204,
+      "110001-plus": 25128
+    },
+    "median_debt_completers": 19509,
+    "pell_rate": 0.1676,
+    "grad_rate_150pct": 0.8021,
+    "retention_full_time": 0.9106,
+    "median_earnings_10yr": 63742
+  },
+  "southcarolina": {
+    "unitid": 218663,
+    "name": "University of South Carolina-Columbia",
+    "city": "Columbia, SC",
+    "admission_rate": 0.6015,
+    "sat_mid50": [
+      1180,
+      1360
+    ],
+    "undergrad_size": 29820,
+    "pct_women": 0.5923,
+    "pct_men": 0.4077,
+    "race_ethnicity": {
+      "white": 0.7231,
+      "hispanic": 0.0677,
+      "black": 0.0974,
+      "asian": 0.0432,
+      "two_or_more": 0.0439,
+      "international": 0.0124
+    },
+    "tuition_in_state": 12688,
+    "tuition_out_of_state": 35972,
+    "roomboard": 13534,
+    "total_cost_academic_year": 31638,
+    "avg_net_price": 22811,
+    "net_price_by_income": {
+      "0-30000": 12634,
+      "30001-48000": 14953,
+      "48001-75000": 19859,
+      "75001-110000": 24478,
+      "110001-plus": 28125
+    },
+    "median_debt_completers": 21500,
+    "pell_rate": 0.1911,
+    "grad_rate_150pct": 0.7882,
+    "retention_full_time": 0.922,
+    "median_earnings_10yr": 62177
   },
   "umass": {
     "unitid": 166629,
