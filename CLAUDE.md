@@ -77,6 +77,15 @@ reference only. The numbers shown in the app are hand-transcribed from it into
 `data/<id>.js`, so the two can drift. When you refresh stats, also update the
 prose/figures in the affected `data/<id>.js` files.
 
+`scripts/check_drift.py` finds that drift for you: it parses each
+`data/<id>.js` `card` block (regex, no JS execution) and cross-checks it
+against `scorecard.json` within a per-field tolerance, printing a
+school/field/authored/official/delta report and exiting non-zero on any real
+mismatch — `python3 scripts/check_drift.py` (`--quiet` for problems only).
+Many `card` fields (`rank`, `biz`, `greek`, etc.) and non-apples-to-apples
+figures (e.g. an unlabeled grad rate) have no safe Scorecard equivalent; it
+says so explicitly rather than silently skipping or false-passing them.
+
 ## Common gotchas
 
 - **Version is manual and duplicated.** Bump `APP_VERSION` in [app.js](app.js)
